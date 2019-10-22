@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'books',
     'rest_framework',
     'webpack_loader',
     'phonenumber_field',
