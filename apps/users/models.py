@@ -26,6 +26,7 @@ class Role(models.Model):
         return self.get_id_display()
 
     class Meta:
+        app_label = 'users'
         verbose_name_plural = "Role"
         verbose_name = verbose_name_plural
 
@@ -59,6 +60,7 @@ class Reader(models.Model):
     user_gender = models.CharField(choices=(("male", u"Male"), ("female", u"Female")),
                                    default="Female",
                                    max_length=150, verbose_name='Gender')
+    user_birthday = models.DateField(null=True, blank=True, verbose_name="Birthday")
     user_icon = models.ImageField(upload_to="media/image/%Y/%m",
                                   default=u"media/image/default.png",
                                   max_length=1000,
@@ -87,3 +89,4 @@ class Author(models.Model):
         verbose_name_plural = 'Author'
         verbose_name = verbose_name_plural
         db_table = 'Author'
+        app_label = 'users'

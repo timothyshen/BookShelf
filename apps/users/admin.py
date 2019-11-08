@@ -20,7 +20,7 @@ class ReaderForm(forms.ModelForm):
 class ReaderAdmin(admin.ModelAdmin):
     form = ReaderForm
     fieldsets = (
-        ('User Info', {'fields': ('user', 'user_mobile', 'user_gender', 'user_icon')}),
+        ('User Info', {'fields': ('user', 'user_mobile', 'user_gender', 'user_icon', 'user_birthday')}),
         ('VIP status', {'fields': ('is_user_vip', 'vip_validate')})
     )
     # inlines = [UserList]
@@ -31,6 +31,5 @@ class UserList(admin.StackedInline):
 
 
 admin.site.register(Role)
-admin.site.register(User)
 admin.site.register(Author)
 admin.site.register(Admin)
