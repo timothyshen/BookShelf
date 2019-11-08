@@ -71,7 +71,7 @@ class Reader(models.Model):
                                    verbose_name=u'Vip status')
     vip_validate = models.DateField(verbose_name=u"Validate Until",
                                     default='', null=True)
-
+vue
     def __str__(self):
         template = '{0.user.email} {0.user_mobile}'
         return template.format(self)
@@ -84,6 +84,9 @@ class Reader(models.Model):
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_author')
+
+    def __str__(self):
+        return self.user.username
 
     class Meta:
         verbose_name_plural = 'Author'
