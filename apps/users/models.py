@@ -71,7 +71,7 @@ class Reader(models.Model):
                                    verbose_name=u'Vip status')
     vip_validate = models.DateField(verbose_name=u"Validate Until",
                                     default='', null=True)
-vue
+
     def __str__(self):
         template = '{0.user.email} {0.user_mobile}'
         return template.format(self)

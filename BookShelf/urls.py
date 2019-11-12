@@ -28,6 +28,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path(r'', TemplateView.as_view(template_name="application.html")),
     path('docs', include_docs_urls(title='User')),
-    path('users/', UsersListView.as_view(), name='users-list')
+    path('users/', UsersListView.as_view(), name='users-list'),
+    # path('login/', LoginView.as_view(), name='login')
     #     path('bookcase/'. BookListView.as_view(), name='users-list')
 ]
