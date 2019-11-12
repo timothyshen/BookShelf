@@ -42,17 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users.apps.UsersConfig',
-    'books.apps.BooksConfig',
     'rest_framework',
     'webpack_loader',
-    'phonenumber_field',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'books',
+    'users'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -71,7 +69,7 @@ AUTH_USER_MODEL = 'users.Admin'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['frontend/dist'],
+        'DIRS': ['Template'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
