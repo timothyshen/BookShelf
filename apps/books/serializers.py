@@ -9,7 +9,7 @@ class CategorySerializer2(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    sub_cat = CategorySerializer2
+    sub_cat = CategorySerializer2(many = True)
 
     class Meta:
         model = BookCategory

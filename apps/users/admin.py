@@ -12,24 +12,23 @@ class ReaderForm(forms.ModelForm):
         super(ReaderForm, self).__init__(*args, **kwargs)
         excluded_user = Reader.objects.all()
         if self.instance:
-            excluded_user = excluded_user.exclude(pk=self.instance.pk)
-        self.fields['user'].queryset = User.objects.exclude(id__in=excluded_user.values('user_id'))
+            excluded_user = excluded_user.exclude(pk = self.instance.pk)
+        self.fields['user'].queryset = User.objects.exclude(id__in = excluded_user.values('user_id'))
 
 
-@admin.register(Reader)
+@admin.register(Reader,Author)
 class ReaderAdmin(admin.ModelAdmin):
     form = ReaderForm
     fieldsets = (
         ('User Info', {'fields': ('user', 'user_mobile', 'user_gender', 'user_icon', 'user_birthday')}),
-        ('VIP status', {'fields': ('is_user_vip', 'vip_validate')})
+        # ('VIP status', {'fields': ('is_user_vip', 'vip_validate')})
     )
+
+    # class UserList(admin.StackedInline):
+    #     model = User
+    #
     # inlines = [UserList]
 
 
-class UserList(admin.StackedInline):
-    model = User
-
-
 admin.site.register(Role)
-admin.site.register(Author)
 admin.site.register(Admin)
