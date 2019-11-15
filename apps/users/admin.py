@@ -16,18 +16,19 @@ class ReaderForm(forms.ModelForm):
         self.fields['user'].queryset = User.objects.exclude(id__in = excluded_user.values('user_id'))
 
 
-@admin.register(Reader,Author)
+class UserInline(admin.TabularInline):
+    model = User
+
+
+class RoleInline(admin.TabularInline):
+    model = Role
+
+
+@admin.register(Reader, Author)
 class ReaderAdmin(admin.ModelAdmin):
     form = ReaderForm
-    fieldsets = (
-        ('User Info', {'fields': ('user', 'user_mobile', 'user_gender', 'user_icon', 'user_birthday')}),
-        # ('VIP status', {'fields': ('is_user_vip', 'vip_validate')})
-    )
 
-    # class UserList(admin.StackedInline):
-    #     model = User
-    #
-    # inlines = [UserList]
+    inlines = [RoleInline, UserInline]
 
 
 admin.site.register(Role)

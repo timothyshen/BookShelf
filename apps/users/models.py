@@ -34,12 +34,24 @@ class Role(models.Model):
 class User(AbstractUser):
     user_type = models.ManyToManyField('Role', verbose_name='User Type', related_name='Role')
 
+    user_mobile = PhoneNumberField(null = True, unique = True, verbose_name = 'Mobile')
+    user_gender = models.CharField(choices = (("male", u"Male"), ("female", u"Female")),
+                                   default = "Female",
+                                   max_length = 150, verbose_name = 'Gender')
+    user_birthday = models.DateField(null = True, blank = True, verbose_name = "Birthday")
+    user_icon = models.ImageField(upload_to = "media/image/%Y/%m",
+                                  default = u"media/image/default.png",
+                                  max_length = 1000,
+                                  verbose_name = u"User icon", null = True)
     def __str__(self):
         return self.username
 
     class Meta:
         verbose_name_plural = "user"
         verbose_name = verbose_name_plural
+        db_table = 'User'
+
+
 
 
 class Admin(User):
@@ -55,16 +67,7 @@ class Admin(User):
 
 
 class Reader(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_reader')
-    user_mobile = PhoneNumberField(null=True, unique=True, verbose_name='Mobile')
-    user_gender = models.CharField(choices=(("male", u"Male"), ("female", u"Female")),
-                                   default="Female",
-                                   max_length=150, verbose_name='Gender')
-    user_birthday = models.DateField(null=True, blank=True, verbose_name="Birthday")
-    user_icon = models.ImageField(upload_to="media/image/%Y/%m",
-                                  default=u"media/image/default.png",
-                                  max_length=1000,
-                                  verbose_name=u"User icon", null=True)
+    user = models.OneToOneField(User, on_delete = models.CASCADE, related_name = 'user_reader')
     is_user_vip = models.CharField(choices=(('normal', u'Normal'), ('vip', u'VIP')),
                                    default='Normal',
                                    max_length=10,
@@ -77,6 +80,7 @@ class Reader(models.Model):
         return template.format(self)
 
     class Meta:
+        proxy = True
         verbose_name_plural = "Reader"
         verbose_name = verbose_name_plural
         db_table = 'Reader'
