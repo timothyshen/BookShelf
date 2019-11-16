@@ -7,32 +7,7 @@ from datetime import datetime
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-class Role(models.Model):
-    READER = 1
-    AUTHOR = 2
-    EDITOR = 3
-    ADMIN = 4
-    ANONYMOUS = 5
-    ROLE_CHOICES = (
-        (READER, 'reader'),
-        (AUTHOR, 'author'),
-        (EDITOR, 'editor'),
-        (ADMIN, 'admin'),
-        (ANONYMOUS, 'anonymous')
-    )
-    id = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, primary_key=True, default=1, verbose_name='Role')
-
-    def __str__(self):
-        return self.get_id_display()
-
-    class Meta:
-        app_label = 'users'
-        verbose_name_plural = "Role"
-        verbose_name = verbose_name_plural
-
-
 class User(AbstractUser):
-    user_type = models.ManyToManyField('Role', verbose_name='User Type', related_name='Role')
 
     user_mobile = PhoneNumberField(null = True, unique = True, verbose_name = 'Mobile')
     user_gender = models.CharField(choices = (("male", u"Male"), ("female", u"Female")),
@@ -80,7 +55,6 @@ class Reader(models.Model):
         return template.format(self)
 
     class Meta:
-        proxy = True
         verbose_name_plural = "Reader"
         verbose_name = verbose_name_plural
         db_table = 'Reader'
@@ -96,4 +70,4 @@ class Author(models.Model):
         verbose_name_plural = 'Author'
         verbose_name = verbose_name_plural
         db_table = 'Author'
-        app_label = 'users'
+
