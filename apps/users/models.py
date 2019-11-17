@@ -42,7 +42,7 @@ class Admin(User):
 
 
 class Reader(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE, related_name = 'user_reader')
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'user_reader')
     is_user_vip = models.CharField(choices=(('normal', u'Normal'), ('vip', u'VIP')),
                                    default='Normal',
                                    max_length=10,
