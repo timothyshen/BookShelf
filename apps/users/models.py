@@ -61,6 +61,7 @@ class Reader(models.Model):
 
 
 class Author(models.Model):
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_author')
 
     def __str__(self):
