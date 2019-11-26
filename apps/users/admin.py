@@ -7,22 +7,20 @@ from django.contrib.auth.admin import UserAdmin
 from .models import Reader, User, Author, Admin
 
 
-class ReaderForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(ReaderForm, self).__init__(*args, **kwargs)
-        excluded_user = Reader.objects.all()
-        if self.instance:
-            excluded_user = excluded_user.exclude(pk=self.instance.pk)
-        self.fields['user'].queryset = User.objects.exclude(id__in=excluded_user.values('user_id'))
+class ReaderInlines(admin.TabularInline):
+    model = Reader
+    extra = 0
+    readonly_fields = ['is_user_vip', 'vip_validate']
 
 
-class UserInline(admin.TabularInline):
-    model = User
+class AuthorInlines(admin.TabularInline):
+    model = Author
+    extra = 0
+    readonly_fields = ['contract_number']
 
 
-class ReaderAdmin(admin.ModelAdmin):
-    inlines = [UserInline]
+class ReaderAdmin(UserAdmin):
+    inlines = []
 
-
-admin.site.register(Reader, UserAdmin)
-admin.site.register(Admin)
+# admin.site.register(Reader, ReaderAdmin)
+# admin.site.register(Admin)
