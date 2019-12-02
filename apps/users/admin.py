@@ -22,7 +22,7 @@ class AuthorInlines(admin.TabularInline):
 class UserAdmin(UserAdmin):
     model = User
 
-    inlines = []
+    # inlines = []
     list_filter = ('user_role',)
 
     date_hierarchy = 'date_joined'
