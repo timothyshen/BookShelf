@@ -15,7 +15,7 @@ class BooksAdmin(admin.ModelAdmin):
     #     #
     #     # )})
     # )
-    list_display = ["book_name", 'book_author']
+    list_display = ["book_name", ]
     search_fields = ['book_name', ]
     # list_editable = ["is_hot", ]
     list_filter = ["book_name"]

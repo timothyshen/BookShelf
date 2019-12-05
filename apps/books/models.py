@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Author
+# from users.models import Author
 
 # Create your models here.
 
@@ -32,7 +32,7 @@ class BookCategory(models.Model):
 class Book(models.Model):
     book_name = models.CharField(default = "", max_length = 30, verbose_name = 'Book name')
     # book_image = models.ImageField(default = "", max_length = 30, verbose_name = 'Book image')
-    book_author = models.OneToOneField(Author, on_delete = models.CASCADE, related_name = 'book_author')
+    # book_author = models.OneToOneField(Author, on_delete = models.CASCADE, related_name = 'book_author')
     # book_status = models.BooleanField()
     # contract_status = models.BooleanField()
     # book_type = models.ForeignKey()
@@ -44,6 +44,7 @@ class Book(models.Model):
     # total_vote = models.IntegerField(verbose_name = 'Total vote', default = 0, editable = False)
     # weekly_vote = models.IntegerField(verbose_name = 'Weekly vote', default = 0, editable = False)
     # total_click = models.IntegerField(verbose_name = 'Total Click', default = 0, editable = False)
+    is_added = models.BooleanField(default=False, verbose_name='is_added')
     added_time = models.DateTimeField(verbose_name = 'Added time', auto_now_add = True, editable = False)
     last_update = models.DateTimeField(verbose_name = 'last update', auto_now = True, editable = False)
 
