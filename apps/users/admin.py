@@ -1,6 +1,8 @@
 # Register your models here.
 from django import forms
 from django.contrib import admin
+from django.contrib.auth.models import User
+from.models import *
 
 # Register your models here.
 # from django.contrib.auth.admin import UserAdmin
@@ -32,5 +34,5 @@ from django.contrib import admin
 #         if obj.user_role == 'Reader':
 #             return ReaderInlines(self.model, self.admin_site)
 #
-# admin.site.register(User, UserAdmin)
-# # admin.site.register(Admin)
+
+admin.site.register(Profile)
