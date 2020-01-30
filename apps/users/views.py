@@ -1,18 +1,22 @@
-# # Create your views here.
-# from django.shortcuts import render
-# from rest_framework.views import APIView
-# from .serializers import UserSerializer
-# from rest_framework.response import Response
-# from .models import Reader
-#
-#
-# # Create your views here.
-# def index(request):
-#     return render(request, 'index.html')
-#
-#
-# class UsersListView(APIView):
-#     def get(self, request, format=None):
-#         users = Reader.objects.all()
-#         users_serializer = UserSerializer(users, many=True)
-#         return Response(users_serializer.data)
+from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, )
+from rest_framework.permissions import IsAuthenticated
+
+from .models import Profile
+from .permissions import IsOwnerProfileOrReadOnly
+from .serializers import UserProfileSerializer
+
+
+class UserProfileListCreateView(ListCreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
+
+
+class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsOwnerProfileOrReadOnly, IsAuthenticated]

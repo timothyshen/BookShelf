@@ -18,17 +18,21 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
-
+from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework.authtoken import views
 # from users.views import UsersListView
 from BookShelf.settings import MEDIA_ROOT
+from users.urls import urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('media/<path:path>', serve, {'document_root': MEDIA_ROOT}),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # token
+    path('api-token-auth/', views.obtain_auth_token),
+    path(r'jwt-auth/', obtain_jwt_token),
     path(r'', TemplateView.as_view(template_name="application.html")),
     path('docs', include_docs_urls(title='User')),
-    # path('users/', UsersListView.as_view(), name='users-list'),
-    # path('login/', LoginView.as_view(), name='login')
+    path('', include('users.urls'))
     #     path('bookcase/'. BookListView.as_view(), name='users-list')
 ]

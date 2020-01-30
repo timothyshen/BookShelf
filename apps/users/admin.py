@@ -1,38 +1,32 @@
 # Register your models here.
-from django import forms
 from django.contrib import admin
-from django.contrib.auth.models import User
-from.models import *
+from django.http import request
+from django import forms
 
-# Register your models here.
-# from django.contrib.auth.admin import UserAdmin
-# from .models import Reader, User, Author, Admin
-#
-#
-# class ReaderInlines(admin.StackedInline):
-#     model = Reader
-#     extra = 0
-#     readonly_fields = ['is_user_vip', 'vip_validate']
-#
-#
-# class AuthorInlines(admin.TabularInline):
-#     model = Author
-#     extra = 0
-#     readonly_fields = ['contract_number']
-#
-#
-# class UserAdmin(UserAdmin):
-#     model = User
-#
-#     # inlines = []
-#     list_filter = ('user_role',)
-#
-#     date_hierarchy = 'date_joined'
-#     ordering = ('date_joined',)
-#
-#     def get_inline_instances(self, request, obj=None):
-#         if obj.user_role == 'Reader':
-#             return ReaderInlines(self.model, self.admin_site)
-#
+from .models import *
 
-admin.site.register(Profile)
+
+
+class ReaderInlines(admin.StackedInline):
+    model = Reader
+    extra = 0
+    max_num = 1
+    readonly_fields = ['is_user_vip', 'vip_validate']
+
+
+@admin.register(Profile)
+class UserProfileAdmin(admin.ModelAdmin):
+    model = Profile
+    extra = 0
+    # fields = ('user.username', 'user.password')
+    inlines = [ReaderInlines]
+
+    def get_formsets_with_inlines(self, request, obj=None):
+        for inline in self.get_inline_instances(request, obj):
+            if isinstance(inline, ReaderInlines) and obj.get_user_role_display() == 'Reader':
+                yield inline.get_formset(request, obj), inline
+
+    # def save_model(self, request, obj, form, change):
+    #     obj.user = request.user
+    #     super().save_model(request, obj, form, change)
+

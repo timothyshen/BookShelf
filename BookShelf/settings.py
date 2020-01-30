@@ -46,11 +46,13 @@ INSTALLED_APPS = [
     'webpack_loader',
     'rest_framework.authtoken',
     'books',
-    'users'
+    'users',
+    'corsheaders'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -64,7 +66,16 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication'
     ]
 }
-
+# CORS 设置跨域域名 配置白名单
+CORS_ORIGIN_WHITELIST = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000"
+]
+CORS_ORIGIN_ALLOW_ALL = True 
+CORS_ALLOW_CREDENTIALS = True # 允许携带cookie
 
 TEMPLATES = [
     {
