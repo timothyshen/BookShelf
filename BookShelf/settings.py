@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'books',
     'users',
-    'corsheaders'
+    'corsheaders',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,7 +74,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8000",
     "http://127.0.0.1:8000"
 ]
-CORS_ORIGIN_ALLOW_ALL = True 
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True # 允许携带cookie
 
 TEMPLATES = [
@@ -94,7 +94,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'BookShelf.wsgi.application'
-CORS_ORIGIN_ALLOW_ALL = True
+
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
