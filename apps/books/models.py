@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import Author
-from tinymce.models import HTMLField
+# from tinymce.models import HTMLField
 # Create your models here.
 
 

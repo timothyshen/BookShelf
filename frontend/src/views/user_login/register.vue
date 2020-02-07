@@ -35,21 +35,26 @@
       },
       methods:{
           isRegister(){
-            var that = this
+            let that = this;
             login({
               password: that.password,
-              username: that.username,
-              password_two: that.password_two
-
-            }).then((response)=>{
-              cookie.setCookie('name',response.data.username,7);
-              cookie.setCookie('token',response.data.token,7);
-              that.$router.push({name:'login'});
-              console.log('success')
+              username: that.username
+            },{
+              auth:{
+                username: 't.shen',
+                password: 'bookshelf'
+              }
             }).catch(function (error) {
+              console.log(error.response)
               that.error.mobile = error.username?error.username[0]:'';
               that.error.password = error.password?error.password[0]:'';
             })
+              // .then((response)=>{
+              //   cookie.setCookie('name',response.data.username,7);
+              //   cookie.setCookie('token',response.data.token,7);
+              //   that.$router.push({name:'login'});
+              //   console.log('success')
+              // }).
           }
       }
     }

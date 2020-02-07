@@ -9,11 +9,11 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'password', 'email', 'is_active')
+        fields = ('id','username', 'password', 'email', 'is_active')
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Profile
