@@ -2,7 +2,7 @@
   <div><!--最外层-->
     <div>
       <div>
-        <form type="submin">
+        <form type="submit">
           <h2>Username:</h2>
           <input type="text" v-model="username"></input>
           <h2>Password:</h2>

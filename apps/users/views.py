@@ -2,8 +2,8 @@ from django.contrib.auth import get_user_model
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, )
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Profile
-from .serializers import UserProfileSerializer, UserSerializer
+from .models import Profile, Reader, Author
+from .serializers import *
 
 User = get_user_model()
 
@@ -21,7 +21,7 @@ class UserProfileListCreateView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         user = self.request.user
-        serializer.save(user=user)
+        serializer.save(user=user) 
 
 
 class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
@@ -32,3 +32,9 @@ class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
     # def perform_create(self, serializer):
     #     user = self.request.user
     #     serializer.save(user=user)
+
+
+class ReaderProfileDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Reader.objects.all()
+    serializer_class = ReaderSerializer
+    permission_classes = [IsAuthenticated]
