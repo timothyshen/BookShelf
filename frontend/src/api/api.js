@@ -7,9 +7,9 @@ export const login = (params, config) => {
 }
 
 
-// export const register = parmas => {
-//     return axios.post(`${host}/register/`, parmas)
-// }
+export const login_one = parmas => {
+    return axios.post(`${host}/login/`, parmas)
+}
 
 export const getUserDetail = () => {
     return axios.get(`${host}/profile/1/`)

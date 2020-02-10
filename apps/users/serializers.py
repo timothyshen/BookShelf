@@ -26,3 +26,11 @@ class ReaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reader
         fields = '__all__'
+
+
+class AutherSerializer(serializers.ModelSerializer):
+    user = UserProfileSerializer()
+
+    class Meta:
+        model = Author
+        fields = '__all__'
