@@ -16,7 +16,7 @@ class Profile(models.Model):
         ('Editor', u'Editor'),
         ('Admin', u'Admin')
     )
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='profile', verbose_name='user')
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile', verbose_name='user')
     gender = models.CharField(choices=(("male", u"Male"), ("female", u"Female")),
                                    default="Female",
                                    max_length=150, verbose_name='Gender')
