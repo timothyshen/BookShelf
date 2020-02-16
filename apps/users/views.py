@@ -1,7 +1,8 @@
+from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, )
 from django.contrib.auth import get_user_model
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, )
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
