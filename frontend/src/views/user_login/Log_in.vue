@@ -1,18 +1,10 @@
 <template>
   <div>
-    <div class="form-group">
-      <p>Username:</p>
-      <label>
-        <input type="text" name="username"/>
-      </label>
-    </div>
-    <div class="form-group">
-      <p>Password:</p>
-      <input type="password" name="password"/>
-    </div>
-    <div class="form-group">
-      <button type="submit" @click="isLogin">Login</button>
-    </div>
+    <el-form>
+      <el-form-item label="Username:">
+        <el-input></el-input>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
