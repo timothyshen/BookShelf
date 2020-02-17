@@ -32,8 +32,8 @@ class BookCategory(models.Model):
 class Book(models.Model):
     book_name = models.CharField(default = "", max_length = 30, verbose_name = 'Book name')
     # book_image = models.ImageField(default = "", max_length = 30, verbose_name = 'Book image')
-    book_author = models.OneToOneField(Author, on_delete = models.CASCADE, related_name = 'book_author')
-    book_status = models.BooleanField()
+    # book_author = models.OneToOneField(Author, on_delete = models.CASCADE, related_name = 'book_author')
+    # book_status = models.BooleanField()
     # contract_status = models.BooleanField()
     # book_type = models.ForeignKey()
     # book_genre = models.ForeignKey()

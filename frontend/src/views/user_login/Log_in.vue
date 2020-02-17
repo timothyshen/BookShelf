@@ -2,7 +2,9 @@
   <div>
     <div class="form-group">
       <p>Username:</p>
-      <input type="text" name="username"/>
+      <label>
+        <input type="text" name="username"/>
+      </label>
     </div>
     <div class="form-group">
       <p>Password:</p>
@@ -25,7 +27,7 @@
               password: that.password,
               username: that.username
             }).catch(function (error) {
-              console.log(error.response)
+              console.log(error.response);
               that.error.username = error.username?error.username[0]:'';
               that.error.password = error.password?error.password[0]:'';
             })

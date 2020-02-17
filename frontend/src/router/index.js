@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import top_chart from '@/views/Chart/top_chart'
 import Log_in from "../views/user_login/Log_in";
-import register from "@/views/user_login/register";
+import reader_register from "../views/user_login/reader_register/reader_register";
 
 Vue.use(Router)
 
@@ -22,7 +22,7 @@ export default new Router({
     {
       path: '/register',
       name: 'register',
-      component: register
+      component: reader_register
     }
   ]
 })

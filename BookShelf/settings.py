@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'books',
     'users',
     'corsheaders',
+    'rest_framework_jwt'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

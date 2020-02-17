@@ -16,7 +16,7 @@ const userInfo = {
 
 const state = {
   userInfo
-}
+};
 const store = new Vuex.Store({
   state,
   mutations,
