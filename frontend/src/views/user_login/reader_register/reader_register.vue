@@ -1,40 +1,39 @@
 <template>
   <div>
-    <head></head><!--最外层-->
     <el-col :span="12" :offset="6">
-      <el-form ref="form" v-model="form_data" label-width="180px" :label-position="labelPosition">
-        <el-form-item label="username:">
-          <el-input type="text" v-model="form_data.username">username</el-input>
+      <el-form :model="registerForm" ref="registerForm" :rules="rules" label-width="100px" :label-position="labelPosition">
+        <el-form-item label="Username" prop="username">
+          <el-input type="text" v-model="registerForm.username">username</el-input>
         </el-form-item>
-        <el-form-item label="Password:">
+        <el-form-item label="Password:" prop="password">
           <el-input
             type="password"
-            v-model="form_data.password"
+            v-model="registerForm.password"
             show-password>password</el-input>
         </el-form-item>
-        <el-form-item label="Confirm password:">
+        <el-form-item label="Confirm password:" prop="checkPass">
           <el-input
             type="password"
-            v-model="form_data.password_two"
+            v-model="registerForm.checkPass"
             show-password>password</el-input>
         </el-form-item>
-        <el-form-item label="Gender:">
-          <el-radio-group v-model="form_data.gender">
+        <el-form-item label="Gender:" prop="gender">
+          <el-radio-group v-model="registerForm.gender">
             <el-radio label="m">Male</el-radio>
             <el-radio label="f">Female</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="Email:" >
-          <el-input type="email" v-model="form_data.email"/>
+        <el-form-item label="Email:" prop="email">
+          <el-input type="email" v-model="registerForm.email"/>
         </el-form-item>
-        <el-form-item label="Date of Birth">
+        <el-form-item label="Date of Birth" prop="birthday">
           <el-date-picker
-            v-model="form_data.birthday"
+            v-model="registerForm.birthday"
             type="date"
             placeholder="pick a date">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="Avatar">
+        <el-form-item label="Avatar" prop="avatar">
           <el-upload
             :before-upload="beforeAvatarUpload"
             :on-success="handleAvatarSuccess"
@@ -46,7 +45,7 @@
           </el-upload>
         </el-form-item>
         <el-button type="primary" @click="isRegister">Rgister</el-button>
-        <el-button @click="resetForm('form_data')">Reset</el-button>
+        <el-button @click="resetForm('registerForm')">Reset</el-button>
       </el-form>
     </el-col>
   </div>
@@ -55,24 +54,48 @@
 <script>
   import {login} from '../../../api/api'
   import cookie from "../../../static/cookie/cookie";
-  import head from "../../../components/head";
     export default {
-      components: {head},
       name: "register",
       data() {
-        return {
+        let validatePass = (rule, value, callback) => {
+          if (value === '') {
+            callback(new Error('Please enter the password'));
+          } else if (this.registerForm.checkPass !== ''){
+            this.$refs.registerForm.validateField('checkPass');
+          }
+        };
+        let validatePass2 = (rule, value, callback) => {
+          if (value === ''){
+            callback(new Error('Please reenter the password'));
+          } else if(value !== this.registerForm.password){
+            callback(new Error('The password is not the same'));
+          } else {
+            callback();
+          }
+        }
+        return{
           labelPosition: 'left',
-          form_data:{
+          imageUrl: '',
+          registerForm: {
             username: '',
             password: '',
-            password_two: '',
+            checkPass: '',
             gender: 'm',
-            birthday:'',
-            email:''
+            birthday: '',
+            email: '',
+            avatar: ''
           },
           error: {
             password: '',
             username: ''
+          },
+          rules: {
+            password: [{
+              validator: validatePass, trigger: 'blur'
+            }],
+            checkPass:[{
+              validator: validatePass2, trigger:'blur'
+            }]
           }
         }
       },
@@ -80,8 +103,8 @@
           isRegister(){
             let that = this;
             login({
-              password: that.form_data.password,
-              username: that.form_data.username,
+              password: that.registerForm.password,
+              username: that.registerForm.username,
             },{
               auth:{
                 username: 't.shen',
@@ -98,21 +121,25 @@
               that.error.password = error.password?error.password[0]:'';
             });
           },
-        handleAvatarSuccess(res, file){
+          handleAvatarSuccess(res, file){
             this.imageURL = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUploade(file){
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 /1024 < 2;
-            if(isJPG){
-              console('error')
+          },
+          beforeAvatarUpload(file){
+              const isJPG = file.type === 'image/jpeg';
+              const isLt2M = file.size / 1024 /1024 < 2;
+            if (!isJPG) {
+              this.$message.error('The picture should be a JPEG file');
             }
-        },
+            if (!isLt2M) {
+              this.$message.error('The picture size should be less than 2MB!');
+            }
+            return isJPG && isLt2M;
+          },
         resetForm(formName) {
-          this.$nextTick(()=>{
+          this.$nextTick(() => {
             this.$refs[formName].resetFields();
           })
-        },
+        }
       }
     }
 </script>

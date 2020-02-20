@@ -1,16 +1,13 @@
 <template>
   <div id="app">
-    <head></head>
     <router-link to="/home">Main</router-link>
     <router-view/>
   </div>
 </template>
 
 <script>
-  import head from "./components/head";
 export default {
   name: 'App',
-  components: {head}
 }
 </script>
 
