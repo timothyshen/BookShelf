@@ -1,43 +1,48 @@
 <template>
-  <el-row class="main body">
-    <h1>Sign in</h1>
-    <el-col :span="6" :offset="6">
-      <el-form :model="loginForm">
-        <el-form-item>
-          <div class="login_text">
-            Username
-          </div>
-          <el-input type="text" v-model="loginForm.username"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <div class="login_text">
-            password
-          </div>
-          <el-input type="password" v-model="loginForm.password"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <div>
-            <el-link class="forget_link" type="primary">Forget?</el-link>
-          </div>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="isLogin">Login</el-button>
-          <router-link :to="'/register'" target = _blank><el-button type="primary">register</el-button></router-link>
-        </el-form-item>
-      </el-form>
+  <div class="container_body">
+    <el-col :offset="6" :span="18" class="banner">
+      <el-image></el-image>
     </el-col>
-    <el-col :span="6">
-      <div class="button_wrap">
-        <el-button class="selfButton" type="primary" icon="" size="medium"><span>Google login</span></el-button>
-      </div>
-      <div class="button_wrap">
-        <el-button class="selfButton" type="primary" icon="el-icon-google"><span>Facebook Login</span></el-button>
-      </div>
-      <div class="button_wrap">
-        <el-button class="selfButton" type="primary" icon="el-icon-google"><span>Twitter Login</span></el-button>
-      </div>
-    </el-col>
-  </el-row>
+    <el-row class="main_body">
+      <h1>Sign in</h1>
+      <el-col :span="6" :offset="6">
+        <el-form :model="loginForm">
+          <el-form-item>
+            <div class="login_text">
+              Username
+            </div>
+            <el-input type="text" v-model="loginForm.username"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <div class="login_text">
+              password
+            </div>
+            <el-input type="password" v-model="loginForm.password"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <div>
+              <el-link class="forget_link" type="primary">Forget?</el-link>
+            </div>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="isLogin">Login</el-button>
+            <router-link :to="'/register'" target = _blank><el-button type="primary">register</el-button></router-link>
+          </el-form-item>
+        </el-form>
+      </el-col>
+      <el-col :span="6">
+        <div class="button_wrap">
+          <el-button class="selfButton" type="primary" icon="" size="medium"><span>Google login</span></el-button>
+        </div>
+        <div class="button_wrap">
+          <el-button class="selfButton" type="primary" icon="el-icon-google"><span>Facebook Login</span></el-button>
+        </div>
+        <div class="button_wrap">
+          <el-button class="selfButton" type="primary" icon="el-icon-google"><span>Twitter Login</span></el-button>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <script>
   import {login_one} from '../../api/api';
@@ -92,6 +97,7 @@
   h1 {
     font-weight: bold;
     margin: 0;
+    text-align: center;
   }
 
   .login_text, .forget_link {
@@ -110,4 +116,12 @@
     height: 70px;
     width: 450px;
   }
+  .container_body{
+    margin-top: 20px;
+    height: 400px;
+  }
+  .main_body{
+    top: 50%;
+  }
+
 </style>
