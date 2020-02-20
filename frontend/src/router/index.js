@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import app from "../views/app/app";
-import HelloWorld from '@/components/HelloWorld'
-import top_chart from '@/views/Chart/top_chart'
 import login from "../views/user_login/login";
 import reader_register from "../views/user_login/reader_register/reader_register";
 import headbar from "../views/head/headbar";
 import login_headbar from "../views/head/login_headbar";
-Vue.use(Router)
+import footer from "../views/footer/footer";
+
+Vue.use(Router);
 
 // export default new Router({
 //   routes: [
@@ -46,10 +46,10 @@ let router = new Router({
       {
         path: 'login',
         name: 'login',
-        components:{
+        components: {
           head: headbar,
           content: login,
-
+          footer: footer,
         },
         meta:{
           title:'Log in',

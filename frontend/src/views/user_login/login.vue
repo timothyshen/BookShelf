@@ -11,13 +11,13 @@
             <div class="login_text">
               Username
             </div>
-            <el-input type="text" v-model="loginForm.username"></el-input>
+            <el-input type="text" v-model="loginForm.username">username</el-input>
           </el-form-item>
           <el-form-item>
             <div class="login_text">
               password
             </div>
-            <el-input type="password" v-model="loginForm.password"></el-input>
+            <el-input type="password" v-model="loginForm.password">password</el-input>
           </el-form-item>
           <el-form-item>
             <div>
@@ -71,7 +71,7 @@
           console.log(response);
           //本地存储用户信息
           cookie.setCookie('name', that.loginForm.password, 7);
-          cookie.setCookie('token', response.data.token, 7)
+          cookie.setCookie('token', response.data.token, 7);
           //存储在store
           // 更新store数据
           that.$store.dispatch('setInfo');
@@ -118,7 +118,6 @@
   }
   .container_body{
     margin-top: 20px;
-    height: 400px;
   }
   .main_body{
     top: 50%;
