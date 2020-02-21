@@ -3,38 +3,34 @@
     <el-col  :span="18" :offset="3" class="wrapper">
       <el-row :gutter="20">
         <el-col :span="3" class="logo">
-          <p style="color: white">
-            This is a logo
-          </p>
-<!--              <img/>-->
+          <router-link to="/app/index">
+            <el-image :src="src"></el-image>
+          </router-link>
         </el-col>
         <el-col :span="6">
           <el-menu
-            :default-active="1"
             class="navBar"
             mode="horizontal"
             background-color="#545454"
             text-color="#fff"
             active-text-color="#ffd04b"><!--Save for later -->
             <!--logo and nav-->
-            <img/>
-            <el-menu-item index="1">Creator</el-menu-item>
-            <el-menu-item index="2">Completed</el-menu-item>
-            <el-menu-item index="3">Library</el-menu-item>
+            <el-menu-item index="1">Home</el-menu-item>
+            <el-menu-item index="2">Creator</el-menu-item>
+            <el-menu-item index="3">Completed</el-menu-item>
+            <el-menu-item index="4">Library</el-menu-item>
           </el-menu>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-input
             placeholder="Search"
             class="input_nav"
-            v-model="input2"
             size="large">
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </el-col>
         <el-col :span="4" :offset="2">
           <el-menu
-            :default-active="1"
             class="navBar"
             mode="horizontal"
             background-color="#545454"
@@ -42,7 +38,9 @@
             active-text-color="#ffd04b"><!--Save for later -->
             <!--logo and nav-->
             <el-menu-item index="1">Login</el-menu-item>
-            <el-menu-item index="2">SignUp</el-menu-item>
+            <el-menu-item index="2">
+              <router-link to="reader/register" >SignUp</router-link>
+            </el-menu-item>
           </el-menu>
         </el-col>
       </el-row>
@@ -52,7 +50,12 @@
 
 <script>
     export default {
-        name: "headbar"
+        name: "headbar",
+        data(){
+          return{
+            src: require('../../static/image/logo.png'),
+          }
+        }
     }
 </script>
 
