@@ -9,35 +9,6 @@ import footer from "../views/footer/footer";
 
 Vue.use(Router);
 
-// export default new Router({
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'login',
-//       components:{
-//           head: headbar,
-//           content: login,
-//
-//         }
-//     },
-//     {
-//       path: '/index',
-//       name: 'top_chart',
-//       component: top_chart
-//     },
-//     {
-//       path: '/register',
-//       name: 'register',
-//       component: reader_register
-//     },
-//     {
-//       path:'/headbar',
-//       name:'headbar',
-//       component: headbar
-//     }
-//   ]
-// })
-
 let router = new Router({
   routes: [{
     path:'/app',
@@ -68,5 +39,19 @@ let router = new Router({
       ]
   }]
 });
-
+/*router.beforeEach((to, from, next)  =>{
+  var nextPath = cookie.getCookie('nextPath');
+  if (to != undefined){
+    if(to.meta.need_log) {
+      console.log(to.meta.need_log);
+      if (!store.state.userInfo.token) {
+        next({
+          path: '/login',
+        });
+      } else {
+        next();
+      }
+    }
+  }
+});*/
 export default router;

@@ -1,18 +1,29 @@
 <template>
-  <el-row :gutter="24" class="container_footer">
-    <el-col :span="2" :offset="6">
-      <p>Contact Us</p>
+  <el-row type="flex" justify="center" class="container_footer" align="middle">
+    <el-col :span="4" :offset="2" class="site">
+      <h2>About Us</h2>
+      <p class="text_define">Contact Us</p>
       <p>Site Map</p>
       <p>Terms Of Use</p>
     </el-col>
     <el-col :span="6" class="social_media">
       <div>
-        <h2>Social Media</h2>
-
+        <h2>Follow Us</h2>
+        <div class="logo_container">
+          <div class="logos">
+            <font-awesome-icon icon="Twitter"/>
+          </div>
+          <div class="logos">2</div>
+          <div class="logos">3</div>
+          <div class="logos">1</div>
+          <div class="logos">2</div>
+          <div class="logos">3</div>
+        </div>
       </div>
     </el-col>
     <el-col :span="4" class="news_letter">
-      <p>Sign up for the news letter</p>
+      <p class="text_define">Sign up for the news letter</p>
+      <el-button type="alert">Sign Up</el-button>
     </el-col>
   </el-row>
 </template>
@@ -23,15 +34,51 @@
   }
 </script>
 
-<style>
+<style lang="less">
+
+  @bg: rgb(225, 208, 75);
   .container_footer {
     height: 300px;
     background-color: #545454;
     margin-top: 20px;
+
+    .site {
+      font-size: 20px;
+      color: @bg;
+
+      h2 {
+        margin: 0px 100px 20px 20px;
+        padding-left: 20px;
+        border-bottom: 2px solid;
+      }
+
+      p {
+        height: 40px;
+      }
+    }
   }
 
   .social_media {
-    top: 50%;
+    h2 {
+      color: @bg;
+    }
+
+    i {
+      width: 30px;
+      height: 30px;
+    }
+
+    .logo_container {
+
+    }
+  }
+
+  .news_letter {
+    .text_define {
+      font-size: 20px;
+      color: @bg;
+      margin-bottom: 30px;
+    }
   }
 
 </style>
