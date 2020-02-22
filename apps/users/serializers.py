@@ -37,6 +37,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class ReaderSerializer(serializers.ModelSerializer):
     user = UserProfileSerializer()
 
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+
     class Meta:
         model = Reader
         fields = '__all__'

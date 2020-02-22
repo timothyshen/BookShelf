@@ -29,7 +29,7 @@ class UserProfileListCreateView(ListCreateAPIView):
     authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication )
 
     def get_permissions(self):
-        if self.action == "retrieve":
+        if self. == "retrieve":
             return [permissions.IsAuthenticated()]
         elif self.action == "create":
             return []
