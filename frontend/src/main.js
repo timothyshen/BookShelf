@@ -10,13 +10,13 @@ import locale from 'element-ui/lib/locale/lang/en';
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import {faSpinner} from '@fortawesome/free-solid-svg-icons'
-import {faTwitter} from '@fortawesome/free-brands-svg-icons'
+import {faTwitterSquare, faFacebook, faInstagram, faYoutube} from '@fortawesome/free-brands-svg-icons'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI, {locale});
 
-library.add(faTwitter)
-library.add(faSpinner)
+library.add(faTwitterSquare, faFacebook, faInstagram);
+library.add(faSpinner);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 /* eslint-disable no-new */
 new Vue({

@@ -33,6 +33,7 @@ let router = new Router({
         components: {
           content: reader_register,
           head:login_headbar,
+          footer: footer
         }
       }
 

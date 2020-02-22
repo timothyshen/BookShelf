@@ -10,14 +10,15 @@
       <div>
         <h2>Follow Us</h2>
         <div class="logo_container">
-          <div class="logos">
-            <font-awesome-icon icon="Twitter"/>
-          </div>
-          <div class="logos">2</div>
-          <div class="logos">3</div>
-          <div class="logos">1</div>
-          <div class="logos">2</div>
-          <div class="logos">3</div>
+          <font-awesome-layers class="logos">
+            <font-awesome-icon :icon="['fab', 'twitter-square']" size="4x" style="color: #3a8ee6"/>
+          </font-awesome-layers>
+          <font-awesome-layers class="logos">
+            <font-awesome-icon :icon="['fab', 'facebook']" size="4x" style="color: #3a8ee6"/>
+          </font-awesome-layers>
+          <font-awesome-layers class="logos">
+            <font-awesome-icon :icon="['fab', 'instagram']" size="4x" style="color: #3a8ee6"/>
+          </font-awesome-layers>
         </div>
       </div>
     </el-col>
@@ -36,10 +37,10 @@
 
 <style lang="less">
 
-  @bg: rgb(225, 208, 75);
+  @bg: rgb(205, 123, 0);
   .container_footer {
     height: 300px;
-    background-color: #545454;
+    background-color: #f9fbff;
     margin-top: 20px;
 
     .site {
@@ -63,13 +64,10 @@
       color: @bg;
     }
 
-    i {
-      width: 30px;
-      height: 30px;
-    }
-
     .logo_container {
-
+      .logos{
+        padding: 20px;
+      }
     }
   }
 
