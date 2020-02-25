@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'books',
     'users',
+    'bookcase',
     'corsheaders',
     'rest_framework_jwt'
 ]

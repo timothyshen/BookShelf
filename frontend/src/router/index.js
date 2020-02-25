@@ -5,7 +5,7 @@ import login from "../views/user_login/login";
 import reader_register from "../views/user_login/reader_register/reader_register";
 import headbar from "../views/head/headbar";
 import login_headbar from "../views/head/login_headbar";
-import footer from "../views/footer/footer";
+import footerbar from "../views/footer/footer";
 import user_center from "../views/user_login/user_centre/user_center";
 import home from "../views/app/home";
 
@@ -22,7 +22,7 @@ let router = new Router({
         components: {
           head: headbar,
           content: login,
-          footer: footer,
+          footer: footerbar,
         },
         meta: {
           title: 'Log in',
@@ -35,15 +35,15 @@ let router = new Router({
         components: {
           content: reader_register,
           head: login_headbar,
-          footer: footer
+          footer: footerbar
         }
       },
       {
         path: 'index',
-        components:  {
+        components: {
           head: headbar,
           content: home,
-          footer: footer,
+          footer: footerbar,
         },
         children: [
           {

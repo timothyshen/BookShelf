@@ -8,20 +8,23 @@ import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/en';
 
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import {FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText} from '@fortawesome/vue-fontawesome'
 import {faSpinner} from '@fortawesome/free-solid-svg-icons'
-import {faTwitterSquare, faFacebook, faInstagram, faYoutube} from '@fortawesome/free-brands-svg-icons'
+import {faFacebook, faInstagram, faTwitterSquare} from '@fortawesome/free-brands-svg-icons'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI, {locale});
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('font-awesome-layers', FontAwesomeLayers);
+Vue.component('font-awesome-layers-text', FontAwesomeLayersText);
 
 library.add(faTwitterSquare, faFacebook, faInstagram);
 library.add(faSpinner);
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   components: {App, FontAwesomeIcon},
   template: '<App/>'
-})
+});

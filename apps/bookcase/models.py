@@ -1,7 +1,7 @@
 from django.db import models
+
+from books.models import Book
 from users.models import Reader
-from users.models import Book
-from django.contrib.auth import get_user_model
 
 
 # Create your models here.
@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 class Bookcase(models.Model):
     user = models.ForeignKey(Reader, on_delete=models.CASCADE, verbose_name='User bookcase')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Book')
-    add_time = models.DateTimeField(auto_now_add=True, verbose_name=u"添加时间")
+    add_time = models.DateTimeField(auto_now_add=True, verbose_name=u"Added time")
 
     class Meta:
         verbose_name = 'Bookcase'
