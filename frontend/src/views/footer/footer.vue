@@ -1,4 +1,5 @@
 <template>
+  <div>
   <el-row type="flex" justify="center" class="container_footer" align="middle">
     <el-col :span="4" :offset="2" class="site">
       <h2>About Us</h2>
@@ -27,6 +28,7 @@
       <el-button type="alert">Sign Up</el-button>
     </el-col>
   </el-row>
+  </div>
 </template>
 
 <script>

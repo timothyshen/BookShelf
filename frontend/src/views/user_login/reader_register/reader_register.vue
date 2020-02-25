@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="register_container">
     <el-col :span="12" :offset="6">
       <el-form :model="registerForm" ref="registerForm" :rules="rules" label-width="100px" :label-position="labelPosition">
         <el-form-item label="Username" prop="username">
@@ -145,5 +145,8 @@
 </script>
 
 <style>
-
+.register_container{
+  margin-bottom: 20px;
+  height: 600px;
+}
 </style>
