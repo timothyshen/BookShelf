@@ -16,19 +16,19 @@ class Profile(models.Model):
         ('Editor', u'Editor'),
         ('Admin', u'Admin')
     )
-    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile', verbose_name='user')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name='user')
     gender = models.CharField(choices=(("male", u"Male"), ("female", u"Female")),
-                                   default="Female",
-                                   max_length=150, verbose_name='Gender')
+                              default="Female",
+                              max_length=150, verbose_name='Gender')
     birthday = models.DateField(null=True, blank=True, verbose_name="Birthday")
     icon = models.ImageField(upload_to="media/image/%Y/%m",
-                                  default=u"media/image/default.png",
-                                  max_length=1000,
-                                  verbose_name=u"User icon", null=True)
+                             default=u"media/image/default.png",
+                             max_length=1000,
+                             verbose_name=u"User icon", null=True)
     role = models.CharField(choices=role_choice,
-                                 max_length=150,
-                                 default='Admin',
-                                 verbose_name='Role', editable=False)
+                            max_length=150,
+                            default='Admin',
+                            verbose_name='Role', editable=False)
 
     @property
     def get_username(self):
@@ -37,7 +37,6 @@ class Profile(models.Model):
     def get_user_role_display(self):
         return self.role
 
-
     class Meta:
         verbose_name_plural = "Profile"
         verbose_name = verbose_name_plural
@@ -45,6 +44,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
 
 # class Admin(models.Model):
 #
@@ -79,7 +79,7 @@ class Reader(models.Model):
 
 class Author(models.Model):
     user = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='author')
-    contract_number = models.IntegerField(verbose_name= 'Contact number', null=True, blank=True, max_length=100)
+    contract_number = models.IntegerField(verbose_name='Contact number', null=True, blank=True)
 
     def __str__(self):
         return self.user.username
