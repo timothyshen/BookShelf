@@ -12,5 +12,4 @@ urlpatterns = [
     path("profile/reader/<int:pk>", ReaderProfileDetailView.as_view(), name="reader"),
     path("profile/author/<int:pk>", AuthorProfileDetailView.as_view(), name="reader"),
     path(r'login/', obtain_jwt_token)
-
 ]

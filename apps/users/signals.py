@@ -8,6 +8,9 @@ from .models import *
 @receiver(post_save, sender=Profile)
 def create_profile_for_new_user(sender, created, instance, **kwargs):
     if created:
+        password = instance.password
+        instance.set_password(password)
+        instance.save()
         if Profile.get_user_role_display() == 'Reader':
             reader = Reader(user=instance.profile)
             instance.profile.reader.save()

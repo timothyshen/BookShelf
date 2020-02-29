@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.db.models import Sum
 from users.models import Author
 
 
@@ -58,6 +58,10 @@ class Book(models.Model):
     added_time = models.DateTimeField(verbose_name='Added time', auto_now_add=True, editable=False)
     last_update = models.DateTimeField(verbose_name='last update', auto_now=True, editable=False)
 
+    def get_chapter_number(self):
+        chapter_count = Chapter.objects.filter(self.id).count()
+
+
     class Meta:
         db_table = 'Books'
         verbose_name = 'Novel'
@@ -79,3 +83,4 @@ class Chapter(models.Model):
     word_count = models.IntegerField(verbose_name='Word count', default=0)
     created_time = models.DateTimeField(verbose_name='Created time', auto_now_add=True, editable=False)
     publish_status= models.CharField(choices=PUBLISH_STATUS, default='Published', max_length=150)
+
