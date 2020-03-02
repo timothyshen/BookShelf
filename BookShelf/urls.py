@@ -23,6 +23,7 @@ from rest_framework.authtoken import views
 # from users.views import UsersListView
 from BookShelf.settings import MEDIA_ROOT
 from users.urls import urlpatterns
+from books.urls import urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +34,7 @@ urlpatterns = [
     path(r'jwt-auth/', obtain_jwt_token),
     path(r'', TemplateView.as_view(template_name="application.html")),
     path('docs', include_docs_urls(title='User')),
-    path('', include('users.urls'))
+    path('', include('users.urls')),
+    path('', include('books.urls')),
     #     path('bookcase/'. BookListView.as_view(), name='users-list')
 ]

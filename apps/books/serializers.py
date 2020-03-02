@@ -1,32 +1,32 @@
 from rest_framework import serializers
-from .models import Book, BookCategory, Chapter
+
 from users.serializers import AuthorSerializer
-
-
-class CategorySerializer2(serializers.ModelSerializer):
-    class Meta:
-        model = BookCategory
-        fields = "__all__"
+from .models import Book, BookCategory, Chapter
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    sub_cat = CategorySerializer2(many = True)
-
     class Meta:
         model = BookCategory
         fields = "__all__"
 
 
-class ChapterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Chapter
-        fields='__all__'
+
+
+
+
 
 
 class BookSerializer(serializers.ModelSerializer):
     book_author = AuthorSerializer()
-    chapter = ChapterSerializer()
+    book_type = CategorySerializer()
+
     class Meta:
         model = Book
         fields = '__all__'
 
+class ChapterSerializer(serializers.ModelSerializer):
+    # book_id = BookSerializer()
+
+    class Meta:
+        model = Chapter
+        fields = '__all__'

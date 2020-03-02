@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin, AbstractBaseUser, User
 from phonenumber_field.modelfields import PhoneNumberField
 from django.conf import settings
-from books.models import *
+from books.models import Book
 from . import managers
 
 
@@ -69,7 +69,7 @@ class Reader(models.Model):
                                     editable=False)
 
     def __str__(self):
-        return (self.user.get_username)
+        return self.user.get_username
 
     class Meta:
         verbose_name_plural = "Reader"
@@ -79,6 +79,7 @@ class Reader(models.Model):
 
 class Author(models.Model):
     user = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='author')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='Book', null=True)
     contract_number = models.IntegerField(verbose_name='Contact number', null=True, blank=True)
 
     def __str__(self):
