@@ -73,8 +73,10 @@ class Book(models.Model):
     total_vote = models.IntegerField(verbose_name='Total vote', default=0, editable=False)
     weekly_vote = models.IntegerField(verbose_name='Weekly vote', default=0, editable=False)
     total_click = models.IntegerField(verbose_name='Total Click', default=0, editable=False)
+    fav_num = models.IntegerField(verbose_name='Total favorite number', default= 0, editable=False )
     added_time = models.DateTimeField(verbose_name='Added time', auto_now_add=True, editable=False)
     last_update = models.DateTimeField(verbose_name='last update', auto_now=True, editable=False)
+
 
     def get_chapter_number(self):
         chapter_count = Chapter.objects.filter(self.id).count()
