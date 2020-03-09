@@ -32,7 +32,9 @@ urlpatterns = [
     # token
     path('api-token-auth/', views.obtain_auth_token),
     path(r'jwt-auth/', obtain_jwt_token),
-    path(r'', TemplateView.as_view(template_name="application.html")),
+    path(r'',
+         TemplateView.as_view(template_name="index.html"),
+         name='app',),
     path('docs', include_docs_urls(title='User')),
     path('', include('users.urls')),
     path('', include('books.urls')),

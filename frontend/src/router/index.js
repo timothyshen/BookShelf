@@ -8,6 +8,7 @@ import login_headbar from "../views/head/login_headbar";
 import footerbar from "../views/footer/footer";
 import user_center from "../views/user_login/user_centre/user_center";
 import home from "../views/app/home";
+import home_page from "../views/home_page/home_page";
 
 Vue.use(Router);
 
@@ -39,13 +40,18 @@ let router = new Router({
         }
       },
       {
-        path: 'index',
+        path: 'home',
         components: {
           head: headbar,
           content: home,
           footer: footerbar,
         },
         children: [
+          {
+            path: '/',
+            name: 'user',
+            component: home_page
+          },
           {
             path: 'user',
             name: 'user',
