@@ -2,13 +2,13 @@ import axios from 'axios';
 
 let host = 'http://127.0.0.1:8000';
 
-export const login = (params, config) => {
-    return axios.post(`${host}/user`, params, config)
+export const register = (params) => {
+    return axios.post(`${host}/all-profiles`, params)
 };
 
 
-export const login_one = parmas => {
-    return axios.post(`${host}/login/`, parmas)
+export const login = params => {
+    return axios.post(`${host}/login/`, params)
 };
 
 export const getUserDetail = () => {

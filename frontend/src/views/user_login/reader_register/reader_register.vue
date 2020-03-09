@@ -52,7 +52,7 @@
 </template>
 
 <script>
-  import {login} from '../../../api/api'
+  import {register} from '../../../api/api'
   import cookie from "../../../static/cookie/cookie";
     export default {
       name: "register",
@@ -102,15 +102,15 @@
       methods:{
           isRegister(){
             let that = this;
-            login({
+            register({
               password: that.registerForm.password,
               username: that.registerForm.username,
-            },{
+            }<!--,{
               auth:{
                 username: 't.shen',
                 password: 'bookshelf'
               }
-            }).then((response)=>{
+            }-->).then((response)=>{
               cookie.setCookie('name',response.data.username,7);
               cookie.setCookie('token',response.data.token,7);
               that.$router.push({name:'login'});

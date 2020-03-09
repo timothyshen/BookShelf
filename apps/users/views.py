@@ -28,15 +28,9 @@ class UserProfileListCreateView(ListCreateAPIView):
     serializer_class = UserProfileSerializer
     authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication )
 
-    def get_permissions(self):
-        if self.action == "retrieve":
-            return [permissions.IsAuthenticated()]
-        elif self.action == "create":
-            return []
-
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exveption=True)
+        serializer.is_valid(raise_exception=True)
         user = self.perform_create(serializer)
 
         re_dict = serializer.data

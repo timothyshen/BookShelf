@@ -45,7 +45,7 @@
   </div>
 </template>
 <script>
-  import {login_one} from '../../api/api';
+  import {login} from '../../api/api';
 
   export default {
     name: "login",
@@ -64,7 +64,7 @@
     methods: {
       isLogin: function () {
         let that = this;
-        login_one({
+        login({
           password: that.loginForm.password,
           username: that.loginForm.username
         }).then((response) => {
@@ -76,7 +76,7 @@
           // 更新store数据
           that.$store.dispatch('setInfo');
           //跳转到首页页面
-          this.$router.push({name: 'index'})
+          this.$router.push({name: 'user'})
         }).catch(function (error) {
           if ("non_field_errors" in error) {
             that.error = error.non_field_errors[0];

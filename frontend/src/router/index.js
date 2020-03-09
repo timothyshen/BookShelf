@@ -9,6 +9,7 @@ import footerbar from "../views/footer/footer";
 import user_center from "../views/user_login/user_centre/user_center";
 import home from "../views/app/home";
 import home_page from "../views/home_page/home_page";
+import cookie from "../static/cookie/cookie";
 
 Vue.use(Router);
 
@@ -48,8 +49,8 @@ let router = new Router({
         },
         children: [
           {
-            path: '/',
-            name: 'user',
+            path: 'index',
+            name: 'home_page',
             component: home_page
           },
           {
@@ -62,19 +63,20 @@ let router = new Router({
     ]
   }]
 });
-/*router.beforeEach((to, from, next)  =>{
+
+router.beforeEach((to, from, next)  =>{
   var nextPath = cookie.getCookie('nextPath');
-  if (to != undefined){
+  if (to !== undefined){
     if(to.meta.need_log) {
       console.log(to.meta.need_log);
       if (!store.state.userInfo.token) {
         next({
-          path: '/login',
+          path: '/home/index',
         });
       } else {
         next();
       }
     }
   }
-});*/
+});
 export default router;
