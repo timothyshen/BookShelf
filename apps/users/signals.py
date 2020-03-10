@@ -5,15 +5,9 @@ from rest_framework.authtoken.models import Token
 from .models import *
 
 
-@receiver(post_save, sender=Profile)
+@receiver(post_save, sender=User)
 def create_profile_for_new_user(sender, created, instance, **kwargs):
     if created:
         password = instance.password
         instance.set_password(password)
         instance.save()
-        if Profile.get_user_role_display() == 'Reader':
-            reader = Reader(user=instance.profile)
-            instance.profile.reader.save()
-        if Profile.get_user_role_display() == 'Author':
-            author = Author(user=instance.profile)
-            instance.profile.author.save()

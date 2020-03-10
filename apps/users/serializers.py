@@ -1,53 +1,79 @@
 from rest_framework import serializers
-
+from books.serializers import BookSerializer
 from .models import *
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'password', 'email')
-
-
-class UserProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(required=True)
-
-    class Meta:
-        model = Profile
-        fields = ('user', 'gender')
-
-    def create(self, validated_data):
-        user_data = validated_data.pop('user')
-        profile = Profile.objects.create(**validated_data)
-        User.objects.create(user=profile, **user_data)
-        return profile
-
-    def update(self, instance, validated_data):
-        user_data = validated_data.pop('user')
-        instance.gender = validated_data.get('gender', instance.gender)
-        user = instance.user
-        instance.save()
-        user.username = user_data.get('username', user.username)
-        user.password = user_data.get('password', user.password)
-        user.email = user_data.get('email', user.password)
-        user.save()
-        return instance
-
-
 class ReaderSerializer(serializers.ModelSerializer):
-    user = UserProfileSerializer()
-
-    def create(self, validated_data):
-        user_data = validated_data.pop('user')
+    role = serializers.CharField(default='Reader')
 
     class Meta:
         model = Reader
-        fields = '__all__'
+        fields = ('role','is_user_vip', 'vip_validate')
+        depth = 1
 
 
 class AuthorSerializer(serializers.ModelSerializer):
-    user = UserProfileSerializer()
+    role = serializers.CharField(default='Author')
+    book_id = BookSerializer(many=True)
 
     class Meta:
         model = Author
-        fields = '__all__'
+        fields = ('role', 'contract_number', 'book_id')
+        depth = 1
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    role_display = serializers.SerializerMethodField()
+
+
+    class Meta:
+        model = Profile
+        fields = ('gender', 'birthday', 'icon', 'role', 'role_display')
+        depth = 1
+
+    def get_role_display(self, obj):
+        if obj.role == 'Author':
+            serializers_choice = AuthorSerializer(obj.author)
+            return serializers_choice.data
+        elif obj.role == 'Reader':
+            serializers_choice = ReaderSerializer(obj.reader)
+            return serializers_choice.data
+
+
+class UserSerializer(serializers.ModelSerializer):
+    profile = UserProfileSerializer()
+    # profile_data = serializers.SerializerMethodField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password', 'email','profile',)
+
+        depth = 1
+
+    # def get_profile_data(self, obj):
+    #     return UserProfileSerializer(obj.profile).data
+
+    def create(self, validated_data):
+        profile = validated_data.pop('profile', None)
+        user = User.objects.create(**validated_data)
+        if profile is not None:
+            profile_data = profile.pop('profile', None)
+            new_profile = Profile.objects.create(user=user, added_by = user.added_by, **profile)
+            if profile_data is not None:
+                if profile_data.get('role') == 'reader':
+                    Reader.objects.create(user=new_profile, added_by= user.added_by, **profile_data)
+        return user
+
+    def update(self, instance, validated_data):
+        profile_data = validated_data.pop('profile')
+        profile = instance.profile
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.save()
+        profile.gender = profile_data.get('gender', profile.gender)
+        profile.birthday = profile_data.get('birthday', profile.birthday)
+        profile.icon = profile_data.get('icon', profile.icon)
+        profile.role = profile_data.get('role', profile.role)
+        profile.save()
+
+        return instance

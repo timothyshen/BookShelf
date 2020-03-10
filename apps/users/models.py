@@ -5,7 +5,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin, AbstractBaseUser, User
 from phonenumber_field.modelfields import PhoneNumberField
 from django.conf import settings
-from books.models import Book
 from . import managers
 
 
@@ -28,7 +27,7 @@ class Profile(models.Model):
     role = models.CharField(choices=role_choice,
                             max_length=150,
                             default='Admin',
-                            verbose_name='Role', editable=False)
+                            verbose_name='Role')
 
     @property
     def get_username(self):
@@ -79,8 +78,7 @@ class Reader(models.Model):
 
 class Author(models.Model):
     user = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='author')
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='Book', null=True)
-    contract_number = models.IntegerField(verbose_name='Contact number', null=True, blank=True)
+
 
     def __str__(self):
         return self.user.username

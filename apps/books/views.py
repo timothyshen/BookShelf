@@ -46,3 +46,4 @@ class BookDetailView(RetrieveUpdateDestroyAPIView):
 class ChapterDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
+

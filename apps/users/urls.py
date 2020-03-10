@@ -7,7 +7,7 @@ router = DefaultRouter()
 urlpatterns = [
     path("all-profiles", UserProfileListCreateView.as_view(), name="all-profiles"),
     # retrieves profile details of the currently logged in user
-    path("profile/<int:pk>", UserProfileDetailView.as_view(), name="profile"),
+    path("user/<int:pk>", UserProfileDetailView.as_view(), name="profile"),
     path("user", UserCreate.as_view(), name='user'),
     path("profile/reader/<int:pk>", ReaderProfileDetailView.as_view(), name="reader"),
     path("profile/author/<int:pk>", AuthorProfileDetailView.as_view(), name="reader"),

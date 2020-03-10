@@ -48,8 +48,8 @@ class UserProfileListCreateView(ListCreateAPIView):
 
 
 class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = UserProfileSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
 

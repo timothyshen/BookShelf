@@ -64,19 +64,19 @@ let router = new Router({
   }]
 });
 
-router.beforeEach((to, from, next)  =>{
-  var nextPath = cookie.getCookie('nextPath');
-  if (to !== undefined){
-    if(to.meta.need_log) {
-      console.log(to.meta.need_log);
-      if (!store.state.userInfo.token) {
-        next({
-          path: '/home/index',
-        });
-      } else {
-        next();
-      }
-    }
-  }
-});
+// router.beforeEach((to, from, next)  =>{
+//   var nextPath = cookie.getCookie('nextPath');
+//   if (to !== undefined){
+//     if(to.meta.need_log) {
+//       console.log(to.meta.need_log);
+//       if (!store.state.userInfo.token) {
+//         next({
+//           path: '/home/index',
+//         });
+//       } else {
+//         next();
+//       }
+//     }
+//   }
+// });
 export default router;

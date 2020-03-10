@@ -105,12 +105,7 @@
             register({
               password: that.registerForm.password,
               username: that.registerForm.username,
-            }<!--,{
-              auth:{
-                username: 't.shen',
-                password: 'bookshelf'
-              }
-            }-->).then((response)=>{
+            }).then((response)=>{
               cookie.setCookie('name',response.data.username,7);
               cookie.setCookie('token',response.data.token,7);
               that.$router.push({name:'login'});
