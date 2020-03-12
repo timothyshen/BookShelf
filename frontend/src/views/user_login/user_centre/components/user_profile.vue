@@ -1,7 +1,10 @@
 <template>
   <div class="user_profile_background">
     <div class="icon_row">
-      <el-avatar class="user_icon" type="circle"/>
+      <div>
+        <el-avatar class="user_icon" type="circle"/>
+        <h2 v-model="userInfo.username"/>
+      </div>
       <el-button-group class="user_button_group">
         <el-button class="user_setting_button" size="small" icon="el-icon-view" round>Profile</el-button>
         <el-button class="user_setting_button" size="small" icon="el-icon-setting" round>Setting</el-button>
@@ -15,8 +18,36 @@
 </template>
 
 <script>
+  import {getUserDetail} from "../../../../api/api";
+
   export default {
-    name: "user_profile"
+    name: "user_profile",
+    data() {
+      return {
+        userInfo: {
+          username: '',
+          password: '',
+          checkPass: '',
+          gender: '',
+          birthday: '',
+          email: '',
+          avatar: '',
+        }
+      }
+    },
+    created() {
+      this.getUserInfo();
+    },
+    methods: {
+      getUserInfo() {
+        getUserDetail().then((response) => {
+          this.userInfo = response.data;
+        }).catch(function (error) {
+          console.log(error);
+        })
+
+      }
+    }
   }
 </script>
 
@@ -30,17 +61,18 @@
     .icon_row {
       position: relative;
       top: 30px;
+      height: 100px;
 
       .user_icon {
         margin-left: 20px;
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
       }
 
       .user_button_group {
         position: relative;
         bottom: 40px;
-        left: 50%;
+        left: 60%;
       }
 
       .user_setting_button {

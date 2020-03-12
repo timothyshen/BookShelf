@@ -54,17 +54,18 @@
 <script>
   import {register} from '../../../api/api'
   import cookie from "../../../static/cookie/cookie";
-    export default {
-      name: "register",
-      data() {
-        let validatePass = (rule, value, callback) => {
-          if (value === '') {
-            callback(new Error('Please enter the password'));
-          } else if (this.registerForm.checkPass !== ''){
-            this.$refs.registerForm.validateField('checkPass');
-          }
-        };
-        let validatePass2 = (rule, value, callback) => {
+
+  export default {
+    name: "register",
+    data() {
+      let validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('Please enter the password'));
+        } else if (this.registerForm.checkPass !== '') {
+          this.$refs.registerForm.validateField('checkPass');
+        }
+      };
+      let validatePass2 = (rule, value, callback) => {
           if (value === ''){
             callback(new Error('Please reenter the password'));
           } else if(value !== this.registerForm.password){
@@ -80,10 +81,11 @@
             username: '',
             password: '',
             checkPass: '',
-            gender: 'm',
+            gender: '',
             birthday: '',
             email: '',
-            avatar: ''
+            avatar: '',
+            role: 'reader'
           },
           error: {
             password: '',
@@ -105,14 +107,19 @@
             register({
               password: that.registerForm.password,
               username: that.registerForm.username,
+              gender: that.registerForm.gender,
+              birthday: that.registerForm.birthday,
+              email: that.registerForm.email,
+              avatar: that.registerForm.avatar,
+              role: that.registerForm.role,
             }).then((response)=>{
               cookie.setCookie('name',response.data.username,7);
               cookie.setCookie('token',response.data.token,7);
               that.$router.push({name:'login'});
               console.log('success')
             }).catch(function (error) {
-              console.log(error.response)
-              that.error.mobile = error.username?error.username[0]:'';
+              console.log(error.response);
+              that.error.mobile = error.username ? error.username[0] : '';
               that.error.password = error.password?error.password[0]:'';
             });
           },

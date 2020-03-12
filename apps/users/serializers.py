@@ -8,7 +8,7 @@ class ReaderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reader
-        fields = ('role','is_user_vip', 'vip_validate')
+        fields = ('role', 'is_user_vip', 'vip_validate')
         depth = 1
 
 
@@ -24,7 +24,6 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     role_display = serializers.SerializerMethodField()
-
 
     class Meta:
         model = Profile
@@ -42,11 +41,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer()
+
     # profile_data = serializers.SerializerMethodField(write_only=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'password', 'email','profile',)
+        fields = ('id', 'username', 'password', 'email', 'profile',)
 
         depth = 1
 
@@ -58,10 +58,12 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create(**validated_data)
         if profile is not None:
             profile_data = profile.pop('profile', None)
-            new_profile = Profile.objects.create(user=user, added_by = user.added_by, **profile)
+            new_profile = Profile.objects.create(user=user, added_by=user.added_by, **profile)
             if profile_data is not None:
-                if profile_data.get('role') == 'reader':
-                    Reader.objects.create(user=new_profile, added_by= user.added_by, **profile_data)
+                if profile_data.get('role',profile.role) == 'reader':
+                    Reader.objects.create(user=new_profile, added_by=user.added_by, **profile_data)
+                elif profile_data.get('role',profile.role) == 'author':
+                    Author.objects.create(user=new_profile, added_by=user.added_by, **profile_data)
         return user
 
     def update(self, instance, validated_data):
@@ -75,5 +77,4 @@ class UserSerializer(serializers.ModelSerializer):
         profile.icon = profile_data.get('icon', profile.icon)
         profile.role = profile_data.get('role', profile.role)
         profile.save()
-
         return instance
