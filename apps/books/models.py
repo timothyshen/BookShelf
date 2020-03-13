@@ -1,8 +1,8 @@
 from django.db import models
 
+
 # from tinymce.models import HTMLField
 # Create your models here.
-from users.models import Author
 
 
 class BookCategory(models.Model):
@@ -31,7 +31,6 @@ class BookCategory(models.Model):
 
 # TODO add django-tinymce
 
-
 class Book(models.Model):
     BOOK_STATUS = (
         ('Ongoing', u'Ongoing'),
@@ -40,7 +39,6 @@ class Book(models.Model):
     book_name = models.CharField(default="", max_length=30, verbose_name='Book name', unique=True)
     book_image = models.ImageField(default="", max_length=30, verbose_name='Book image')
     book_status = models.CharField(choices=BOOK_STATUS, default='Ongoing', verbose_name='Book Status', max_length=150)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='author', null=True)
     # contract_status = models.BooleanField()
     book_type = models.ForeignKey(BookCategory,
                                   on_delete=models.CASCADE,
@@ -50,6 +48,7 @@ class Book(models.Model):
     # book_genre = models.ForeignKey()
     book_short_description = models.TextField(verbose_name='Short description', default='')
     book_description = models.TextField(verbose_name='Book Description', default='')
+
     total_words = models.IntegerField(verbose_name='Total_words', default=0, editable=False)
     chapter_count = models.IntegerField(verbose_name='Chapter Count', default=0, editable=False)
     total_vote = models.IntegerField(verbose_name='Total vote', default=0, editable=False)
@@ -77,13 +76,9 @@ class Chapter(models.Model):
         ('Published', u'Published'),
         ('Unpublished', u'Unpublished')
     )
-    Book = models.ForeignKey(Book,
-                             on_delete=models.CASCADE,
-                             verbose_name='Book',
-                             null=True
-                             )
     chapter_title = models.CharField(verbose_name='Chapter title', default='', max_length=150)
     chapter_body = models.TextField(verbose_name='Chapter text', default='')
     word_count = models.IntegerField(verbose_name='Word count', default=0)
     created_time = models.DateTimeField(verbose_name='Created time', auto_now_add=True, editable=False)
     publish_status = models.CharField(choices=PUBLISH_STATUS, default='Published', max_length=150)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Chapter', null=True, related_name='Chapter')

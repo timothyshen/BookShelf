@@ -11,6 +11,6 @@ urlpatterns = [
         path('list', BookCreate.as_view(), name='book'),
         path('list/<int:pk>', BookDetailView.as_view(), name='book_detail'),
         path('list/chapter/create/<book_id>/', ChapterCreate.as_view(), name='chapter_create'),
-        path('list/chapter/edit/<book_id>/<int:pk>', ChapterDetailView.as_view(), name='chapter_change')
+        path('list/chapter/edit/<int:pk.book.id>/<int:pk>', ChapterDetailView.as_view(), name='chapter_change')
     ])),
 ]

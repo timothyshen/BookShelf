@@ -21,6 +21,7 @@ class BookCreate(ListCreateAPIView):
     #     serializer = self.get_serializer(instance)
     #     return Response(serializer.data)
 
+
 class ChapterCreate(ListCreateAPIView):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
@@ -29,7 +30,6 @@ class ChapterCreate(ListCreateAPIView):
 class BookCategoryDetailView(ListCreateAPIView, RetrieveModelMixin):
     queryset = BookCategory.objects.all()
     serializer_class = CategorySerializer
-
 
 
 class BookDetailView(RetrieveUpdateDestroyAPIView):

@@ -5,6 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework import mixins
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView)
 
+
 # Create your views here.
 
 class BookcaseViewSet(ListCreateAPIView, mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
@@ -22,5 +23,3 @@ class BookcaseViewSet(ListCreateAPIView, mixins.RetrieveModelMixin, mixins.Destr
             return BookSerializer
 
         return BookSerializer
-
-

@@ -7,6 +7,7 @@
         <sidebar/>
       </el-aside>
       <el-container class="user_body">
+
         <user_profile/>
         <msg_table/>
       </el-container>
