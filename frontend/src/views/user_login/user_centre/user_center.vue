@@ -10,6 +10,7 @@
 
         <user_profile/>
         <msg_table/>
+        <exp_table/>
       </el-container>
     </el-container>
   </el-col>
@@ -19,10 +20,11 @@
   import sidebar from "./components/sidebar";
   import user_profile from "./components/user_profile";
   import msg_table from "./components/msg_table";
+  import exp_table from "./components/exp_table";
 
   export default {
     name: "user_center",
-    components: {sidebar, user_profile, msg_table},
+    components: {sidebar, user_profile, msg_table, exp_table},
     data() {
       return {
         tabPosition: 'left'

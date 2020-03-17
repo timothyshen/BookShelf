@@ -10,7 +10,7 @@ import user_center from "../views/user_login/user_centre/user_center";
 import home from "../views/app/home";
 import home_page from "../views/home_page/home_page";
 import cookie from "../static/cookie/cookie";
-
+import book_detail from "../views/book_page/book_detail/book_detail";
 Vue.use(Router);
 
 let router = new Router({
@@ -57,6 +57,11 @@ let router = new Router({
             path: 'user',
             name: 'user',
             component: user_center
+          },
+          {
+            path: 'book',
+            name: 'book',
+            component: book_detail
           }
         ]
       }

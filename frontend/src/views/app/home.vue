@@ -11,5 +11,7 @@
 </script>
 
 <style scoped>
-
+ #home{
+   margin-top:100px;
+ }
 </style>

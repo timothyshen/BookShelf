@@ -73,7 +73,7 @@
           } else {
             callback();
           }
-        }
+        };
         return{
           labelPosition: 'left',
           imageUrl: '',
@@ -148,7 +148,7 @@
 
 <style>
 .register_container{
-  margin-bottom: 20px;
+  margin: 20px 0;
   height: 600px;
 }
 </style>
