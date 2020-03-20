@@ -12,6 +12,8 @@
 
 <style scoped>
  #home{
-   margin-top:100px;
+
+   margin:100px auto;
+   width: 960px;
  }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="container_book">
+    <el-backtop :bottom="60" />
     <book_content/>
     <book_index/>
   </div>

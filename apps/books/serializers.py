@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from users.serializers import AuthorSerializer
+
 from .models import Book, BookCategory, Chapter
 
 
@@ -12,7 +12,6 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ChapterSerializer(serializers.ModelSerializer):
 
-    def get
     class Meta:
         model = Chapter
         fields = '__all__'

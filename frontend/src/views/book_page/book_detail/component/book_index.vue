@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="top">
     <el-tabs>
       <el-tab-pane label="Description">
         <p>description</p>
@@ -11,8 +11,11 @@
             {{chapter.id}}. {{chapter.name}}
           </li>
         </ul>
+
+
       </el-tab-pane>
     </el-tabs>
+
   </div>
 </template>
 
@@ -39,6 +42,129 @@
         }, {
           id: 6,
           name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
+        }, {
+          id: 6,
+          name: 'one'
         }]
       }
     }
@@ -53,13 +179,14 @@
   .chapter_list {
     column-count: 3;
     margin: 0 10px;
+
     .chapter_item {
       border-bottom: 2px solid black;
       text-decoration: none;
       display: inline-block;
       height: 40px;
       width: 100%;
-      font-size:18px;
+      font-size: 18px;
       text-align: center;
       padding-top: 10px;
       line-height: 40px;
