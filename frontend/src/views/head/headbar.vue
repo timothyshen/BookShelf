@@ -3,7 +3,7 @@
     <el-col  :span="18" :offset="3" class="wrapper">
       <el-row :gutter="20">
         <el-col :span="3" class="logo">
-          <router-link to="/app/index">
+          <router-link to="/">
             <el-image :src="src"></el-image>
           </router-link>
         </el-col>

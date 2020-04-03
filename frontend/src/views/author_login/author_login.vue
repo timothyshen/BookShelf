@@ -1,6 +1,7 @@
 <template>
   <el-main class="container_body">
     <div class="login_body">
+      <h2>Author Login</h2>
       <el-form :model="loginForm">
         <el-form-item>
           <div class="login_text">
@@ -19,11 +20,10 @@
             <el-link class="forget_link" type="primary">Forget?</el-link>
           </div>
         </el-form-item>
-        <el-form-item>
+        <el-form-item class="button_group">
           <el-button type="primary">Login</el-button>
-          <router-link target=_blank>
-            <el-button type="primary">register</el-button>
-          </router-link>
+          <el-button type="primary">register</el-button>
+
         </el-form-item>
       </el-form>
     </div>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+  
   export default {
     name: "author_login",
     data() {
@@ -48,9 +49,20 @@
   }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .container_body{
     margin: 100px auto;
     width: 900px;
+
+    h2{
+      text-align: center;
+      margin-bottom:20px;
+    }
+    .button_group{
+      margin:0 auto;
+      width: inherit;
+      justify-content: center;
+    }
+
   }
 </style>

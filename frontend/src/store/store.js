@@ -13,9 +13,19 @@ const userInfo = {
   name:cookie.getCookie('name'),
   token:cookie.getCookie('token')
 };
+const navItem = {
+  collapsed: false,
+  topNavState: 'author',
+  leftNavState: 'author'
+};
+
+for(let item in navItem){
+  localStorage.getItem(item) ? navItem[item] = JSON.parse(localStorage.getItem(item)) : false;
+}
 
 const state = {
-  userInfo
+  userInfo,
+  navItem
 };
 const store = new Vuex.Store({
   state,

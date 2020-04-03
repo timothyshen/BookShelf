@@ -6,14 +6,16 @@ import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/en';
-
+import Vuex from 'vuex'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText} from '@fortawesome/vue-fontawesome'
 import {faSpinner} from '@fortawesome/free-solid-svg-icons'
 import {faFacebook, faInstagram, faTwitterSquare} from '@fortawesome/free-brands-svg-icons'
-
+import store from "./store/store";
+import '@/assets/css/style.css'
 Vue.config.productionTip = false;
 Vue.use(ElementUI, {locale});
+Vue.use(Vuex);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('font-awesome-layers', FontAwesomeLayers);
 Vue.component('font-awesome-layers-text', FontAwesomeLayersText);
@@ -25,6 +27,7 @@ library.add(faSpinner);
 new Vue({
   el: '#app',
   router,
+  store,
   components: {App, FontAwesomeIcon},
   template: '<App/>'
 });

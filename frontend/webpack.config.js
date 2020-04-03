@@ -15,7 +15,19 @@ module.exports = {
         query: {
           presets: ['es2015']
         }
-      }
+      },
+      {
+        test: /\\.css$/,
+        loader: "style!css"
+      },
+      {
+        test: /\\.(eot|woff|woff2|ttf)([\\?]?.*)$/,
+        loader: "file"
+      },
+      {
+        test: /\.less$/,
+        loader: "style-loader!css-loader!less-loader",
+      },
     ]
   },
   stats: {

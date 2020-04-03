@@ -48,7 +48,7 @@ class Book(models.Model):
     # book_genre = models.ForeignKey()
     book_short_description = models.TextField(verbose_name='Short description', default='')
     book_description = models.TextField(verbose_name='Book Description', default='')
-
+    # non-editable values
     total_words = models.IntegerField(verbose_name='Total_words', default=0, editable=False)
     chapter_count = models.IntegerField(verbose_name='Chapter Count', default=0, editable=False)
     total_vote = models.IntegerField(verbose_name='Total vote', default=0, editable=False)
