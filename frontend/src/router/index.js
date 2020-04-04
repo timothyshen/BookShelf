@@ -28,6 +28,10 @@ import author_case from "../views/author_login/author_center/Book/author_case";
 import author_chapter_view from "../views/author_login/author_center/Book/novel/author_chapter_view";
 import author_chapter_create from "../views/author_login/author_center/Book/novel/author_chapter_create";
 import author_novel_setting from "../views/author_login/author_center/Book/novel/author_novel_setting";
+import book_create_header from "../views/author_login/author_center/Book/novel/component/book_create_header";
+import book_setting_head from "../views/author_login/author_center/Book/novel/component/book_setting_head";
+import chapter_create_head from "../views/author_login/author_center/Book/novel/component/chapter_create_head";
+import book_list_head from "../views/author_login/author_center/Book/novel/component/book_list_head";
 Vue.use(Router);
 
 let router = new Router({
@@ -182,7 +186,7 @@ let router = new Router({
       name: 'New novel',
       components:{
         content:book_create,
-        top:top_nav,
+        top:book_create_header,
         aside:left_nav
       },
       leaf:true,
@@ -193,7 +197,7 @@ let router = new Router({
       name: 'New novel',
       components:{
         content:author_chapter_view,
-        top:top_nav,
+        top:book_list_head,
         aside:left_nav
       },
       leaf:true,
@@ -204,7 +208,7 @@ let router = new Router({
       name: 'New novel',
       components:{
         content:author_chapter_create,
-        top:top_nav,
+        top:chapter_create_head,
         aside:left_nav
       },
       leaf:true,
@@ -215,7 +219,7 @@ let router = new Router({
       name: 'Novel setting',
       components:{
         content:author_novel_setting,
-        top:top_nav,
+        top:book_setting_head,
         aside:left_nav
       },
       leaf:true,
