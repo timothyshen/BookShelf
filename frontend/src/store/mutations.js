@@ -8,7 +8,8 @@ export default {
   [types.SET_INFO](state){
     state.userInfo = {
       name: cookie.getCookie('name'),
-      token: cookie.getCookie('token')
+      token: cookie.getCookie('token'),
+      ole:cookie.getCookie('role')
     };
     console.log(state.userInfo)
   }

@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="3" class="logo">
           <router-link to="/">
-            <el-image :src="src"></el-image>
+            <el-image :src="require('../../static/image/logo.png')"></el-image>
           </router-link>
         </el-col>
         <el-col :span="6">
@@ -13,6 +13,7 @@
             mode="horizontal"
             background-color="#545454"
             text-color="#fff"
+            default-active="1"
             active-text-color="#ffd04b"><!--Save for later -->
             <!--logo and nav-->
             <el-menu-item index="1">Home</el-menu-item>
@@ -35,11 +36,14 @@
             mode="horizontal"
             background-color="#545454"
             text-color="#fff"
+            default-active="1"
             active-text-color="#ffd04b"><!--Save for later -->
             <!--logo and nav-->
-            <el-menu-item index="1">Login</el-menu-item>
+            <el-menu-item index="1">
+              <router-link to="login">Login</router-link>
+            </el-menu-item>
             <el-menu-item index="2">
-              <router-link to="reader/register" >SignUp</router-link>
+              <router-link to="register">SignUp</router-link>
             </el-menu-item>
           </el-menu>
         </el-col>

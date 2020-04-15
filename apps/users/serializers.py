@@ -23,20 +23,21 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    role_display = serializers.SerializerMethodField()
+    # role_display = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
-        fields = ('gender', 'birthday', 'icon', 'role', 'role_display')
+        # fields = ('gender', 'birthday', 'icon', 'role', 'role_display')
+        fields = ('gender', 'birthday', 'icon', 'role')
         depth = 1
 
-    def get_role_display(self, obj):
-        if obj.role == 'Author':
-            serializers_choice = AuthorSerializer(obj.author)
-            return serializers_choice.data
-        elif obj.role == 'Reader':
-            serializers_choice = ReaderSerializer(obj.reader)
-            return serializers_choice.data
+    # def get_role_display(self, obj):
+    #     if obj.role == 'Author':
+    #         serializers_choice = AuthorSerializer(obj.author)
+    #         return serializers_choice.data
+    #     elif obj.role == 'Reader':
+    #         serializers_choice = ReaderSerializer(obj.reader)
+    #         return serializers_choice.data
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -58,12 +59,12 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create(**validated_data)
         if profile is not None:
             profile_data = profile.pop('profile', None)
-            new_profile = Profile.objects.create(user=user, added_by=user.added_by, **profile)
+            new_profile = Profile.objects.create(user=user, **profile)
             if profile_data is not None:
                 if profile_data.get('role',profile.role) == 'reader':
-                    Reader.objects.create(user=new_profile, added_by=user.added_by, **profile_data)
+                    Reader.objects.create(user=new_profile, **profile_data)
                 elif profile_data.get('role',profile.role) == 'author':
-                    Author.objects.create(user=new_profile, added_by=user.added_by, **profile_data)
+                    Author.objects.create(user=new_profile, **profile_data)
         return user
 
     def update(self, instance, validated_data):

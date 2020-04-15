@@ -11,7 +11,8 @@ Vue.use(Vuex);
 
 const userInfo = {
   name:cookie.getCookie('name'),
-  token:cookie.getCookie('token')
+  token:cookie.getCookie('token'),
+  role:cookie.getCookie('role')
 };
 const navItem = {
   collapsed: false,

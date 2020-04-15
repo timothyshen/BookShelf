@@ -20,8 +20,6 @@ User = get_user_model()
 class UserCreate(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
-
 
 class UserProfileListCreateView(ListCreateAPIView):
     queryset = Profile.objects.all()
