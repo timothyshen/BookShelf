@@ -101,7 +101,6 @@
     }
 
     .el-menu {
-      height: 100%;
       height: calc(100% - 80px);
       border-radius: 0px;
       background-color: black;

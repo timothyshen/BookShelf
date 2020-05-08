@@ -29,7 +29,7 @@ SECRET_KEY = 'g2*gpu$x#+s%q*+&^qp)7cy^6_i7@9*2mwcjz%4xpwv8bhl$_w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 ROOT_URLCONF = "BookShelf.urls"
 
@@ -62,17 +62,20 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware', ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
-    ]
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 import datetime
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_RESPONSE_PAYLOAD_HANDLER':'users.util.jwt_response_payload_handler'
 }
 # CORS white list the url
 CORS_ORIGIN_WHITELIST = [

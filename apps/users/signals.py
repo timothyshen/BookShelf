@@ -11,3 +11,4 @@ def create_profile_for_new_user(sender, created, instance, **kwargs):
         password = instance.password
         instance.set_password(password)
         instance.save()
+        

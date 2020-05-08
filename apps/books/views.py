@@ -1,25 +1,24 @@
 from django.db.models import F
-from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView)
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView, ListAPIView,
+                                     RetrieveAPIView)
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from django.db.models import Count
 from rest_framework.decorators import action
+from utils.permissions import IsAuthorPermission
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from .serializers import *
 
 
 # Create your views here.
 
-class BookCreate(ListCreateAPIView):
+
+class BookList(ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-
-    # def create(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     bookType = instance.book_type
-    #     BookCategory.objects.filter(category_name__contains= bookType).update(total_number= F('total_number') + 1)
-    #     serializer = self.get_serializer(instance)
-    #     return Response(serializer.data)
 
 
 class ChapterCreate(ListCreateAPIView):
@@ -32,18 +31,51 @@ class BookCategoryDetailView(ListCreateAPIView, RetrieveModelMixin):
     serializer_class = CategorySerializer
 
 
-class BookDetailView(RetrieveUpdateDestroyAPIView):
+class BookDetailView(RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         Book.objects.filter(pk=instance.id).update(total_click=F('total_click') + 1)
+        chapter_count = Chapter.objects.filter(book=instance.id).count()
+        Book.objects.filter(pk=instance.id).update(chapter_count=chapter_count)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
 
-class ChapterDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = Chapter.objects.all()
+class ChapterDetailView(RetrieveAPIView):
     serializer_class = ChapterSerializer
+    lookup_field = 'pk'
+    lookup_url_kwarg = 'pk'
 
+    def get_queryset(self):
+        return Chapter.objects.filter(book=self.kwargs.get('book_id', None)).all()
+
+
+
+
+class AuthorBookViewSet(ModelViewSet):
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    serializer_class = BookSerializer
+    # permission_classes = (IsAuthorPermission,)
+
+    def perform_create(self, serializer):
+        return serializer.save(book_author=self.request.user)
+
+    def get_queryset(self):
+        return Book.objects.filter(book_author=self.request.user)
+
+
+class AuthorChapterViewSet(ModelViewSet):
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    serializer_class = ChapterSerializer
+    permission_classes = IsAuthorPermission
+    lookup_field = 'pk'
+    lookup_url_kwarg = 'pk'
+
+    def perform_create(self, serializer):
+        chapter = serializer.save()
+
+    def get_queryset(self):
+        return Chapter.objects.filter(book__book_author=self.request.user)

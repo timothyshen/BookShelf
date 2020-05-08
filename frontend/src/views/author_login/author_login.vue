@@ -22,7 +22,7 @@
         </el-form-item>
         <el-form-item class="button_group">
           <el-button type="primary">Login</el-button>
-          <el-button type="primary">register</el-button>
+          <el-button type="primary"><router-link to="author_register">register</router-link></el-button>
 
         </el-form-item>
       </el-form>
@@ -31,7 +31,10 @@
 </template>
 
 <script>
-  
+
+  import {login} from "../../api/api";
+  import cookie from "../../static/cookie/cookie";
+
   export default {
     name: "author_login",
     data() {
@@ -44,6 +47,37 @@
         error: false,
         userNameError: '',
         parseWordError: ''
+      }
+    },
+    methods: {
+      isLogin: function () {
+        let that = this;
+        login({
+          password: that.loginForm.password,
+          username: that.loginForm.username
+        }).then((response) => {
+          console.log(response.data);
+          //本地存储用户信息
+          cookie.setCookie('user_id', response.data.user_id, 7);
+          cookie.setCookie('name', response.data.name, 7);
+          cookie.setCookie('token', response.data.token, 7);
+          cookie.setCookie('role', response.data.role, 7);
+          //存储在store
+          // 更新store数据
+          that.$store.dispatch('setInfo');
+          //跳转到首页页面
+          this.$router.push({name: 'author'})
+        }).catch(function (error) {
+          if ("non_field_errors" in error) {
+            that.error = error.non_field_errors[0];
+          }
+          if ("username" in error) {
+            that.userNameError = error.username[0];
+          }
+          if ("password" in error) {
+            that.parseWordError = error.password[0];
+          }
+        });
       }
     }
   }

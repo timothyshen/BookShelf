@@ -10,6 +10,7 @@ import * as getters from './getters';
 Vue.use(Vuex);
 
 const userInfo = {
+  user_id: cookie.getCookie('user_id'),
   name:cookie.getCookie('name'),
   token:cookie.getCookie('token'),
   role:cookie.getCookie('role')

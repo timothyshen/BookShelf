@@ -16,7 +16,9 @@
             default-active="1"
             active-text-color="#ffd04b"><!--Save for later -->
             <!--logo and nav-->
-            <el-menu-item index="1">Home</el-menu-item>
+            <el-menu-item index="1">
+              <router-link to="/">Home</router-link>
+            </el-menu-item>
             <el-menu-item index="2">Creator</el-menu-item>
             <el-menu-item index="3">Completed</el-menu-item>
             <el-menu-item index="4">Library</el-menu-item>
@@ -27,7 +29,7 @@
             placeholder="Search"
             class="input_nav"
             size="large">
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button slot="append" icon="el-icon-search"/>
           </el-input>
         </el-col>
         <el-col :span="4" :offset="2">
@@ -37,7 +39,7 @@
             background-color="#545454"
             text-color="#fff"
             default-active="1"
-            active-text-color="#ffd04b"><!--Save for later -->
+            active-text-color="#ffd04b">
             <!--logo and nav-->
             <el-menu-item index="1">
               <router-link to="login">Login</router-link>

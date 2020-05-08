@@ -12,13 +12,15 @@ class BookDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bookcase
-        fields = ('book', 'id')
+        fields = ('user', 'book', 'id')
 
 
-class BookcaseSerializer(serializers.Serializer, ABC):
-    user = serializers.HiddenField(
-        default=serializers.CurrentUserDefault()
-    )
+class BookcaseSerializer(serializers.ModelSerializer):
+    # user = serializers.HiddenField(
+    #     default=serializers.CurrentUserDefault()
+    # )
+    user = serializers.CurrentUserDefault()
+
 
     class Meta:
         model = Bookcase
@@ -31,4 +33,3 @@ class BookcaseSerializer(serializers.Serializer, ABC):
         ]
 
         fields = ('user', 'book', 'id')
-

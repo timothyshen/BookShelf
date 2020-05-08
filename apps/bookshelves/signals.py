@@ -11,3 +11,12 @@ def create_bookfav(sender, instance=None, created=False, **kwargs):
         book.fav_num += 1
         book.save()
 
+
+@receiver(post_delete, sender=Bookcase)
+def delete_bookfav(sender, instance=None, created=False, **kwargs):
+    goods = instance.goods
+    if goods.fav_num != 0:
+        goods.fav_num -= 1
+    else:
+        goods.fav_num = 0
+    goods.save()

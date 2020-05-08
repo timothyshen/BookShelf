@@ -7,9 +7,10 @@ Vue.prototype.$http = Axios;
 export default {
   [types.SET_INFO](state){
     state.userInfo = {
-      name: cookie.getCookie('name'),
-      token: cookie.getCookie('token'),
-      ole:cookie.getCookie('role')
+      user_id: cookie.getCookie('user_id'),
+      name:cookie.getCookie('name'),
+      token:cookie.getCookie('token'),
+      role:cookie.getCookie('role')
     };
     console.log(state.userInfo)
   }

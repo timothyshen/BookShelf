@@ -13,6 +13,7 @@ import {faSpinner} from '@fortawesome/free-solid-svg-icons'
 import {faFacebook, faInstagram, faTwitterSquare} from '@fortawesome/free-brands-svg-icons'
 import store from "./store/store";
 import '@/assets/css/style.css'
+import './axios/';
 import Axios from 'axios';
 Vue.prototype.$http = Axios;
 Vue.config.productionTip = false;

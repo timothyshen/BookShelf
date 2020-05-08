@@ -6,8 +6,8 @@ __date__ = '15/04/2020 22:21'
 
 def jwt_response_payload_handler(token, user=None, request=None):
     return {
-        'token': token,
         'user_id' : user.id,
-        'email' : user.email,
+        'token': token,
+        'name' : user.username,
         'role': user.profile.role
     }

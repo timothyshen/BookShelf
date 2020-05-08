@@ -6,23 +6,27 @@
     <el-col :span="18" class="detail">
       <div class="title">
         <h1>
-          <strong>Book title</strong>
-          <span>Author</span>
+          <strong>{{book_info.book_name}}</strong>
+          <span>{{book_info.author}}</span>
         </h1>
       </div>
       <div class="tag">
-        <el-tag effect="dark">Contracted</el-tag>
-        <el-tag>Ongoing</el-tag>
-        <el-tag>VIP</el-tag>
+        <el-tag effect="dark" v-if="book_info.contracted">Contracted</el-tag>
+        <el-tag v-if="book_info.status">{{book_info.status}}</el-tag>
+        <el-tag v-if="book_info.vip">VIP</el-tag>
       </div>
       <p class="short_des">
-        Lorem ipsum dolor sit amet, in modus lucilius delicatissimi mei.
+        {{book_info.book_short_description}}
+      </p>
+      <p class="short_des">
+        {{book_info.book_description}}
       </p>
       <div class="number_detail">
         <ul class="number_list">
-          <li>Word count</li>
-          <li>Word count</li>
-          <li>Word count</li>
+          <li>Total word: {{book_info.total_words}}</li>
+          <li>Total click: {{book_info.total_click}}</li>
+          <li>Total vote: {{book_info.total_vote}}</li>
+          <li>Total favor: {{book_info.fav_num}}</li>
         </ul>
       </div>
       <div class="button">
@@ -45,16 +49,53 @@
 </template>
 
 <script>
+  import axios from 'axios';
   export default {
     name: "book_content",
     data() {
       return {
+        book_info:{
+          book_name:'',
+          author:'',
+          status:'',
+          contracted:'',
+          vip:'',
+          book_image:'',
+          book_short_description: "",
+          book_description: "",
+          total_words: '',
+          chapter_count: '',
+          total_vote: '',
+          weekly_vote: '',
+          total_click: '',
+          fav_num: '',
+        },
         value: 3.7
       }
+    },
+    created() {
+      this.getBook()
     },
     methods:{
       toChapter(){
         this.$router.push('./book/chapter')
+      },
+      getBook(){
+        axios.get(`http://127.0.0.1:8000/book/detail/2`).then((response)=>{
+          console.log(response.data);
+          this.book_info.book_name = response.data.book_name;
+          this.book_info.author = response.data.book_author;
+          this.book_info.status = response.data.book_status;
+          this.book_info.book_image = response.data.book_image;
+          this.book_info.book_short_description = response.data.book_short_description;
+          this.book_info.book_description = response.data.book_description;
+          this.book_info.total_words = response.data.total_words;
+          this.book_info.chapter_count = response.data.chapter_count;
+          this.book_info.total_vote = response.data.total_vote;
+          this.book_info.weekly_vote = response.data.weekly_vote;
+          this.book_info.total_click = response.data.total_click;
+          this.book_info.fav_num = response.data.fav_num;
+        })
       }
     }
   }

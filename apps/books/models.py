@@ -1,8 +1,10 @@
+from django.conf import settings
 from django.db import models
 
 
 # from tinymce.models import HTMLField
 # Create your models here.
+
 
 
 class BookCategory(models.Model):
@@ -40,6 +42,11 @@ class Book(models.Model):
     book_image = models.ImageField(default="", max_length=30, verbose_name='Book image')
     book_status = models.CharField(choices=BOOK_STATUS, default='Ongoing', verbose_name='Book Status', max_length=150)
     # contract_status = models.BooleanField()
+    book_author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                    on_delete=models.SET_NULL,
+                                    verbose_name='author',
+                                    related_name='author',
+                                    null=True)
     book_type = models.ForeignKey(BookCategory,
                                   on_delete=models.CASCADE,
                                   verbose_name='book type',
@@ -69,6 +76,7 @@ class Book(models.Model):
         db_table = 'Books'
         verbose_name = 'Novel'
         verbose_name_plural = verbose_name
+
 
 
 class Chapter(models.Model):

@@ -1,6 +1,5 @@
 from rest_framework import serializers
-
-
+from users.serializers import UserDetailSerializer
 from .models import Book, BookCategory, Chapter
 
 
@@ -11,7 +10,6 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ChapterSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Chapter
         fields = '__all__'
@@ -20,7 +18,8 @@ class ChapterSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     book_type = CategorySerializer(read_only=True)
     Chapter = ChapterSerializer(many=True, read_only=True)
+    book_author = serializers.PrimaryKeyRelatedField(read_only=True, source='book_author.username')
 
     class Meta:
         model = Book
-        fields = ('id', 'book_name', 'book_type', 'Chapter')
+        fields = '__all__'

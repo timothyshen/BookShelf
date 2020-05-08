@@ -39,7 +39,12 @@
 
 <script>
     export default {
-        name: "user_setting"
+        name: "user_setting",
+      data:{
+          return() {
+
+          }
+      }
     }
 </script>
 

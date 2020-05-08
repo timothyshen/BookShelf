@@ -13,8 +13,8 @@
           </el-col>
           <el-col :span="20">
             <el-menu :default-active="defaultActiveIndex" mode="horizontal" @select="handleSelect" :router="true">
-              <el-menu-item index="dashboard">Dashboard</el-menu-item>
-              <el-menu-item index="story">Story</el-menu-item>
+              <el-menu-item index="/authorManagement">Dashboard</el-menu-item>
+              <el-menu-item index="/storyManagement">Story</el-menu-item>
               <el-menu-item index="income">Income</el-menu-item>
             </el-menu>
           </el-col>

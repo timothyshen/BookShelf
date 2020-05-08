@@ -32,6 +32,9 @@ import book_create_header from "../views/author_login/author_center/Book/novel/c
 import book_setting_head from "../views/author_login/author_center/Book/novel/component/book_setting_head";
 import chapter_create_head from "../views/author_login/author_center/Book/novel/component/chapter_create_head";
 import book_list_head from "../views/author_login/author_center/Book/novel/component/book_list_head";
+import store from "../store/store";
+import book_index from "../views/book_page/book_detail/component/book_index";
+
 Vue.use(Router);
 
 let router = new Router({
@@ -44,7 +47,7 @@ let router = new Router({
         path: 'login',
         name: 'login',
         components: {
-          head: headbar,
+          head: login_headbar,
           content: login,
           footer: footerbar,
         },
@@ -85,7 +88,7 @@ let router = new Router({
         name: 'home',
         redirect: 'index',
         components: {
-          head: headbar,
+          head: login_headbar,
           content: home,
           footer: footerbar,
         },
@@ -93,20 +96,36 @@ let router = new Router({
           path: 'index',
           name: 'index',
           component: home_page
-        }]
+        },
+          {
+            path: 'book',
+            name: 'book',
+            component: book_detail
+          },
+          {
+            path: 'book/chapter',
+            name: 'book_index',
+            component: chapter_index
+          },
+          {
+            path: 'book/item',
+            name: 'chapter',
+            component: chapter_detail
+          },
+        ]
       },
       {
         path: '/userManager',
         name: 'user',
-        redirect: '/user/usercentre',
+        redirect: '/user/usercenter',
         components: {
-          head: headbar,
+          head: login_headbar,
           content: user_center,
           footer: footerbar
         },
         children: [
           {
-            path: '/user/usercentre',
+            path: '/user/usercenter',
             name: 'user centre',
             components: {
               aside: sidebar,
@@ -115,7 +134,7 @@ let router = new Router({
           },
           {
             path: '/user/bookcase',
-            name: 'user centre',
+            name: 'bookcase',
             components: {
               aside: sidebar,
               default: bookcase
@@ -170,61 +189,61 @@ let router = new Router({
     name: 'story',
     redirect: '/novel/list',
     component: author_centre_view,
-    children:[{
-      path:'/novel/list',
-      name: 'Novel list',
-      components:{
-        content:author_case,
-        top:top_nav,
-        aside:left_nav
+    children: [{
+      path: '/novel/list',
+      name: 'Novel_list',
+      components: {
+        content: author_case,
+        top: top_nav,
+        aside: left_nav
       },
-      leaf:true,
-      menuShow:false
+      leaf: true,
+      menuShow: false
     },
       {
-      path:'/novel/create',
-      name: 'New novel',
-      components:{
-        content:book_create,
-        top:book_create_header,
-        aside:left_nav
+        path: '/novel/create',
+        name: 'New_novel',
+        components: {
+          content: book_create,
+          top: book_create_header,
+          aside: left_nav
+        },
+        leaf: true,
+        menuShow: false
       },
-      leaf:true,
-      menuShow:false
-    },
       {
-      path:'/novel/chapter',
-      name: 'New novel',
-      components:{
-        content:author_chapter_view,
-        top:book_list_head,
-        aside:left_nav
+        path: '/novel/chapter',
+        name: 'chapter_view',
+        components: {
+          content: author_chapter_view,
+          top: book_list_head,
+          aside: left_nav
+        },
+        leaf: true,
+        menuShow: false
       },
-      leaf:true,
-      menuShow:false
-    },
       {
-      path:'/novel/chapter/create',
-      name: 'New novel',
-      components:{
-        content:author_chapter_create,
-        top:chapter_create_head,
-        aside:left_nav
+        path: '/novel/chapter/create',
+        name: 'New novel',
+        components: {
+          content: author_chapter_create,
+          top: chapter_create_head,
+          aside: left_nav
+        },
+        leaf: true,
+        menuShow: false
       },
-      leaf:true,
-      menuShow:false
-    },
       {
-      path:'/novel/book/setting',
-      name: 'Novel setting',
-      components:{
-        content:author_novel_setting,
-        top:book_setting_head,
-        aside:left_nav
-      },
-      leaf:true,
-      menuShow:false
-    }]
+        path: '/novel/book/setting',
+        name: 'Novel setting',
+        components: {
+          content: author_novel_setting,
+          top: book_setting_head,
+          aside: left_nav
+        },
+        leaf: true,
+        menuShow: false
+      }]
   }, {
     path: '/incomeManagement',
     type: 'income',
