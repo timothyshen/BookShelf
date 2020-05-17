@@ -72,10 +72,12 @@ REST_FRAMEWORK = {
 }
 
 import datetime
+
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
-    'JWT_RESPONSE_PAYLOAD_HANDLER':'users.util.jwt_response_payload_handler'
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.util.jwt_response_payload_handler',
+    'JWT_ALLOW_REFRESH': True,
 }
 # CORS white list the url
 CORS_ORIGIN_WHITELIST = [
@@ -84,7 +86,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://127.0.0.1:8000"
 ]
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True # allow cookie
+CORS_ALLOW_CREDENTIALS = True  # allow cookie
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'frontend/dist')
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
@@ -106,7 +108,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'BookShelf.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -158,6 +159,7 @@ WEBPACK_LOADER = {
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
+DATETIME_FORMAT = '%d-%m-%Y %H:%M:%S'
 
 USE_I18N = True
 

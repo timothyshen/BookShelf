@@ -6,7 +6,6 @@ from django.db import models
 # Create your models here.
 
 
-
 class BookCategory(models.Model):
     # CATEGORY_TYPE = (
     #     (1, "Primary type"),
@@ -40,7 +39,8 @@ class Book(models.Model):
     )
     book_name = models.CharField(default="", max_length=30, verbose_name='Book name', unique=True)
     book_image = models.ImageField(default="", max_length=30, verbose_name='Book image')
-    book_status = models.CharField(choices=BOOK_STATUS, default='Ongoing', verbose_name='Book Status', max_length=150)
+    book_status = models.CharField(choices=BOOK_STATUS, default='Ongoing', verbose_name='Book Status', max_length=150,
+                                   null=True)
     # contract_status = models.BooleanField()
     book_author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                     on_delete=models.SET_NULL,
@@ -78,15 +78,16 @@ class Book(models.Model):
         verbose_name_plural = verbose_name
 
 
-
 class Chapter(models.Model):
     PUBLISH_STATUS = (
         ('Published', u'Published'),
-        ('Unpublished', u'Unpublished')
+        ('Draft', u'Draft'),
+        ('Unpublished', u'Unpublished'),
     )
     chapter_title = models.CharField(verbose_name='Chapter title', default='', max_length=150)
     chapter_body = models.TextField(verbose_name='Chapter text', default='')
     word_count = models.IntegerField(verbose_name='Word count', default=0)
     created_time = models.DateTimeField(verbose_name='Created time', auto_now_add=True, editable=False)
+    last_update = models.DateTimeField(verbose_name='last update', auto_now=True, editable=False)
     publish_status = models.CharField(choices=PUBLISH_STATUS, default='Published', max_length=150)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Chapter', null=True, related_name='Chapter')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='chapter', null=True, related_name='chapter')

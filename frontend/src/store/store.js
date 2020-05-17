@@ -20,14 +20,21 @@ const navItem = {
   topNavState: 'author',
   leftNavState: 'author'
 };
+const token = {
+  jwt: localStorage.getItem('token'),
+  refreshJWT: 'http://127.0.0.1:8000/api/token/update/'
+};
+
 
 for(let item in navItem){
   localStorage.getItem(item) ? navItem[item] = JSON.parse(localStorage.getItem(item)) : false;
 }
 
+
 const state = {
   userInfo,
-  navItem
+  navItem,
+  token
 };
 const store = new Vuex.Store({
   state,

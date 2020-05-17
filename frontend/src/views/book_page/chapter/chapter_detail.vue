@@ -11,10 +11,36 @@
           </el-breadcrumb>
         </div>
         <div class="text_setting">
-          <el-select style="width: 100px"></el-select><!--font-->
-          <el-select style="width: 100px"></el-select><!--background color-->
-          <el-select style="width: 100px"></el-select><!--font-family-->
-          <el-select style="width: 100px"></el-select><!---->
+          <el-select v-model="choices.font_size" style="width: 100px" placeholder="Size">
+            <el-option label="16pt" value="16"/>
+            <el-option label="18pt" value="18"/>
+            <el-option label="20pt" value="20"/>
+            <el-option label="22pt" value="22"/>
+            <el-option label="24pt" value="24"/>
+          </el-select><!--font-->
+          <el-select v-model="choices.background" style="width: 100px" placeholder="Background">
+            <el-option style="background-color: lightyellow" label="lightyellow" value="lightyellow"/>
+            <el-option style="background-color: lightsteelblue" label="lightsteelblue" value="lightsteelblue"/>
+            <el-option style="background-color: lightskyblue" label="lightskyblue" value="lightskyblue"/>
+          </el-select><!--background color-->
+          <el-select v-model="choices.font_family" style="width: 100px" placeholder="Font">
+            <el-option label="Arial" value="Arial ,sans-serif"/>
+            <el-option label="Roboto" value="Roboto ,sans-serif"/>
+            <el-option label="Courier" value="Courier ,sans-serif"/>
+          </el-select><!--font-family-->
+          <el-select v-model="choices.text_color" style="width: 150px" placeholder="Text color">
+              <el-option label="Default" value="#000"/>
+              <el-option label="Purple" value="#9370DB"/>
+              <el-option label="Green" value="#2E8B57"/>
+              <el-option label="DarkSlateGray" value="#2F4F4F"/>
+              <el-option label="Steel blue" value="#778899"/>
+              <el-option label="Maroon" value="#800000"/>
+              <el-option label="Cyan" value="#6A5ACD"/>
+              <el-option label="Rosy brown" value="#BC8F8F"/>
+              <el-option label="Brown" value="#F4A460"/>
+              <el-option label="Beige" value="#F5F5DC"/>
+              <el-option label="White" value="#F5F5F5"/>
+          </el-select><!---->
         </div>
       </div>
       <div class="chapter_info">
@@ -22,7 +48,7 @@
         <div class="button_group">
           <el-button-group>
             <el-button>Previous</el-button>
-            <el-button>Index</el-button>
+            <el-button><router-link :to="{name:'book'}">Index</router-link></el-button>
             <el-button>Next</el-button>
             <el-button>Book Mark</el-button>
           </el-button-group>
@@ -31,7 +57,7 @@
     </header>
     <el-main>
 
-      <p>
+      <p v-bind:style="changeStyle()" class="default_text">
         Lorem ipsum dolor sit amet, pro te suscipit consectetuer. Integre postulant te eum, te iriure option dissentias
         sit. Ne pri magna malis expetendis, duo ei viris decore nusquam. Te sumo conclusionemque qui, in sea aliquid
         delicata. Ad cum clita democritum concludaturque, sed ei dicat causae. Sanctus abhorreant te vix.
@@ -77,7 +103,7 @@
       <div class="button_group">
         <el-button-group>
           <el-button>Previous</el-button>
-          <el-button><router-link to="/home">Index</router-link></el-button>
+          <el-button><router-link :to="{name:'book'}">Index</router-link></el-button>
           <el-button>Next</el-button>
           <el-button>Book Mark</el-button>
         </el-button-group>
@@ -87,14 +113,36 @@
 </template>
 
 <script>
+  import axios from 'axios';
   export default {
     name: "chapter_detail",
     data() {
       return {
         chapter: {
-          type: 'romance',
-          name: 'one'
+
+        },
+        choices:{
+          font_size:'',
+          background:'',
+          font_family:'',
+          text_color:''
         }
+      }
+    },
+    props:{
+      url: String
+    },
+    created() {
+      this.getChapter()
+    },
+    methods:{
+      getChapter(){
+        axios.get(this.$props.url).then((response)=>{
+          console.log(response.data)
+        })
+      },
+      changeStyle(){
+
       }
     }
   }
@@ -142,6 +190,13 @@
           width: 100px;
         }
       }
+    }
+
+    .default_text{
+      font-size: 20px;
+      font-family: Calibri Light,sans-serif;
+      background-color: white;
+      color: black;
     }
   }
 </style>

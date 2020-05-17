@@ -21,7 +21,6 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework.authtoken import views
-# from users.views import UsersListView
 from BookShelf.settings import MEDIA_ROOT
 from books.views import AuthorBookViewSet, AuthorChapterViewSet
 from users.urls import urlpatterns
@@ -31,7 +30,7 @@ router = DefaultRouter()
 #
 router.register(r'bookcase', BookcaseViewSet, base_name='bookcase')
 router.register(r'create', AuthorBookViewSet, base_name='create_book')
-router.register(r'create/<book_id>/chapter', AuthorChapterViewSet, base_name='create_chapter')
+router.register(r'create/(?P<book_id>[^/.]+)/chapter', AuthorChapterViewSet, base_name='create_chapter')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

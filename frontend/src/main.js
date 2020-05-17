@@ -14,8 +14,9 @@ import {faFacebook, faInstagram, faTwitterSquare} from '@fortawesome/free-brands
 import store from "./store/store";
 import '@/assets/css/style.css'
 import './axios/';
-import Axios from 'axios';
-Vue.prototype.$http = Axios;
+import axios from 'axios';
+
+Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 Vue.use(ElementUI, {locale});
 Vue.use(Vuex);
@@ -27,6 +28,9 @@ library.add(faTwitterSquare, faFacebook, faInstagram);
 library.add(faSpinner);
 
 /* eslint-disable no-new */
+
+
+
 new Vue({
   el: '#app',
   router,

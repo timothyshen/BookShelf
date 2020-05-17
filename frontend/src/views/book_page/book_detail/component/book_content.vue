@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="10" class="container_book">
     <el-col :span="6" class="image">
-      <el-image src="#"></el-image>
+      <el-image src="#"/>
     </el-col>
     <el-col :span="18" class="detail">
       <div class="title">
@@ -52,50 +52,26 @@
   import axios from 'axios';
   export default {
     name: "book_content",
+    props:{
+      book_info:{
+        type: Object
+      }
+    },
     data() {
       return {
-        book_info:{
-          book_name:'',
-          author:'',
-          status:'',
-          contracted:'',
-          vip:'',
-          book_image:'',
-          book_short_description: "",
-          book_description: "",
-          total_words: '',
-          chapter_count: '',
-          total_vote: '',
-          weekly_vote: '',
-          total_click: '',
-          fav_num: '',
-        },
-        value: 3.7
+          value: ''
       }
     },
     created() {
-      this.getBook()
+      this.getBookRate()
     },
     methods:{
       toChapter(){
-        this.$router.push('./book/chapter')
+        this.$router.push({name: 'chapter', params:{book_id: this.$props.book_info.book_id, id: '1'}})
       },
-      getBook(){
-        axios.get(`http://127.0.0.1:8000/book/detail/2`).then((response)=>{
-          console.log(response.data);
-          this.book_info.book_name = response.data.book_name;
-          this.book_info.author = response.data.book_author;
-          this.book_info.status = response.data.book_status;
-          this.book_info.book_image = response.data.book_image;
-          this.book_info.book_short_description = response.data.book_short_description;
-          this.book_info.book_description = response.data.book_description;
-          this.book_info.total_words = response.data.total_words;
-          this.book_info.chapter_count = response.data.chapter_count;
-          this.book_info.total_vote = response.data.total_vote;
-          this.book_info.weekly_vote = response.data.weekly_vote;
-          this.book_info.total_click = response.data.total_click;
-          this.book_info.fav_num = response.data.fav_num;
-        })
+      getBookRate(){
+        let book_value = this.$props.book_info;
+        this.value = book_value.value;
       }
     }
   }

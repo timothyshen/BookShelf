@@ -26,6 +26,9 @@
     <el-button class="help_button">
       <i class="el-icon-info"></i><span v-show="!collapsed">Help assistant</span>
     </el-button>
+    <el-button class="help_button" @click="toHome">
+      <i class="el-icon-info"></i><span v-show="!collapsed">Home page</span>
+    </el-button>
   </aside>
 </template>
 
@@ -41,6 +44,9 @@
     methods: {
       collapse: function () {
         this.collapsed = !this.collapsed;
+      },
+      toHome:function () {
+        this.$router.push('/');
       },
       defaultLeftNavOpen() {
         let cur_path = this.$route.path; //get current url path
@@ -101,7 +107,7 @@
     }
 
     .el-menu {
-      height: calc(100% - 80px);
+      height: calc(100% - 150px);
       border-radius: 0px;
       background-color: black;
       border-right: 0px;
@@ -135,9 +141,12 @@
       }
     }
     .help_button{
+      display: block;
+      text-align: center;
       color: white;
       background-color: transparent;
       border: 0;
+      margin:0;
       width: 100%;
       height: 50px;
       &:hover{

@@ -8,8 +8,8 @@ router = DefaultRouter()
 urlpatterns = [
     path('book/', include([
         path('all-category', BookCategoryDetailView.as_view(), name='all-category'),
-        path('detail', BookList.as_view(), name='chapter_create'),
-        path('detail/<int:pk>', BookDetailView.as_view(), name='chapter_create'),
-        path('chpater/<int:book_id>/<int:pk>', ChapterDetailView.as_view(), name='chapter_change')
+        path('detail', BookList.as_view(), name='book-list'),
+        path('detail/<int:pk>', BookDetailView.as_view(), name='book-detail'),
+        path('chapter/<book_id>/<chapter_id>', ChapterDetailView.as_view(),name='chapter-detail'),
     ])),
 ]

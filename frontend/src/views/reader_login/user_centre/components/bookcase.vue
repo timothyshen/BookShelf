@@ -1,23 +1,21 @@
 <template>
-    <el-table
-      type="index"
-      :data="books"
-      style="width: 100%">
-      <el-table-column prop="id" label="ID"/>
-      <el-table-column prop="name" label="Book name"/>
-      <el-table-column prop="new_update" label="Newest update"/>
-      <el-table-column prop="book_mark" label="Book Mark"/>
-      <el-table-column prop="created_time" label="Last update time"/>
-      <el-table-column label="Edit">
+    <el-table :data="books" type="index">
+      <el-table-column
+        type="index"
+        width="50"/>
+      <el-table-column prop="book_name" label="Book Name"/>
+      <el-table-column prop="book_author" label="Book author"/>
+      <el-table-column prop="last_update" label="Last updated"/>
+      <el-table-column prop="book_name" label="Book Name"/>
+      <el-table-column label="Removal">
         <template slot-scope="scope">
           <el-button
             size="mini"
             type="danger"
             @click="delFavFromShelves(scope.$index, scope.row.book_id)"
-            >Remove</el-button>
+          >Remove</el-button>
         </template>
       </el-table-column>
-
     </el-table>
 </template>
 
@@ -28,35 +26,15 @@
      name: "bookcase",
      data(){
           return{
-            books:[
-              {
-                id:'',
-                name:'',
-                new_update:'',
-                book_mark:null,
-                created_time:'',
-                book_id:''
-              }
-            ]
+            books:[]
           }
      },
      created() {
        getBookShelves().then((response)=>{
          console.log(response.data);
-         this.book = response.data;
-         console.log(this.books);
-         let row = 0;
-         this.book.forEach(element => {
-           //console.log(element.id);
-           this.books[row].id = element.id;
-           this.books[row].book_id = element.book.id;
-           this.books[row].name = element.book.book_name;
-           let last_chapter = element.book.Chapter.slice(-1)[0];
-           console.log(last_chapter);
-           this.books[row].new_update = last_chapter.chapter_title;
-           console.log(last_chapter.created_time.split("T")[0]);
-           this.books[row].created_time = last_chapter.created_time.split("T")[0];
-           row++
+         let book = response.data;
+         book.forEach(element =>{
+           this.books.push(element.book)
          })
        }).catch((error)=>{
          console.log(error);

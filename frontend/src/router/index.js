@@ -12,7 +12,6 @@ import home_page from "../views/home_page/home_page";
 import cookie from "../static/cookie/cookie";
 import book_detail from "../views/book_page/book_detail/book_detail";
 import chapter_detail from "../views/book_page/chapter/chapter_detail";
-import chapter_index from "../views/book_page/book_index/chapter_index";
 import author_login from "../views/author_login/author_login";
 import author_register from "../views/author_login/author_register/author_register";
 import bookcase from "../views/reader_login/user_centre/components/bookcase";
@@ -25,7 +24,7 @@ import left_nav from "../views/author_login/author_center/component/left_nav";
 import dashboard from "../views/author_login/author_center/workbench/dashboard";
 import book_create from "../views/author_login/author_center/Book/book_create";
 import author_case from "../views/author_login/author_center/Book/author_case";
-import author_chapter_view from "../views/author_login/author_center/Book/novel/author_chapter_view";
+import author_chapter_list from "../views/author_login/author_center/Book/novel/author_chapter_list";
 import author_chapter_create from "../views/author_login/author_center/Book/novel/author_chapter_create";
 import author_novel_setting from "../views/author_login/author_center/Book/novel/author_novel_setting";
 import book_create_header from "../views/author_login/author_center/Book/novel/component/book_create_header";
@@ -98,19 +97,17 @@ let router = new Router({
           component: home_page
         },
           {
+            // path: 'book/:book_id',
             path: 'book',
             name: 'book',
-            component: book_detail
+            component: book_detail,
+            props:true
           },
           {
-            path: 'book/chapter',
-            name: 'book_index',
-            component: chapter_index
-          },
-          {
-            path: 'book/item',
+            path: 'book/item/:book_id/:id',
             name: 'chapter',
-            component: chapter_detail
+            component: chapter_detail,
+            props:true
           },
         ]
       },
@@ -198,7 +195,8 @@ let router = new Router({
         aside: left_nav
       },
       leaf: true,
-      menuShow: false
+      menuShow: false,
+      props:true
     },
       {
         path: '/novel/create',
@@ -209,21 +207,33 @@ let router = new Router({
           aside: left_nav
         },
         leaf: true,
-        menuShow: false
+        menuShow: false,
+
       },
       {
-        path: '/novel/chapter',
+        path: '/novel/chapter/:book_id',
         name: 'chapter_view',
         components: {
-          content: author_chapter_view,
+          content: author_chapter_list,
           top: book_list_head,
           aside: left_nav
         },
         leaf: true,
-        menuShow: false
+        menuShow: false,
+        props:true
       },
       {
-        path: '/novel/chapter/create',
+        path: '/novel/chapter/:book_id/:chapter_id',
+        name: 'New novel',
+        components: {
+          content: author_chapter_create,
+          top: chapter_create_head,
+          aside: left_nav
+        },
+        leaf: true,
+        menuShow: false
+      },{
+        path: '/novel/chapter/create/:book_id',
         name: 'New novel',
         components: {
           content: author_chapter_create,

@@ -33,7 +33,7 @@
           </el-input>
         </el-col>
         <el-col :span="8">
-          <el-row type="flex" class="row-bg" justify="end" v-if="userInfo.user_id">
+          <el-row type="flex" class="row-bg" justify="end" v-if="userInfo.role === 'reader'">
             <el-col :span="2">
               <el-avatar class="block" :size="small" :src="circleUrl"/>
             </el-col>
@@ -50,6 +50,30 @@
                 <!--logo and nav-->
                 <el-menu-item index="1">
                   <router-link to="/userManager">Bookshelf</router-link>
+                </el-menu-item>
+                <el-menu-item index="2">
+                  [<a @click="signOut()">Sign out</a>]
+                </el-menu-item>
+              </el-menu>
+            </el-col>
+          </el-row>
+          <el-row type="flex" class="row-bg" justify="end" v-else-if="userInfo.role === 'Author'">
+            <el-col :span="2">
+              <el-avatar class="block" :size="small" :src="circleUrl"/>
+            </el-col>
+            <el-col :span="4" class="username_wrap">
+              <p class="username">{{userInfo.name}}</p>
+            </el-col>
+            <el-col :span="10">
+              <el-menu
+                class="navBar"
+                mode="horizontal"
+                background-color="#545454"
+                text-color="#fff"
+                active-text-color="#ffd04b"><!--Save for later -->
+                <!--logo and nav-->
+                <el-menu-item index="1">
+                  <router-link to="/authorManagement">Author Hub</router-link>
                 </el-menu-item>
                 <el-menu-item index="2">
                   [<a @click="signOut()">Sign out</a>]
@@ -109,6 +133,7 @@
         cookie.delCookie('role');
         cookie.delCookie('user_id');
         this.$store.dispatch('setInfo');
+        this.$store.commit('removeToken');
         this.$router.push('/')
       }
     }

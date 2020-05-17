@@ -6,9 +6,7 @@ import store from "../store/store";
 axios.interceptors.request.use(
   config => {
     if (store.state.userInfo.token){
-      console.log(store.state.userInfo.token);
-      let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNSwidXNlcm5hbWUiOiJzaGVuMTIzIiwiZXhwIjoxNTg4MTY2Nzg0LCJlbWFpbCI6InRpbUBzaGVuLmNvbSJ9.BM_EhCM7hGEgr3n9N86bYTGMXOTp2mcGoGzku3zUnu8\n'
-      config.headers.Authorization = `JWT ${token}`;
+      config.headers.Authorization = `JWT ${store.state.userInfo.token}`;
     }
     return config;
   },
@@ -28,6 +26,7 @@ axios.interceptors.response.use(
         console.log('Not logged in');
       case 403:
         console.log('Not authorised');
+        this.$store.dispatch('inspectToken').then(r => console.log(r));
       case 500:
         console.log('Server error');
     }

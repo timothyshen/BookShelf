@@ -21,7 +21,7 @@
           </div>
         </el-form-item>
         <el-form-item class="button_group">
-          <el-button type="primary">Login</el-button>
+          <el-button type="primary" @click="isLogin">Login</el-button>
           <el-button type="primary"><router-link to="author_register">register</router-link></el-button>
 
         </el-form-item>

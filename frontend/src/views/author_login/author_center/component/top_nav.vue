@@ -9,7 +9,8 @@
       <div class="topbar-title">
         <el-row v-show="$store.state.topNavState === 'author'">
           <el-col :span="4">
-            <h2>author</h2>
+
+            <h2 style="color: white; text-align: center;">Author</h2>
           </el-col>
           <el-col :span="20">
             <el-menu :default-active="defaultActiveIndex" mode="horizontal" @select="handleSelect" :router="true">
@@ -39,9 +40,15 @@
         </el-row>
       </div>
       <div class="topbar-account topbar-btn" >
-        <el-dropdown trigger="click" v-show="$store.state.topNavState === 'author'">
+        <el-button v-show="$store.state.topNavState === 'story'">
+          <router-link to="create">
+            <i class="el-icon-plus"></i>
+            Create new book
+          </router-link>
+        </el-button>
+        <el-dropdown trigger="click">
           <span class="el-dropdown-link userinfo-inner">
-            <i class="iconfont icon-user"></i>tim   <i class="el-icon-caret-bottom"></i></span>
+            <i class="iconfont icon-user"></i>{{userInfo.username}}<i class="el-icon-caret-bottom"></i></span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
               <div><span style="color: #555;font-size: 14px;">User Info</span></div>
@@ -52,18 +59,15 @@
             <el-dropdown-item divided>Log out</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-button v-show="$store.state.topNavState === 'story'">
-          <router-link to="create">
-            <i class="el-icon-plus"></i>
-            Create new book
-          </router-link>
-        </el-button>
+
       </div>
     </el-col>
   </el-row>
 </template>
 
 <script>
+  import {mapGetters} from "vuex";
+
   export default {
     name: "top_nav",
     data() {
@@ -72,6 +76,11 @@
         defaultActiveIndex: 'dashboard',
         homeMenu: false,
       }
+    },
+    computed:{
+      ...mapGetters({
+        userInfo:'userInfo'
+      })
     },
     created() {
       this.fetchNavDate();
