@@ -32,14 +32,35 @@ export const deleteBook = (bookId) =>{
 //book related api
 export const getAuthorBook = () => {
   return axios.get(`${host}/create/`,)
-}
+};
 
 export const registerAuthorBook = (params) => {
   return axios.post(`${host}/create/`, params)
 };
-export const getChapterForBook = (id) => {
-  return axios.get(`${host}/create/${id}/chapter`)
+export const getAuthorBookItem = (id) => {
+  return axios.get(`${host}/create/${id}/`)
+};
+export const updateAuthorBookItem = (id, params) => {
+  return axios.patch(`${host}/create/${id}/`, params)
+};
+export const deleteAuthorBookItem = (id) => {
+  return axios.delete(`${host}/create/${id}/`)
+};
+
+
+export const listChapterForBook = (id) => {
+  return axios.get(`${host}/create/${id}/chapter/`)
 };
 export const createChapterForBook = (id, params) => {
-  return axios.post(`${host}/create/${id}/chapter`, params)
+  return axios.post(`${host}/create/${id}/chapter/`, params)
+};
+export const getChapterItemForBook = (id,book_id,params) => {
+  return axios.post(`${host}/create/${id}/chapter/${book_id}/`, params)
+};
+
+export const updateChapterItemForBook = (id, chapter_id,params) => {
+  return axios.patch(`${host}/create/${id}/chapter/${chapter_id}/`, params)
+};
+export const deleteChapterItemForBook = (id, chapter_id) => {
+  return axios.delete(`${host}/create/${id}/chapter/${chapter_id}/`)
 };

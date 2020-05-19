@@ -33,10 +33,10 @@ class ChapterDetailSerializer(serializers.HyperlinkedModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
     book_type = CategorySerializer(read_only=True)
-    chapter = ChapterDetailSerializer(many=True)
+    chapter = ChapterDetailSerializer(many=True, read_only=True)
     book_author = serializers.PrimaryKeyRelatedField(read_only=True, source='book_author.username')
-
 
     class Meta:
         model = Book
         fields = '__all__'
+

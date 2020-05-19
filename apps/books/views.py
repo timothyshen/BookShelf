@@ -72,3 +72,6 @@ class AuthorChapterViewSet(ModelViewSet):
         book_id = self.kwargs['book_id']
         print(book_id)
         return Chapter.objects.filter(book_id=book_id)
+
+    def perform_create(self, serializer):
+        return serializer.save(book_id=self.kwargs['book_id'])

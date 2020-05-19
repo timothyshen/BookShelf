@@ -224,7 +224,7 @@ let router = new Router({
       },
       {
         path: '/novel/chapter/:book_id/:chapter_id',
-        name: 'New novel',
+        name: 'chapter_retrieve',
         components: {
           content: author_chapter_create,
           top: chapter_create_head,
@@ -234,7 +234,7 @@ let router = new Router({
         menuShow: false
       },{
         path: '/novel/chapter/create/:book_id',
-        name: 'New novel',
+        name: 'chapter_create',
         components: {
           content: author_chapter_create,
           top: chapter_create_head,
@@ -245,7 +245,7 @@ let router = new Router({
       },
       {
         path: '/novel/book/setting',
-        name: 'Novel setting',
+        name: 'book_setting',
         components: {
           content: author_novel_setting,
           top: book_setting_head,
