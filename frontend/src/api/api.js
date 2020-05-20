@@ -13,6 +13,10 @@ export const register = (params) => {
 export const getUserDetail = (id) => {
   return axios.get(`${host}/user/${id}`)
 };
+export const updateUserDetail = (id, params) => {
+  return axios.patch(`${host}/user/${id}`, params)
+};
+
 
 export const login = params => {
     return axios.post(`${host}/api/token/`, params)
@@ -33,7 +37,6 @@ export const deleteBook = (bookId) =>{
 export const getAuthorBook = () => {
   return axios.get(`${host}/create/`,)
 };
-
 export const registerAuthorBook = (params) => {
   return axios.post(`${host}/create/`, params)
 };
@@ -54,8 +57,8 @@ export const listChapterForBook = (id) => {
 export const createChapterForBook = (id, params) => {
   return axios.post(`${host}/create/${id}/chapter/`, params)
 };
-export const getChapterItemForBook = (id,book_id,params) => {
-  return axios.post(`${host}/create/${id}/chapter/${book_id}/`, params)
+export const getChapterItemForBook = (book_id,id) => {
+  return axios.get(`${host}/create/${book_id}/chapter/${id}/`)
 };
 
 export const updateChapterItemForBook = (id, chapter_id,params) => {
@@ -64,3 +67,4 @@ export const updateChapterItemForBook = (id, chapter_id,params) => {
 export const deleteChapterItemForBook = (id, chapter_id) => {
   return axios.delete(`${host}/create/${id}/chapter/${chapter_id}/`)
 };
+

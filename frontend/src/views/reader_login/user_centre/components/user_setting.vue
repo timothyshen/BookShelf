@@ -1,49 +1,72 @@
 <template>
   <el-main>
-    <el-form>
+    <el-form v-model="user_info">
       <el-form-item label="Username" prop="username">
-        <el-input type="text" >username</el-input>
-      </el-form-item>
-      <el-form-item label="Password:" prop="password">
         <el-input
-          type="password"
-          show-password>password</el-input>
+          v-model="user_info.username"
+          type="text" >username</el-input>
       </el-form-item>
-      <el-form-item label="Confirm password:" prop="checkPass">
-        <el-input
-          type="password"
-          show-password>password</el-input>
-      </el-form-item>
-      <el-form-item label="Gender:" prop="gender">
-        <el-radio-group >
-          <el-radio label="m">Male</el-radio>
-          <el-radio label="f">Female</el-radio>
+      <el-form-item label="Gender:">
+        <el-radio-group v-model="user_info.profile.gender">
+          <<el-radio label="male">Male</el-radio>
+          <el-radio label="female">Female</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Email:" prop="email">
-        <el-input type="email"/>
+        <el-input type="email" v-model="user_info.email"/>
       </el-form-item>
       <el-form-item label="Date of Birth" prop="birthday">
         <el-date-picker
-
+          v-model="user_info.profile.birthday"
           type="date"
           placeholder="pick a date">
         </el-date-picker>
       </el-form-item>
 
-      <el-button type="primary">Register</el-button>
-      <el-button>Reset</el-button>
+      <el-button type="primary" @click="updateUser">Save</el-button>
+
     </el-form>
   </el-main>
 </template>
 
 <script>
-    export default {
-        name: "user_setting",
-      data:{
-          return() {
+  import {getUserDetail, updateUserDetail} from "../../../../api/api";
 
+  export default {
+      name: "user_setting",
+      computed:{
+          getUserId(){
+            return this.$store.state.userInfo.user_id;
           }
+      },
+      data() {
+        return {
+          user_info:{},
+
+        }
+      },
+    created() {
+      this.getUser()
+    },
+    methods:{
+        getUser(){
+          getUserDetail(this.getUserId).then((response) =>{
+            console.log(response.data);
+            this.user_info = response.data;
+          })
+        },
+        updateUser(){
+          updateUserDetail(this.getUserId,{
+            'username': this.user_info.username,
+            'email': this.user_info.email,
+            "profile": {
+              "gender": this.user_info.profile.gender,
+              "birthday": this.user_info.profile.birthday,
+            }
+          }).then((response)=>{
+            console.log(response.data)
+          })
+        }
       }
     }
 </script>

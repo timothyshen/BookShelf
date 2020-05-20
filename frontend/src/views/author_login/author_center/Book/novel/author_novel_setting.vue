@@ -40,18 +40,37 @@
                   show-word-limit/>
       </el-form-item>
       <el-button @click="updateAuthorBook">Save</el-button>
-      <el-button>Delete</el-button>
+      <el-button @click="centreDialogVisible = true">Delete</el-button>
     </el-form>
+    <el-dialog
+    title="Deletion"
+    :visible.sync="centreDialogVisible"
+    width="30%"
+    center>
+      <p>Do you really want to delete this book?</p>
+      <p>If you want to delete this book please insert the book name: {{book_info.book_name}} below</p>
+      <el-input v-model="deletionWord" />
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="deleteAuthorBook" v-bind:disabled="deletionWord !== this.book_info.book_name">Confirm</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import {getAuthorBookItem, updateAuthorBookItem} from "../../../../../api/api";
+  import {getAuthorBookItem, updateAuthorBookItem, deleteAuthorBookItem} from "../../../../../api/api";
 
   export default {
     name: "author_novel_setting",
     data() {
+      let validateInput = (rule, value, callback) =>{
+        if (value !== this.book_info.book_name){
+
+        }
+        };
       return {
+        centreDialogVisible: false,
+        deletionWord:'',
         imageUrl: '',
         book_info: {},
         new_info:{
@@ -87,6 +106,8 @@
           console.log(response.data);
           console.log('success')
         })
+      },
+      deleteAuthorBook(){
 
       }
     }

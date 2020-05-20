@@ -82,7 +82,7 @@ class Chapter(models.Model):
     PUBLISH_STATUS = (
         ('Published', u'Published'),
         ('Draft', u'Draft'),
-        ('Unpublished', u'Unpublished'),
+        ('Trash', u'Trash'),
     )
     chapter_title = models.CharField(verbose_name='Chapter title', default='', max_length=150)
     chapter_body = models.TextField(verbose_name='Chapter text', default='')

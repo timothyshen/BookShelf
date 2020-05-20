@@ -22,11 +22,11 @@
       <i class="el-icon-setting"/>
       <span slot="title">VIP</span>
     </el-menu-item>
-    <el-menu-item index="setting">
+    <el-menu-item index="security">
       <i class="el-icon-setting"/>
       <span slot="title">Security</span>
     </el-menu-item>
-    <el-menu-item index="6">
+    <el-menu-item index="setting">
       <i class="el-icon-setting"/>
       <span slot="title">Profile</span>
     </el-menu-item>

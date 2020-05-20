@@ -26,13 +26,13 @@ import book_create from "../views/author_login/author_center/Book/book_create";
 import author_case from "../views/author_login/author_center/Book/author_case";
 import author_chapter_list from "../views/author_login/author_center/Book/novel/author_chapter_list";
 import author_chapter_create from "../views/author_login/author_center/Book/novel/author_chapter_create";
+import author_chapter_exist from "../views/author_login/author_center/Book/novel/author_chapter_exist";
 import author_novel_setting from "../views/author_login/author_center/Book/novel/author_novel_setting";
 import book_create_header from "../views/author_login/author_center/Book/novel/component/book_create_header";
 import book_setting_head from "../views/author_login/author_center/Book/novel/component/book_setting_head";
 import chapter_create_head from "../views/author_login/author_center/Book/novel/component/chapter_create_head";
 import book_list_head from "../views/author_login/author_center/Book/novel/component/book_list_head";
-import store from "../store/store";
-import book_index from "../views/book_page/book_detail/component/book_index";
+
 
 Vue.use(Router);
 
@@ -226,7 +226,7 @@ let router = new Router({
         path: '/novel/chapter/:book_id/:chapter_id',
         name: 'chapter_retrieve',
         components: {
-          content: author_chapter_create,
+          content: author_chapter_exist,
           top: chapter_create_head,
           aside: left_nav
         },

@@ -33,9 +33,9 @@
           </el-input>
         </el-col>
         <el-col :span="8">
-          <el-row type="flex" class="row-bg" justify="end" v-if="userInfo.role === 'reader'">
+          <el-row type="flex" class="row-bg" justify="end" v-if="userInfo.role === 'Reader'">
             <el-col :span="2">
-              <el-avatar class="block" :size="small" :src="circleUrl"/>
+              <el-avatar class="block"  :src="circleUrl"/>
             </el-col>
             <el-col :span="4" class="username_wrap">
               <p class="username">{{userInfo.name}}</p>
@@ -59,7 +59,7 @@
           </el-row>
           <el-row type="flex" class="row-bg" justify="end" v-else-if="userInfo.role === 'Author'">
             <el-col :span="2">
-              <el-avatar class="block" :size="small" :src="circleUrl"/>
+              <el-avatar class="block" :src="circleUrl"/>
             </el-col>
             <el-col :span="4" class="username_wrap">
               <p class="username">{{userInfo.name}}</p>
