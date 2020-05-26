@@ -1,4 +1,5 @@
 from django.db.models import F
+from django.db.models.functions import Coalesce
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView, ListAPIView,
                                      RetrieveAPIView)
@@ -9,7 +10,7 @@ from utils.permissions import IsAuthorPermission
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-
+from django.db.models import Sum
 from .serializers import *
 
 
@@ -27,21 +28,23 @@ class ChapterCreate(ListCreateAPIView):
 
 
 class BookCategoryDetailView(ListCreateAPIView, RetrieveModelMixin):
-    queryset = BookCategory.objects.all()
+    queryset = BookCategory.objects.annotate(total_number=Count('books'))
     serializer_class = CategorySerializer
 
 
 class BookDetailView(RetrieveAPIView):
-    queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-    # def retrieve(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     Book.objects.filter(pk=instance.id).update(total_click=F('total_click') + 1)
-    #     chapter_count = Chapter.objects.filter(book=instance.id).count()
-    #     Book.objects.filter(pk=instance.id).update(chapter_count=chapter_count)
-    #     serializer = self.get_serializer(instance)
-    #     return Response(serializer.data)
+    def get_queryset(self):
+        queryset1 = Book.objects.annotate(chapter_count=Count('chapter'),
+                                          total_words=Sum(Coalesce(F('chapter__word_count'), 0)))
+        return queryset1
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        Book.objects.filter(pk=instance.id).update(total_click=F('total_click') + 1)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 class ChapterDetailView(RetrieveAPIView):

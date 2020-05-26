@@ -7,7 +7,9 @@ let host = 'http://127.0.0.1:8000';
 
 //user related api
 export const register = (params) => {
-    return axios.post(`${host}/user`, params)
+    return axios.post(`${host}/user`, params, {headers:{
+    'Content-type':'multipart/form-data',
+  }})
 };
 
 export const getUserDetail = (id) => {
@@ -49,6 +51,10 @@ export const updateAuthorBookItem = (id, params) => {
 export const deleteAuthorBookItem = (id) => {
   return axios.delete(`${host}/create/${id}/`)
 };
+
+export const getBookCategory = () =>{
+  return axios.get(`${host}/book/all-category`)
+}
 
 
 export const listChapterForBook = (id) => {

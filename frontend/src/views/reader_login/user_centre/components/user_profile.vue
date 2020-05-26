@@ -2,7 +2,7 @@
   <div class="user_profile_background">
     <div class="icon_row">
       <div class="image_name">
-        <el-avatar class="user_icon" type="circle"/>
+        <el-avatar class="user_icon" type="circle" :src="userInfo.profile.icon"/>
       </div>
       <div class="username_tab">
         <h2 class="username">{{userInfo.username}}</h2>
@@ -25,14 +25,7 @@
     name: "user_profile_component",
     data() {
       return {
-        userInfo: {
-          username: '',
-          password: '',
-          gender: '',
-          birthday: '',
-          email: '',
-          avatar: '',
-        },
+        userInfo: {},
       }
     },
     created() {

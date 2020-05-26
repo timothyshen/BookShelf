@@ -19,7 +19,7 @@ User = get_user_model()
 
 class UserCreate(ListCreateAPIView):
     """
-    User fatch and creation
+    User fetch and creation
     get:
         user
     """
@@ -48,6 +48,7 @@ class UserDetailView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserDetailSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
 
 
 

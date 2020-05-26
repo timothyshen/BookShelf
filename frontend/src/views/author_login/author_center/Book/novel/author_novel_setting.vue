@@ -8,22 +8,13 @@
         <el-input type="text" v-model="book_info.book_name"/>
       </el-form-item>
       <el-form-item label="Book style">
-        <el-select>
-          <el-option label="History"/>
-          <el-option label="Romance"/>
+        <el-select  v-model="book_info.book_type">
+          <el-option
+            v-for="(element,index) in category_type"
+            :key="element.id"
+            :label="element.category_name"
+            :value="element.id"/>
         </el-select>
-      </el-form-item>
-      <el-form-item label="Book image">
-        <el-upload
-          v-model="book_info.book_image"
-          :before-upload="beforeAvatarUpload"
-          :on-success="handleAvatarSuccess"
-          :show-file-list="false"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          class="avatar-uploader">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="user_icon">
-          <i v-else class="el-icon-plus avatar-uploader-icon"/>
-        </el-upload>
       </el-form-item>
       <el-form-item label="Short description">
         <el-input type="textarea"
@@ -58,22 +49,20 @@
 </template>
 
 <script>
-  import {getAuthorBookItem, updateAuthorBookItem, deleteAuthorBookItem} from "../../../../../api/api";
+  import {getBookCategory, getAuthorBookItem, updateAuthorBookItem, deleteAuthorBookItem} from "../../../../../api/api";
 
   export default {
     name: "author_novel_setting",
     data() {
-      let validateInput = (rule, value, callback) =>{
-        if (value !== this.book_info.book_name){
 
-        }
-        };
       return {
         centreDialogVisible: false,
         deletionWord:'',
         imageUrl: '',
         book_info: {},
+        category_type:[],
         new_info:{
+          book_type:'',
           book_name:'',
           book_short:'',
           book_long:''
@@ -87,8 +76,15 @@
     },
     created() {
       this.getAuthorBook();
+      this.getCategory();
     },
     methods: {
+      getCategory() {
+        getBookCategory().then((response) => {
+          this.category_type = response.data;
+          console.log(response.data)
+        })
+      },
       getAuthorBook(){
         // console.log(this.bookId);
         getAuthorBookItem(this.bookId).then((response) => {
@@ -99,6 +95,7 @@
       updateAuthorBook(){
         console.log(this.book_info);
         updateAuthorBookItem(this.bookId,{
+          'book_type': this.book_info.book_type,
           'book_name': this.book_info.book_name,
           'book_short_description': this.book_info.book_short_description,
           'book_description': this.book_info.book_description

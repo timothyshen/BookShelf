@@ -37,16 +37,16 @@
             placeholder="pick a date">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="Avatar" prop="avatar">
+        <el-form-item label="Avatar">
           <el-upload
-            v-model="registerForm.profile.avatar"
-            :before-upload="beforeAvatarUpload"
+            class="avatar-uploader"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :http-request="uploadImage"
             :on-success="handleAvatarSuccess"
             :show-file-list="false"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            class="avatar-uploader">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="user_icon">
-            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+            :before-upload="beforeAvatarUpload">
+            <img v-if="this.imageUrl" :src="this.imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
         <el-button type="primary" @click="isRegister">Register</el-button>
@@ -82,6 +82,7 @@
       return {
         labelPosition: 'left',
         imageUrl: '',
+        formData:'',
         registerForm: {
           username: '',
           password: '',
@@ -90,8 +91,7 @@
           profile: {
             gender: '',
             birthday: '',
-
-            avatar: '',
+            avatar:{},
             role: 'Reader'
           }
         },
@@ -110,19 +110,24 @@
       }
     },
     methods: {
+      uploadImage(item){
+        console.log(item.file);
+        this.formData = new FormData();
+        this.formData.append('profile.birthday', this.registerForm.profile.birthday);
+        this.formData.append('profile.gender', this.registerForm.profile.gender);
+        this.formData.append('profile.role', this.registerForm.profile.role);
+        this.formData.append('profile.icon', item.file);
+        this.formData.append('username', this.registerForm.username);
+        this.formData.append('password', this.registerForm.password);
+        this.formData.append('email', this.registerForm.email);
+        console.log(...this.formData);
+
+      },
       isRegister() {
         let that = this;
-        register({
-          "username": that.registerForm.username,
-          "password": that.registerForm.password,
-          "email": that.registerForm.email,
-          "profile": {
-            "gender": that.registerForm.profile.gender,
-            "birthday": that.registerForm.profile.birthday,
-            "icon": null,
-            "role": that.registerForm.profile.role
-          }
-        }).then((response) => {
+        register(
+          this.formData
+        ).then((response) => {
           cookie.setCookie('user_id', response.data.user_id, 7);
           cookie.setCookie('name', response.data.name, 7);
           cookie.setCookie('token', response.data.token, 7);
@@ -136,8 +141,13 @@
           that.error.password = error.password ? error.password[0] : '';
         });
       },
+      resetForm(formName) {
+        this.$nextTick(() => {
+          this.$refs[formName].resetFields();
+        })
+      },
       handleAvatarSuccess(res, file) {
-        this.imageURL = URL.createObjectURL(file.raw);
+        this.imageUrl = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -150,11 +160,7 @@
         }
         return isJPG && isLt2M;
       },
-      resetForm(formName) {
-        this.$nextTick(() => {
-          this.$refs[formName].resetFields();
-        })
-      }
+
     }
   }
 </script>

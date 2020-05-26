@@ -30,4 +30,5 @@ class BooksAdmin(admin.ModelAdmin):
     # inlines = [GoodsImagesInline]
     pass
 
+
 admin.site.register(BookCategory)

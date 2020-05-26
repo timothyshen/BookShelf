@@ -32,7 +32,8 @@ import book_create_header from "../views/author_login/author_center/Book/novel/c
 import book_setting_head from "../views/author_login/author_center/Book/novel/component/book_setting_head";
 import chapter_create_head from "../views/author_login/author_center/Book/novel/component/chapter_create_head";
 import book_list_head from "../views/author_login/author_center/Book/novel/component/book_list_head";
-
+import author_setting from "../views/author_login/author_center/author_info/author_setting";
+import author_setting_header from "../views/author_login/author_center/author_info/author_setting_header";
 
 Vue.use(Router);
 
@@ -192,6 +193,17 @@ let router = new Router({
       components: {
         content: author_case,
         top: top_nav,
+        aside: left_nav
+      },
+      leaf: true,
+      menuShow: false,
+      props:true
+    },{
+      path: '/author/setting',
+      name: 'author_setting',
+      components: {
+        content: author_setting,
+        top: author_setting_header,
         aside: left_nav
       },
       leaf: true,

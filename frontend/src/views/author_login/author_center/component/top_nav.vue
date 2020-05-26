@@ -48,15 +48,17 @@
         </el-button>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link userinfo-inner">
-            <i class="iconfont icon-user"></i>{{userInfo.username}}<i class="el-icon-caret-bottom"></i></span>
+            <i class="iconfont icon-user"></i>{{userInfo.name}}<i class="el-icon-caret-bottom"></i></span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <div><span style="color: #555;font-size: 14px;">User Info</span></div>
+              <div><span style="color: #555;font-size: 14px;">
+                <router-link to="/author/setting">
+                  Setting
+                </router-link></span></div>
             </el-dropdown-item>
-            <el-dropdown-item>
-              <div><span style="color: #555;font-size: 14px;">Setting</span></div>
+            <el-dropdown-item divided >
+              <a @click="signOut">Log Out</a>
             </el-dropdown-item>
-            <el-dropdown-item divided>Log out</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
 
@@ -67,6 +69,7 @@
 
 <script>
   import {mapGetters} from "vuex";
+  import cookie from "../../../../static/cookie/cookie";
 
   export default {
     name: "top_nav",
@@ -123,6 +126,15 @@
         } else {
           this.defaultActiveIndex = "/" + nav_name + "Manager";
         }
+      },
+      signOut() {
+        cookie.delCookie('token');
+        cookie.delCookie('name');
+        cookie.delCookie('role');
+        cookie.delCookie('user_id');
+        this.$store.dispatch('setInfo');
+        this.$store.commit('removeToken');
+        this.$router.push('/')
       }
     },
     watch: {

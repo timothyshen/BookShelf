@@ -6,15 +6,10 @@
 </template>
 
 <script>
-  import sidebar from "./components/sidebar";
-  import user_profile_component from "./components/user_profile";
-  import msg_table from "./components/msg_table";
-  import exp_table from "./components/exp_table";
-  import bookcase from "./components/bookcase";
+
 
   export default {
     name: "user_center",
-    components: {sidebar, user_profile_component, msg_table, exp_table, bookcase},
     data() {
       return {
         tabPosition: 'left',

@@ -45,7 +45,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         profile = validated_data.pop('profile', None)
-        user = User.objects.create(**validated_data)
+        user = super().create(validated_data)
+        profile['user'] = user
         if profile is not None:
-            Profile.objects.create(user=user, **profile)
+            Profile.objects.create(**profile)
         return user

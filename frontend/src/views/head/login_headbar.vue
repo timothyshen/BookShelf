@@ -52,7 +52,7 @@
                   <router-link to="/userManager">Bookshelf</router-link>
                 </el-menu-item>
                 <el-menu-item index="2">
-                  [<a @click="signOut()">Sign out</a>]
+                  [<a @click="signOut">Sign out</a>]
                 </el-menu-item>
               </el-menu>
             </el-col>
@@ -76,7 +76,7 @@
                   <router-link to="/authorManagement">Author Hub</router-link>
                 </el-menu-item>
                 <el-menu-item index="2">
-                  [<a @click="signOut()">Sign out</a>]
+                  [<a @click="signOut">Sign out</a>]
                 </el-menu-item>
               </el-menu>
             </el-col>
