@@ -29,7 +29,9 @@ class BookCategory(models.Model):
         return self.category_name
 
 
-# TODO add django-tinymce
+def image_upload_path(instance, fileanme):
+    return settings.MEDIA_ROOT + '/book/%Y/%m/{0}/{1}'.format(instance.book_name, fileanme)
+
 
 class Book(models.Model):
     BOOK_STATUS = (
@@ -37,7 +39,7 @@ class Book(models.Model):
         ('Completed', u'Completed')
     )
     book_name = models.CharField(default="", max_length=30, verbose_name='Book name', unique=True)
-    book_image = models.ImageField(default="", max_length=30, verbose_name='Book image')
+    book_image = models.ImageField(default=u"media/image/default.png", max_length=1000, verbose_name='Book image', upload_to=image_upload_path,)
     book_status = models.CharField(choices=BOOK_STATUS, default='Ongoing', verbose_name='Book Status', max_length=150,
                                    null=True)
     # contract_status = models.BooleanField()
@@ -61,9 +63,7 @@ class Book(models.Model):
     added_time = models.DateTimeField(verbose_name='Added time', auto_now_add=True, editable=False)
     last_update = models.DateTimeField(verbose_name='last update', auto_now=True, editable=False)
 
-    def get_chapter_number(self):
-        chapter_count = Chapter.objects.filter(self.id).count()
-        return chapter_count
+
 
     def get_book_name(self):
         return self.book_name

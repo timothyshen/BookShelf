@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="10" class="container_book">
     <el-col :span="6" class="image">
-      <el-image src="#"/>
+      <el-image :src="book_info.book_image"/>
     </el-col>
     <el-col :span="18" class="detail">
       <div class="title">

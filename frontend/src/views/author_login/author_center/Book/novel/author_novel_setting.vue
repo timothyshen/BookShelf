@@ -30,6 +30,23 @@
                   maxlength="200"
                   show-word-limit/>
       </el-form-item>
+      <el-form-item label="Avatar">
+        <el-upload
+          class="avatar-uploader"
+          action="cdn"
+          :file-list="fileList"
+          list-type="picture-card"
+          :http-request="uploadImage"
+          :on-preview="handlePictureCardPreview"
+          :on-exceed="handleExceed"
+          :limit="1">
+          <i class="el-icon-plus avatar-uploader-icon"/>
+        </el-upload>
+        <p v-if="alertVisible">You can only upload one image for your icon</p>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+      </el-form-item>
       <el-button @click="updateAuthorBook">Save</el-button>
       <el-button @click="centreDialogVisible = true">Delete</el-button>
     </el-form>
@@ -50,7 +67,7 @@
 
 <script>
   import {getBookCategory, getAuthorBookItem, updateAuthorBookItem, deleteAuthorBookItem} from "../../../../../api/api";
-
+  import axios from 'axios';
   export default {
     name: "author_novel_setting",
     data() {
@@ -58,15 +75,17 @@
       return {
         centreDialogVisible: false,
         deletionWord:'',
-        imageUrl: '',
         book_info: {},
+        old_info:{
+          book_name:''
+        },
         category_type:[],
-        new_info:{
-          book_type:'',
-          book_name:'',
-          book_short:'',
-          book_long:''
-        }
+        formData: {},
+        fileList:[],
+        dialogImageUrl:"",
+        dialogVisible: false,
+        disabled: false,
+        alertVisible: false
       }
     },
     computed:{
@@ -89,23 +108,46 @@
         // console.log(this.bookId);
         getAuthorBookItem(this.bookId).then((response) => {
           console.log(response.data);
-          this.book_info = response.data
+          this.book_info = response.data;
+          this.fileList.push({name:'book_cover', url:response.data.book_image});
         });
       },
+      uploadImage(item){
+        console.log(item.file);
+        this.formData = new FormData();
+        this.formData.append('book_image', item.file);
+        console.log(...this.formData);
+
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleExceed(file, fileList){
+        this.alertVisible = true
+      },
       updateAuthorBook(){
-        console.log(this.book_info);
-        updateAuthorBookItem(this.bookId,{
-          'book_type': this.book_info.book_type,
+        axios.all(
+          [updateAuthorBookItem(this.bookId,this.formData, {headers:{
+            'Content-type':'multipart/form-data',
+          }}),
+            updateAuthorBookItem(this.bookId,  {
+          'book_type': this.book_info.book_type.id,
           'book_name': this.book_info.book_name,
           'book_short_description': this.book_info.book_short_description,
           'book_description': this.book_info.book_description
-        }).then((response)=>{
-          console.log(response.data);
-          console.log('success')
-        })
+        })]).then((response)=>{
+          console.log(response);
+          this.$router.push('/novel/chapter/'+this.bookId);
+        }).catch(err=>{
+          console.log(err)
+        });
       },
       deleteAuthorBook(){
-
+        deleteAuthorBookItem(this.bookId)
       }
     }
   }

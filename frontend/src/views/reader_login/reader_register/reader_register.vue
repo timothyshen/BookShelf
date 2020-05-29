@@ -113,18 +113,17 @@
       uploadImage(item){
         console.log(item.file);
         this.formData = new FormData();
-        this.formData.append('profile.birthday', this.registerForm.profile.birthday);
-        this.formData.append('profile.gender', this.registerForm.profile.gender);
-        this.formData.append('profile.role', this.registerForm.profile.role);
         this.formData.append('profile.icon', item.file);
-        this.formData.append('username', this.registerForm.username);
-        this.formData.append('password', this.registerForm.password);
-        this.formData.append('email', this.registerForm.email);
         console.log(...this.formData);
-
       },
       isRegister() {
         let that = this;
+        this.formData.append('profile.birthday', this.registerForm.profile.birthday);
+        this.formData.append('profile.gender', this.registerForm.profile.gender);
+        this.formData.append('profile.role', this.registerForm.profile.role);
+        this.formData.append('username', this.registerForm.username);
+        this.formData.append('password', this.registerForm.password);
+        this.formData.append('email', this.registerForm.email);
         register(
           this.formData
         ).then((response) => {

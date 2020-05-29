@@ -4,6 +4,8 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView, ListAPIView,
                                      RetrieveAPIView)
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework.response import Response
+from rest_framework import status
 from django.db.models import Count
 from rest_framework.decorators import action
 from utils.permissions import IsAuthorPermission
@@ -58,6 +60,20 @@ class AuthorBookViewSet(ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     serializer_class = BookSerializer
     permission_classes = (IsAuthorPermission,)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response({"status": True}, status=status.HTTP_201_CREATED)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.id = kwargs.get('pk')
+        serializer = self.get_serializer(instance=instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response({"status": True}, status=status.HTTP_201_CREATED)
 
     def perform_create(self, serializer):
         return serializer.save(book_author=self.request.user)

@@ -16,7 +16,9 @@ export const getUserDetail = (id) => {
   return axios.get(`${host}/user/${id}`)
 };
 export const updateUserDetail = (id, params) => {
-  return axios.patch(`${host}/user/${id}`, params)
+  return axios.patch(`${host}/user/${id}`, params, {headers:{
+      'Content-type':'multipart/form-data',
+    }})
 };
 
 

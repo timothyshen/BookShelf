@@ -1,17 +1,12 @@
-from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, )
 from django.contrib.auth import get_user_model
-from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
-from rest_framework import permissions
-from rest_framework import authentication
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.exceptions import ValidationError
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.response import Response
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-
 from rest_framework_jwt.serializers import jwt_encode_handler, jwt_payload_handler
-from .models import Profile
+
 from .serializers import *
 
 User = get_user_model()
@@ -47,8 +42,16 @@ class UserCreate(ListCreateAPIView):
 class UserDetailView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserDetailSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
 
-
-
-
+    def update(self, request, *args, **kwargs):
+        try:
+            partial= True
+            instance = self.get_object()
+            instance.id = kwargs.get('pk')
+            serializer = self.get_serializer(instance=instance, data=request.data, partial=partial)
+            if serializer.is_valid(raise_exception=True):
+                self.perform_update(serializer)
+                return Response({"status": True}, status=status.HTTP_201_CREATED)
+        except ValidationError as err:
+            return Response({"status": False, "error_description": err.detail}, status=status.HTTP_400_BAD_REQUEST)

@@ -46,7 +46,7 @@
       },
       methods:{
         getChapter(){
-          axios.get(`http://127.0.0.1:8000/book/detail/2`).then((response) => {
+          axios.get(`http://127.0.0.1:8000/book/detail/9`).then((response) => {
             console.log(response.data)
             this.book_info.book_id = response.data.id;
             this.book_info.book_name = response.data.book_name;

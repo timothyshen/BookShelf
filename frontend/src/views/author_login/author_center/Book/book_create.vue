@@ -8,25 +8,30 @@
         <el-input type="text" v-model="book_info.book_name"/>
       </el-form-item>
       <el-form-item label="Book style">
-        <el-select  v-model="book_info.book_type">
+        <el-select v-model="book_info.book_type">
           <el-option
-          v-for="(element,index) in book_type"
-          :key="element.id"
-          :label="element.category_name"
-          :value="element.category_name"/>
+            v-for="(element,index) in book_type"
+            :key="element.id"
+            :label="element.category_name"
+            :value="element.id"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="Book image">
+      <el-form-item label="Book cover">
         <el-upload
-          v-model="book_info.book_image"
-          :before-upload="beforeAvatarUpload"
-          :on-success="handleAvatarSuccess"
-          :show-file-list="false"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          class="avatar-uploader">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="user_icon">
-          <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          class="avatar-uploader"
+          action="cdn"
+          :file-list="fileList"
+          list-type="picture-card"
+          :http-request="uploadImage"
+          :on-preview="handlePictureCardPreview"
+          :on-exceed="handleExceed"
+          :limit="1">
+          <i class="el-icon-plus avatar-uploader-icon"/>
         </el-upload>
+        <p v-if="alertVisible">You can only upload one image for your icon</p>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
       </el-form-item>
       <el-form-item label="Short description">
         <el-input type="textarea"
@@ -48,7 +53,7 @@
 </template>
 
 <script>
-  import {getBookCategory, registerAuthorBook} from "../../../../api/api";
+  import {getBookCategory, registerAuthorBook, updateUserDetail} from "../../../../api/api";
 
   export default {
     name: "book_create",
@@ -57,27 +62,51 @@
         imageUrl: '',
         book_info: {
           book_name: '',
-          book_type:'',
+          book_type: '',
           book_short: '',
           book_long: '',
           book_image: null
         },
-        book_type:[]
+        book_type: [],
+        formData: {},
+        fileList: [],
+        dialogImageUrl: "",
+        dialogVisible: false,
+        disabled: false,
+        alertVisible: false,
+        addImage:true
       }
     },
     created() {
       this.getCategory()
     },
     methods: {
+      uploadImage(item) {
+        console.log(item.file);
+        this.formData = new FormData();
+        this.formData.append('book_image', item.file);
+        console.log(...this.formData);
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleExceed(file, fileList) {
+        this.alertVisible = true
+      },
       createBook() {
-        registerAuthorBook({
-          "book_name": this.book_info.book_name,
-          "book_type": this.book_info.book_type,
-          "book_image": this.book_info.book_image,
-          "book_short_description": this.book_info.book_short,
-          "book_description": this.book_info.book_long
-        }).then((response) => {
+        this.formData.append('book_name', this.book_info.book_name);
+        this.formData.append('book_type', this.book_info.book_type);
+        this.formData.append('book_short_description', this.book_info.book_short);
+        this.formData.append('book_description', this.book_info.book_long);
+        registerAuthorBook(this.formData, {headers:{
+            'Content-type':'multipart/form-data',
+          }}).then((response) => {
           console.log(response.data)
+          this.$router.go(-1);
         })
       },
       getCategory() {
@@ -85,20 +114,6 @@
           this.book_type = response.data;
           console.log(response.data)
         })
-      },
-      handleAvatarSuccess(res, file) {
-        this.imageURL = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isJPG) {
-          this.$message.error('The picture should be a JPEG file');
-        }
-        if (!isLt2M) {
-          this.$message.error('The picture size should be less than 2MB!');
-        }
-        return isJPG && isLt2M;
       },
       resetForm(formName) {
         this.$nextTick(() => {
