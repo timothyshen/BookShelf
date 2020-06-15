@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'users',
     'corsheaders',
     'rest_framework_jwt',
-    'bookshelves'
+    'bookshelves',
+    'site_operation'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -67,7 +68,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 import datetime

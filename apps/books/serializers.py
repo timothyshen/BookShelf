@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from users.serializers import UserDetailSerializer
 from .models import Book, BookCategory, Chapter
 from .filters import CustomerHyperlink
 

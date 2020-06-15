@@ -1,18 +1,17 @@
-from django.db.models import F
-from django.db.models.functions import Coalesce
-from rest_framework.authentication import SessionAuthentication
-from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView, ListAPIView,
-                                     RetrieveAPIView)
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
-from rest_framework.response import Response
-from rest_framework import status
 from django.db.models import Count
-from rest_framework.decorators import action
-from utils.permissions import IsAuthorPermission
+from django.db.models import F
+from django.db.models import Sum
+from django.db.models.functions import Coalesce
+from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.generics import (ListCreateAPIView, ListAPIView,
+                                     RetrieveAPIView)
+from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from django.db.models import Sum
+
+from utils.permissions import IsAuthorPermission
 from .serializers import *
 
 
@@ -94,3 +93,11 @@ class AuthorChapterViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         return serializer.save(book_id=self.kwargs['book_id'])
+
+
+class TopBookValueViewSet(ListAPIView):
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+        requestItem = self.kwargs.get('request_item', None)
+        return Book.objects.annotate(Count(requestItem)).order_by('-' + requestItem)[:10]

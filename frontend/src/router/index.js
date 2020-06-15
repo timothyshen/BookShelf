@@ -98,8 +98,7 @@ let router = new Router({
           component: home_page
         },
           {
-            // path: 'book/:book_id',
-            path: 'book',
+            path: 'book/:book_id',
             name: 'book',
             component: book_detail,
             props:true

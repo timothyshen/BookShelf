@@ -14,6 +14,6 @@
  #home{
 
    margin:100px auto;
-   width: 960px;
+   width: 1440px;
  }
 </style>

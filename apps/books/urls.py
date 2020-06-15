@@ -11,5 +11,6 @@ urlpatterns = [
         path('detail', BookList.as_view(), name='book-list'),
         path('detail/<int:pk>', BookDetailView.as_view(), name='book-detail'),
         path('chapter/<book_id>/<chapter_id>', ChapterDetailView.as_view(),name='chapter-detail'),
+        path('<request_item>', TopBookValueViewSet.as_view(), name='ranking-detail')
     ])),
 ]

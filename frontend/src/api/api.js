@@ -76,3 +76,20 @@ export const deleteChapterItemForBook = (id, chapter_id) => {
   return axios.delete(`${host}/create/${id}/chapter/${chapter_id}/`)
 };
 
+//Home page render
+
+export const rankingBoardBooks = (variableName) =>{
+  return axios.get(`${host}/book/${variableName}`)
+};
+export const indexLinkRender = () =>{
+  return axios.get(`${host}/index_link`)
+};
+export const indexImageRender = () => {
+  return axios.get(`${host}/index_image`)
+};
+
+//book detail page
+
+export const getBookItemView = (book_id) => {
+  return axios.get(`${host}/book/detail/${book_id}`)
+};

@@ -10,8 +10,9 @@
 <script>
   import book_content from "./component/book_content";
   import book_index from "./component/book_index";
-  import axios from "axios";
-    export default {
+  import {getBookItemView} from "../../../api/api";
+
+  export default {
       name: "book_detail",
       components:{book_content, book_index},
       data() {
@@ -46,8 +47,8 @@
       },
       methods:{
         getChapter(){
-          axios.get(`http://127.0.0.1:8000/book/detail/9`).then((response) => {
-            console.log(response.data)
+          getBookItemView(this.$route.params.book_id).then((response) => {
+            console.log(response.data);
             this.book_info.book_id = response.data.id;
             this.book_info.book_name = response.data.book_name;
             this.book_info.author = response.data.book_author;
