@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="3" class="username_wrap">
           <router-link to="/">
-            <el-image :src="src"></el-image>
+            <el-image :src="src"/>
           </router-link>
         </el-col>
         <el-col :span="6">
@@ -19,7 +19,9 @@
             <el-menu-item index="1">
               <router-link to="/">Home</router-link>
             </el-menu-item>
-            <el-menu-item index="2">Creator</el-menu-item>
+            <el-menu-item index="2">
+              <router-link to="author_login">Creator</router-link>
+            </el-menu-item>
             <el-menu-item index="3">Completed</el-menu-item>
             <el-menu-item index="4">Library</el-menu-item>
           </el-menu>
@@ -35,7 +37,7 @@
         <el-col :span="8">
           <el-row type="flex" class="row-bg" justify="end" v-if="userInfo.role === 'Reader'">
             <el-col :span="2">
-              <el-avatar class="block"  :src="circleUrl"/>
+              <el-avatar class="block" :src="circleUrl"/>
             </el-col>
             <el-col :span="4" class="username_wrap">
               <p class="username">{{userInfo.name}}</p>
@@ -109,8 +111,6 @@
 <script>
   import {mapGetters} from 'vuex';
   import cookie from "../../static/cookie/cookie";
-  import {getUserDetail} from "../../api/api";
-  import store from "../../store/store";
 
   export default {
     name: "login_headbar",

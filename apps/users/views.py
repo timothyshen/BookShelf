@@ -15,8 +15,10 @@ User = get_user_model()
 class UserCreate(ListCreateAPIView):
     """
     User fetch and creation
-    get:
-        user
+    list:
+        get all users
+    create:
+        create new users
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -46,7 +48,7 @@ class UserDetailView(RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         try:
-            partial= True
+            partial = True
             instance = self.get_object()
             instance.id = kwargs.get('pk')
             serializer = self.get_serializer(instance=instance, data=request.data, partial=partial)

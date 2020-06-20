@@ -9,6 +9,7 @@
       </el-form-item>
       <el-form-item label="Gender:">
         <el-radio-group v-model="user_info.profile.gender">
+          <
           <el-radio label="male">Male</el-radio>
           <el-radio label="female">Female</el-radio>
         </el-radio-group>
@@ -23,6 +24,23 @@
           placeholder="pick a date">
         </el-date-picker>
       </el-form-item>
+      <el-form-item label="Avatar">
+        <el-upload
+          class="avatar-uploader"
+          action="cdn"
+          :file-list="fileList"
+          list-type="picture-card"
+          :http-request="uploadImage"
+          :on-preview="handlePictureCardPreview"
+          :on-exceed="handleExceed"
+          :limit="1">
+          <i class="el-icon-plus avatar-uploader-icon"/>
+        </el-upload>
+        <p v-if="alertVisible">You can only upload one image for your icon</p>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+      </el-form-item>
       <el-button type="primary" @click="updateUser">Save</el-button>
     </el-form>
   </el-main>
@@ -30,41 +48,73 @@
 
 <script>
   import {getUserDetail, updateUserDetail} from "../../../../api/api";
+  import axios from "axios";
 
   export default {
     name: "author_setting",
-    computed:{
-      getUserId(){
+    computed: {
+      getUserId() {
         return this.$store.state.userInfo.user_id;
       }
     },
     data() {
       return {
-        user_info:{},
-
+        user_info: {},
+        formData: {},
+        fileList:[],
+        dialogImageUrl:"",
+        dialogVisible: false,
+        disabled: false,
+        alertVisible: false,
+        noticeVisible: false
       }
     },
     created() {
       this.getUser()
     },
-    methods:{
-      getUser(){
-        getUserDetail(this.getUserId).then((response) =>{
+    methods: {
+      getUser() {
+        getUserDetail(this.getUserId).then((response) => {
           console.log(response.data);
           this.user_info = response.data;
+          this.fileList.push({name:'user_icon', url:response.data.profile.icon})
         })
       },
-      updateUser(){
-        updateUserDetail(this.getUserId,{
-          'username': this.user_info.username,
-          'email': this.user_info.email,
-          "profile": {
-            "gender": this.user_info.profile.gender,
-            "birthday": this.user_info.profile.birthday,
-          }
-        }).then((response)=>{
-          console.log(response.data)
+      uploadImage(item){
+        console.log(item.file);
+        this.formData = new FormData();
+        this.formData.append('profile.icon', item.file);
+        console.log(...this.formData);
+      },
+      updateUser() {
+        axios.all([
+          updateUserDetail(this.getUserId, this.formData, {headers:{
+              'Content-type':'multipart/form-data'
+            }}),
+          updateUserDetail(this.getUserId, {
+            'username': this.user_info.username,
+            'profile.birthday': this.user_info.profile.birthday,
+            'profile.gender': this.user_info.profile.gender
+          })]).then((response) => {
+          console.log(response);
+          this.$message({
+            message: 'User update completed',
+            type: 'success'
+          })
+
+        }).catch(err=>{
+          console.log(err)
         })
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleExceed(){
+        this.alertVisible = true
       }
     }
   }

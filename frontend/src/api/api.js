@@ -1,6 +1,4 @@
 import axios from 'axios';
-import store from "../store/store";
-import id from "element-ui/src/locale/lang/id";
 
 let host = 'http://127.0.0.1:8000';
 
@@ -16,9 +14,7 @@ export const getUserDetail = (id) => {
   return axios.get(`${host}/user/${id}`)
 };
 export const updateUserDetail = (id, params) => {
-  return axios.patch(`${host}/user/${id}`, params, {headers:{
-      'Content-type':'multipart/form-data',
-    }})
+  return axios.patch(`${host}/user/${id}`, params)
 };
 
 
@@ -56,7 +52,7 @@ export const deleteAuthorBookItem = (id) => {
 
 export const getBookCategory = () =>{
   return axios.get(`${host}/book/all-category`)
-}
+};
 
 
 export const listChapterForBook = (id) => {

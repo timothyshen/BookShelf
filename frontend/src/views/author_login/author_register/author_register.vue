@@ -56,16 +56,18 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="Avatar" prop="avatar">
-          <el-upload
-            v-model="registerForm.profile.avatar"
-            :before-upload="beforeAvatarUpload"
-            :on-success="handleAvatarSuccess"
-            :show-file-list="false"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            class="avatar-uploader">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <el-form-item label="Avatar">
+            <el-upload
+              class="avatar-uploader"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :http-request="uploadImage"
+              :on-success="handleAvatarSuccess"
+              :show-file-list="false"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="this.imageUrl" :src="imageUrl" class="avatar" alt="user profile image">
+              <i v-else class="el-icon-plus avatar-uploader-icon"/>
+            </el-upload>
+          </el-form-item>
         </el-form-item>
         <el-button type="primary" @click="isRegister">Register</el-button>
         <el-button @click="resetForm('registerForm')">Reset</el-button>
@@ -157,25 +159,29 @@
         }
         return isJPG && isLt2M;
       },
+      uploadImage(item){
+        console.log(item.file);
+        this.formData = new FormData();
+        this.formData.append('profile.icon', item.file);
+        console.log(...this.formData);
+      },
       isRegister() {
         let that = this;
-        register({
-          "username": that.registerForm.username,
-          "password": that.registerForm.password,
-          "email": that.registerForm.email,
-          "profile": {
-            "gender": that.registerForm.profile.gender,
-            "birthday": that.registerForm.profile.birthday,
-            "icon": null,
-            "role": that.registerForm.profile.role
-          }
-        }).then((response) => {
+        this.formData.append('profile.birthday', this.registerForm.profile.birthday);
+        this.formData.append('profile.gender', this.registerForm.profile.gender);
+        this.formData.append('profile.role', this.registerForm.profile.role);
+        this.formData.append('username', this.registerForm.username);
+        this.formData.append('password', this.registerForm.password);
+        this.formData.append('email', this.registerForm.email);
+        register(
+          this.formData
+        ).then((response) => {
           cookie.setCookie('user_id', response.data.user_id, 7);
           cookie.setCookie('name', response.data.name, 7);
           cookie.setCookie('token', response.data.token, 7);
           cookie.setCookie('role', response.data.role, 7);
           that.$store.dispatch('setInfo');
-          that.$router.push({name: 'author_login'});
+          that.$router.push({name: 'login'});
           console.log('success')
         }).catch(function (error) {
           console.log(error.response);

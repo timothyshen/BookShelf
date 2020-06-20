@@ -38,7 +38,7 @@
         </el-upload>
         <p v-if="alertVisible">You can only upload one image for your icon</p>
         <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="">
+          <img width="100%" :src="this.dialogImageUrl" alt="">
         </el-dialog>
       </el-form-item>
       <el-button type="primary" @click="updateUser">Save</el-button>
@@ -48,7 +48,7 @@
 
 <script>
   import {getUserDetail, updateUserDetail} from "../../../../api/api";
-
+  import axios from 'axios';
   export default {
     name: "user_setting",
     computed: {
@@ -64,7 +64,8 @@
         dialogImageUrl:"",
         dialogVisible: false,
         disabled: false,
-        alertVisible: false
+        alertVisible: false,
+        noticeVisible: false
       }
     },
     created() {
@@ -85,11 +86,21 @@
         console.log(...this.formData);
       },
       updateUser() {
-        this.formData.append('profile.birthday', this.user_info.profile.birthday);
-        this.formData.append('profile.gender', this.user_info.profile.gender);
-        this.formData.append('username', this.user_info.username);
-        updateUserDetail(this.getUserId, this.formData).then((response) => {
-          console.log(response.data)
+        axios.all([
+          updateUserDetail(this.getUserId, this.formData, {headers:{
+            'Content-type':'multipart/form-data'
+            }}),
+          updateUserDetail(this.getUserId, {
+            'username': this.user_info.username,
+            'profile.birthday': this.user_info.profile.birthday,
+            'profile.gender': this.user_info.profile.gender
+        })]).then((response) => {
+          console.log(response);
+          this.$message({
+            message: 'User update completed',
+            type: 'success'
+          })
+
         }).catch(err=>{
           console.log(err)
         })
@@ -101,7 +112,7 @@
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
-      handleExceed(file, fileList){
+      handleExceed(){
         this.alertVisible = true
       }
     }
@@ -109,9 +120,5 @@
 </script>
 
 <style scoped>
-  .avatar{
-    height: inherit;
-    width: inherit;
-    font-family: Jokerman,serif;
-  }
+
 </style>
