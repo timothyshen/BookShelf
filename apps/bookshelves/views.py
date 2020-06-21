@@ -1,9 +1,12 @@
+from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .serializers import *
-
+from books.models import Chapter
 
 # Create your views here.
 
@@ -30,6 +33,21 @@ class BookcaseViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'list':
-            return BookDetailSerializer
+            return BookCaseDetailSerializer
         else:
-            return BookcaseSerializer
+            return BookCaseSerializer
+
+
+class BookMarkViewSet(ModelViewSet):
+    serializer_class = BookMarkSerializer
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+
+    def get_queryset(self):
+        return BookMark.objects.filter(user=self.request.user)
+    def create(self, request, *args, **kwargs):
+        if request.data.get['id']:
+            return
+
+    def perform_create(self, serializer):
+        return serializer.save()

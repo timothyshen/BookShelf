@@ -3,11 +3,11 @@ from abc import ABC
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from books.serializers import BookSerializer
-from .models import Bookcase
+from books.serializers import BookSerializer, ChapterSerializer
+from .models import Bookcase, BookMark
 
 
-class BookDetailSerializer(serializers.ModelSerializer):
+class BookCaseDetailSerializer(serializers.ModelSerializer):
     book = BookSerializer()
 
     class Meta:
@@ -15,12 +15,19 @@ class BookDetailSerializer(serializers.ModelSerializer):
         fields = ('user', 'book', 'id')
 
 
-class BookcaseSerializer(serializers.ModelSerializer):
+class BookMarkSerializer(serializers.ModelSerializer):
+    user = serializers.CurrentUserDefault()
+
+    class Meta:
+        model = BookMark
+        fields = '__all__'
+
+
+class BookCaseSerializer(serializers.ModelSerializer):
     # user = serializers.HiddenField(
     #     default=serializers.CurrentUserDefault()
     # )
     user = serializers.CurrentUserDefault()
-
 
     class Meta:
         model = Bookcase
@@ -30,6 +37,12 @@ class BookcaseSerializer(serializers.ModelSerializer):
                 fields=('user', 'book'),
                 message='Already existing in the bookcase'
             )
+            # ,
+            # UniqueTogetherValidator(
+            #     queryset=Bookcase.objects.all(),
+            #     fields=('book', 'bookmark'),
+            #     message='Already existing bookmark for the book'
+            # )
         ]
 
-        fields = ('user', 'book', 'id')
+        fields = ('id','user', 'book', 'bookmark')

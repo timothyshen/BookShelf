@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 
 
+
 # from tinymce.models import HTMLField
 # Create your models here.
 
@@ -63,7 +64,8 @@ class Book(models.Model):
     added_time = models.DateTimeField(verbose_name='Added time', auto_now_add=True, editable=False)
     last_update = models.DateTimeField(verbose_name='last update', auto_now=True, editable=False)
 
-
+    def __str__(self):
+        return self.book_name
 
     def get_book_name(self):
         return self.book_name
@@ -87,3 +89,11 @@ class Chapter(models.Model):
     last_update = models.DateTimeField(verbose_name='last update', auto_now=True, editable=False)
     publish_status = models.CharField(choices=PUBLISH_STATUS, default='Published', max_length=150)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='chapter', null=True, related_name='chapter')
+
+    def __str__(self):
+        return self.chapter_title
+
+    class Meta:
+        db_table = 'Chapter'
+        verbose_name = 'chapter'
+        verbose_name_plural = 'chapters'

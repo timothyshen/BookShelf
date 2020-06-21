@@ -23,11 +23,12 @@ from rest_framework.routers import DefaultRouter
 
 from BookShelf.settings import MEDIA_ROOT
 from books.views import AuthorBookViewSet, AuthorChapterViewSet
-from bookshelves.views import BookcaseViewSet
+from bookshelves.views import BookcaseViewSet, BookMarkViewSet
 
 router = DefaultRouter()
 #
 router.register(r'bookcase', BookcaseViewSet, base_name='bookcase')
+router.register(r'bookmark', BookMarkViewSet, base_name='bookmark')
 router.register(r'create', AuthorBookViewSet, base_name='create_book')
 router.register(r'create/(?P<book_id>[^/.]+)/chapter', AuthorChapterViewSet, base_name='create_chapter')
 
