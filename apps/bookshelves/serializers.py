@@ -4,7 +4,8 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 from books.serializers import BookSerializer, ChapterSerializer
-from .models import Bookcase, BookMark
+from .models import Bookcase, BookMark#
+from books.models import Book
 
 
 class BookCaseDetailSerializer(serializers.ModelSerializer):

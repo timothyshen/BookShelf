@@ -12,7 +12,7 @@
           <el-button
             size="mini"
             type="danger"
-            @click="delFavFromShelves(scope.$index, scope.row.book_id)"
+            @click="delFavFromShelves(scope.$index, scope.row.id)"
           >Remove</el-button>
         </template>
       </el-table-column>

@@ -53,7 +53,7 @@
 </template>
 
 <script>
-  import {getBookCategory, registerAuthorBook, updateUserDetail} from "../../../../api/api";
+  import {getBookCategory, registerAuthorBook} from "../../../../api/api";
 
   export default {
     name: "book_create",
@@ -105,7 +105,7 @@
         registerAuthorBook(this.formData, {headers:{
             'Content-type':'multipart/form-data',
           }}).then((response) => {
-          console.log(response.data)
+          console.log(response.data);
           this.$router.go(-1);
         })
       },

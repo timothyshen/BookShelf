@@ -11,10 +11,8 @@ from books.models import Chapter, Book
 class BookMark(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='User', blank=True, null=True,
                              related_name='user_marked')
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Book', blank=True, null=True,
-                             related_name='marked_book')
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, verbose_name='Chapter',
-                                related_name='marked_chapter')
+                                related_name='marked_chapter', blank=True, null=True)
     add_time = models.DateTimeField(auto_now_add=True, verbose_name="added time")
 
     class Meta:

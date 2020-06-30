@@ -34,6 +34,7 @@ import chapter_create_head from "../views/author_login/author_center/Book/novel/
 import book_list_head from "../views/author_login/author_center/Book/novel/component/book_list_head";
 import author_setting from "../views/author_login/author_center/author_info/author_setting";
 import author_setting_header from "../views/author_login/author_center/author_info/author_setting_header";
+import store from "../store/store";
 
 Vue.use(Router);
 
@@ -63,6 +64,10 @@ let router = new Router({
           content: reader_register,
           head: login_headbar,
           footer: footerbar
+        },
+        meta: {
+          title: 'Reader Register',
+          need_log: false
         }
       },
       {
@@ -72,6 +77,10 @@ let router = new Router({
           content: author_login,
           head: login_headbar,
           footer: footerbar
+        },
+        meta: {
+          title: 'Author Log in',
+          need_log: false
         }
       },
       {
@@ -81,6 +90,10 @@ let router = new Router({
           content: author_register,
           head: login_headbar,
           footer: footerbar
+        },
+        meta: {
+          title: 'Author Register',
+          need_log: false
         }
       },
       {
@@ -95,19 +108,31 @@ let router = new Router({
         children: [{
           path: 'index',
           name: 'index',
-          component: home_page
+          component: home_page,
+          meta: {
+            title: 'Home',
+            need_log: false
+          }
         },
           {
             path: 'book/:book_id',
             name: 'book',
             component: book_detail,
-            props:true
+            props:true,
+            meta: {
+              title: 'Book detail',
+              need_log: false
+            }
           },
           {
             path: 'book/item/:book_id/:id',
             name: 'chapter',
             component: chapter_detail,
-            props:true
+            props:true,
+            meta: {
+              title: 'Chapter',
+              need_log: false
+            }
           },
         ]
       },
@@ -127,6 +152,10 @@ let router = new Router({
             components: {
               aside: sidebar,
               default: user_centre_view
+            },
+            meta: {
+              title: 'User centre',
+              need_log: true
             }
           },
           {
@@ -135,6 +164,10 @@ let router = new Router({
             components: {
               aside: sidebar,
               default: bookcase
+            },
+            meta: {
+              title: 'User bookcase',
+              need_log: true
             }
           },
           {
@@ -143,6 +176,10 @@ let router = new Router({
             components: {
               aside: sidebar,
               default: user_setting
+            },
+            meta: {
+              title: 'User setting',
+              need_log: true
             }
           }
         ]
@@ -165,7 +202,11 @@ let router = new Router({
         },
         leaf: true,
         iconCls: 'el-icon-s-home',
-        menuShow: true
+        menuShow: true,
+        meta: {
+          title: 'Author centre',
+          need_log: true
+        }
       },
       {
         path: '/novel/readerdashboard',
@@ -177,7 +218,11 @@ let router = new Router({
         },
         leaf: true,
         iconCls: 'el-icon-user-solid',
-        menuShow: true
+        menuShow: true,
+        meta: {
+          title: 'Author dashboard',
+          need_log: true
+        }
       }
     ]
   }, {
@@ -196,7 +241,11 @@ let router = new Router({
       },
       leaf: true,
       menuShow: false,
-      props:true
+      props:true,
+      meta: {
+        title: 'Author Book',
+        need_log: true
+      }
     },{
       path: '/author/setting',
       name: 'author_setting',
@@ -207,7 +256,11 @@ let router = new Router({
       },
       leaf: true,
       menuShow: false,
-      props:true
+      props:true,
+      meta: {
+        title: 'Author setting',
+        need_log: true
+      }
     },
       {
         path: '/novel/create',
@@ -219,6 +272,10 @@ let router = new Router({
         },
         leaf: true,
         menuShow: false,
+        meta: {
+          title: 'Novel create',
+          need_log: true
+        }
 
       },
       {
@@ -231,7 +288,11 @@ let router = new Router({
         },
         leaf: true,
         menuShow: false,
-        props:true
+        props:true,
+        meta: {
+          title: 'Novel chapter',
+          need_log: true
+        }
       },
       {
         path: '/novel/chapter/:book_id/:chapter_id',
@@ -242,7 +303,11 @@ let router = new Router({
           aside: left_nav
         },
         leaf: true,
-        menuShow: false
+        menuShow: false,
+        meta: {
+          title: 'Novel chapter view',
+          need_log: true
+        }
       },{
         path: '/novel/chapter/create/:book_id',
         name: 'chapter_create',
@@ -252,7 +317,11 @@ let router = new Router({
           aside: left_nav
         },
         leaf: true,
-        menuShow: false
+        menuShow: false,
+        meta: {
+          title: 'Novel chapter create',
+          need_log: true
+        }
       },
       {
         path: '/novel/book/setting',
@@ -263,7 +332,11 @@ let router = new Router({
           aside: left_nav
         },
         leaf: true,
-        menuShow: false
+        menuShow: false,
+        meta: {
+          title: 'Novel setting',
+          need_log: true
+        }
       }]
   }, {
     path: '/incomeManagement',
@@ -273,5 +346,35 @@ let router = new Router({
     component: author_centre_view,
   }]
 });
-
+//router authorization
+router.beforeEach((to,from, next)=>{
+  if (to!==undefined){
+    if (to.meta.need_log){
+      console.log(to.meta.need_log);
+      if (!store.state.userInfo.token && to.meta.title.includes('Reader')){
+        next({
+          path:'/login'
+        })
+      }else if (!store.state.userInfo.token && to.meta.title.includes('Author')){
+        next({
+          path:'/author_login'
+        })
+      }else{
+        next()
+      }
+    }
+  }else{
+    if (to.path === '/') {
+      next({
+        path: '/app/home/index',
+      });
+    }else {
+      next();
+    }
+  }
+});
+//for web page title
+router.afterEach((to, from, next) => {
+  document.title = to.matched[to.matched.length - 1].meta.title;
+});
 export default router;

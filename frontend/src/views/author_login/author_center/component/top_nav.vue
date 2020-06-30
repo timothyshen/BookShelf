@@ -86,15 +86,15 @@
       })
     },
     created() {
-      this.fetchNavDate();
+      this.fetchNavData();
     },
     methods: {
       handleSelect(index) {
         this.defaultActiveIndex = index;
       },
-      fetchNavDate() {
-        let cur_path = this.$route.path; //获取当前路由
-        let routers = this.$router.options.routes; // 获取路由对象
+      fetchNavData() {
+        let cur_path = this.$route.path; //Get current router path
+        let routers = this.$router.options.routes; // Get router object
         let nav_type = "", nav_name = "";
         for (var i = 0; i < routers.length; i++) {
           let children = routers[i].children;
@@ -140,7 +140,7 @@
     watch: {
       '$route': function (to, from) { // 路由改变时执行
         //console.info("to.path:" + to.path);
-        this.fetchNavDate();
+        this.fetchNavData();
       }
     }
   }

@@ -12,7 +12,7 @@
                 :src="item.book_image"
                 :alt="item.text"
                 :key="item.id"
-                ></el-image></router-link>
+                /></router-link>
             </h3>
           </el-carousel-item>
         </el-carousel>
