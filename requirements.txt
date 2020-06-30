@@ -4,7 +4,7 @@ certifi==2019.6.16
 chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
-Django==2.2.10
+Django==2.2.13
 django-coreapi==2.3.0
 django-phonenumber-field==3.0.1
 django-webpack-bundle==1.0.1
