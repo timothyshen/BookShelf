@@ -24,6 +24,9 @@ const token = {
   jwt: localStorage.getItem('token'),
   refreshJWT: 'http://127.0.0.1:8000/api/token/update/'
 };
+const bookcase = {
+  book_list:[]
+}
 
 
 for(let item in navItem){
@@ -34,7 +37,8 @@ for(let item in navItem){
 const state = {
   userInfo,
   navItem,
-  token
+  token,
+  bookcase
 };
 const store = new Vuex.Store({
   state,

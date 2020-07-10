@@ -31,6 +31,9 @@ export const getBookShelves = () => {
 export const deleteBook = (bookId) =>{
   return axios.delete(`${host}/bookcase/`+bookId+`/`)
 };
+export const addBookMark = (params) => {
+  return axios.post(`${host}/bookmark/`,params)
+}
 
 
 //book related api

@@ -3,6 +3,8 @@ import * as types from './mutation-types';
 import token from './store'
 import Vue from 'vue';
 import Axios from "axios";
+import {getBookShelves} from "../api/api";
+
 Vue.prototype.$http = Axios;
 
 export default {
@@ -22,6 +24,15 @@ export default {
   removeToken(state) {
     localStorage.removeItem('token');
     this.state.token.jwt = null;
+  },
+  [types.SET_BOOKCASE](state){
+    if (cookie.getCookie('token') != null){
+      getBookShelves().then((response)=>{
+        state.book_list = response.data
+      }).catch((error)=>{
+        console.log(error);
+      })
+    }
   }
 }
 

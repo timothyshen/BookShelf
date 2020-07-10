@@ -76,6 +76,8 @@
 
 <script>
   import axios from 'axios';
+  import {addBookMark} from "../../../api/api";
+
   export default {
     name: "chapter_detail",
     data() {
@@ -108,8 +110,15 @@
           backgroundColor: this.choices.background,
           fontFamily: this.choices.font_family,
           color:this.choices.text_color
-
         }
+      },
+      addBookMarkFunction(){
+        addBookMark({
+          user: this.$store.state.user_id,
+          chapter: this.chapter.id,
+          book_id: this.chapter.book.id,
+
+        })
       }
     }
   }

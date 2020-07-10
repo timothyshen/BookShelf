@@ -40,5 +40,6 @@ export const inspectToken = () => {
 }
 
 export const setInfo = makeAction(types.SET_INFO);
+export const setBookcase = makeAction(types.SET_BOOKCASE);
 
 

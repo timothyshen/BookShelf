@@ -43,6 +43,7 @@
         }
       },
       created() {
+
         this.getChapter();
       },
       methods:{
