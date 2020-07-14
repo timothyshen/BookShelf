@@ -1,34 +1,59 @@
-from abc import ABC
-
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from books.serializers import BookSerializer, ChapterSerializer
-from .models import Bookcase, BookMark#
-from books.models import Book
-
-
-class BookCaseDetailSerializer(serializers.ModelSerializer):
-    book = BookSerializer()
-
-    class Meta:
-        model = Bookcase
-        fields = ('user', 'book', 'id')
+from books.serializers import BookSerializer, ChapterDetailSerializer
+from .models import Bookcase, BookMark  #
 
 
 class BookMarkSerializer(serializers.ModelSerializer):
-    user = serializers.CurrentUserDefault()
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
 
     class Meta:
         model = BookMark
         fields = '__all__'
 
+    def create(self, validated_data):
+        chapter_id_val = validated_data.pop('chapter')
+        user_id_val = validated_data.pop('user')
+        exist_book = Bookcase.objects.get(book_id=chapter_id_val.book_id)
+        if exist_book:
+            exist_bookmark = exist_book.bookmark_id
+            if exist_bookmark:
+                bookmark = BookMark.objects.filter(user_id=user_id_val.id).update(chapter_id=chapter_id_val.id,
+                                                                                  **validated_data)
+            else:
+                bookmark = BookMark.objects.create(user_id=user_id_val.id, chapter_id=chapter_id_val.id,
+                                                   **validated_data)
+                Bookcase.objects.filter(book__chapter=chapter_id_val).update(bookmark_id=bookmark.id)
+        else:
+            bookmark = BookMark.objects.create(user_id=user_id_val.id, chapter_id=chapter_id_val.id, **validated_data)
+            Bookcase.objects.create(user_id=user_id_val.id, book_id=chapter_id_val.book_id, bookmark_id=bookmark.id)
+
+        return bookmark
+
+
+class BookMarkDetailSerializer(serializers.ModelSerializer):
+    chapter = ChapterDetailSerializer()
+    class Meta:
+        model = BookMark
+        fields = '__all__'
+
+
+class BookCaseDetailSerializer(serializers.ModelSerializer):
+    book = BookSerializer()
+    bookmark = BookMarkDetailSerializer()
+
+    class Meta:
+        model = Bookcase
+        fields = ('user', 'book', 'id', 'bookmark')
+
 
 class BookCaseSerializer(serializers.ModelSerializer):
-    # user = serializers.HiddenField(
-    #     default=serializers.CurrentUserDefault()
-    # )
-    user = serializers.CurrentUserDefault()
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
 
     class Meta:
         model = Bookcase
@@ -38,12 +63,6 @@ class BookCaseSerializer(serializers.ModelSerializer):
                 fields=('user', 'book'),
                 message='Already existing in the bookcase'
             )
-            # ,
-            # UniqueTogetherValidator(
-            #     queryset=Bookcase.objects.all(),
-            #     fields=('book', 'bookmark'),
-            #     message='Already existing bookmark for the book'
-            # )
         ]
 
-        fields = ('id','user', 'book', 'bookmark')
+        fields = ('id', 'user', 'book', 'bookmark')

@@ -17,7 +17,7 @@
 
         </li>
         <li class="ranking_board_item" v-for="(item,index) in ranking_board.slice(1)">
-          <h3 class="rank_table_bookname">{{item.book_name}}</h3>
+          <h3 class="rank_table_bookname">{{index + 2}}.{{item.book_name}}</h3>
           <span class="rank_table_author">[{{item.book_author}}]</span>
         </li>
       </ul>
@@ -73,7 +73,8 @@
     }
 
     .ranking_one {
-      height: 80px;
+      padding: 5px;
+      height: 150px;
 
       img {
         float: left;
@@ -86,16 +87,24 @@
         align-items: baseline;
         list-style-type: decimal;
         list-style-position: inside;
+        text-decoration: underline black;
         height: 40%;
-        padding-top: 10px;
+        line-height: 50px;
+        padding: 10px;
+
         h3{
-          margin-right: 10px;
+          padding-right: 10px;
         }
-        line-height: inherit;
+      }
+      .rank_table_description{
+        display: flex;
+        padding: 10px;
       }
     }
 
     .ranking_board_item {
+      margin-top: 10px;
+      padding-left: 5px;
       display: flex;
       align-items: baseline;
       list-style-type: decimal;

@@ -10,7 +10,8 @@
 <script>
   import book_content from "./component/book_content";
   import book_index from "./component/book_index";
-  import {getBookItemView} from "../../../api/api";
+  import {getBookItemView, getBookItemShelves} from "../../../api/api";
+  import cookie from "../../../static/cookie/cookie";
 
   export default {
       name: "book_detail",
@@ -33,7 +34,8 @@
             weekly_vote: '',
             total_click: '',
             fav_num: '',
-            value: 3.7
+            value: 3.7,
+            has_fav:false
           },
           index_info:{
             book_id:'',

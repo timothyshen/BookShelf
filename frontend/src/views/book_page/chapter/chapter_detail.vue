@@ -29,17 +29,17 @@
             <el-option label="Courier" value="Courier"/>
           </el-select><!--font-family-->
           <el-select v-model="choices.text_color" style="width: 150px" placeholder="Text color">
-              <el-option label="Default" value="#000"/>
-              <el-option label="Purple" value="#9370DB"/>
-              <el-option label="Green" value="#2E8B57"/>
-              <el-option label="DarkSlateGray" value="#2F4F4F"/>
-              <el-option label="Steel blue" value="#778899"/>
-              <el-option label="Maroon" value="#800000"/>
-              <el-option label="Cyan" value="#6A5ACD"/>
-              <el-option label="Rosy brown" value="#BC8F8F"/>
-              <el-option label="Brown" value="#F4A460"/>
-              <el-option label="Beige" value="#F5F5DC"/>
-              <el-option label="White" value="#F5F5F5"/>
+            <el-option label="Default" value="#000"/>
+            <el-option label="Purple" value="#9370DB"/>
+            <el-option label="Green" value="#2E8B57"/>
+            <el-option label="DarkSlateGray" value="#2F4F4F"/>
+            <el-option label="Steel blue" value="#778899"/>
+            <el-option label="Maroon" value="#800000"/>
+            <el-option label="Cyan" value="#6A5ACD"/>
+            <el-option label="Rosy brown" value="#BC8F8F"/>
+            <el-option label="Brown" value="#F4A460"/>
+            <el-option label="Beige" value="#F5F5DC"/>
+            <el-option label="White" value="#F5F5F5"/>
           </el-select><!---->
         </div>
       </div>
@@ -48,7 +48,9 @@
         <div class="button_group">
           <el-button-group>
             <el-button>Previous</el-button>
-            <el-button><router-link :to="{name:'book'}">Index</router-link></el-button>
+            <el-button>
+              <router-link :to="{name:'book'}">Index</router-link>
+            </el-button>
             <el-button>Next</el-button>
             <el-button>Book Mark</el-button>
           </el-button-group>
@@ -64,10 +66,12 @@
     <div class="chapter_info">
       <div class="button_group">
         <el-button-group>
-          <el-button>Previous</el-button>
-          <el-button><router-link :to="{name:'book'}">Index</router-link></el-button>
-          <el-button>Next</el-button>
-          <el-button>Book Mark</el-button>
+          <el-button @click="goToPrevious">Previous</el-button>
+          <el-button>
+            <router-link :to="{name:'book'}">Index</router-link>
+          </el-button>
+          <el-button @click="goToNext">Next</el-button>
+          <el-button @click="addBookMarkFunction">Book Mark</el-button>
         </el-button-group>
       </div>
     </div>
@@ -76,49 +80,108 @@
 
 <script>
   import axios from 'axios';
-  import {addBookMark} from "../../../api/api";
+  import {addBookMark, listChapterForBook} from "../../../api/api";
 
   export default {
     name: "chapter_detail",
     data() {
       return {
         chapter: {},
-        choices:{
-          font_size:'',
-          background:'',
-          font_family:'',
-          text_color:''
-        }
+        choices: {
+          font_size: '',
+          background: '',
+          font_family: '',
+          text_color: ''
+        },
+        listOfChapter: []
       }
     },
-    props:{
-      url: String
+    props: {
+      url: String,
+      book_id: Number,
+      id: Number,
+      position: Number
     },
     created() {
       this.getChapter()
     },
-    methods:{
-      getChapter(){
-        axios.get(this.$props.url).then((response)=>{
+    methods: {
+      getChapter() {
+        axios.get(this.$props.url).then((response) => {
           console.log(response.data);
           this.chapter = response.data;
-        })
+        }).catch((error) => {
+          console.log(error)
+        });
+        listChapterForBook(this.$props.book_id).then((response) => {
+          console.log(response.data);
+          this.listOfChapter = response.data
+        }).catch((error) => {
+          console.log(error)
+        });
       },
-      changeStyle(){
+      changeStyle() {
         return {
           fontSize: this.choices.font_size + 'px',
           backgroundColor: this.choices.background,
           fontFamily: this.choices.font_family,
-          color:this.choices.text_color
+          color: this.choices.text_color
         }
       },
-      addBookMarkFunction(){
+      addBookMarkFunction() {
         addBookMark({
-          user: this.$store.state.user_id,
           chapter: this.chapter.id,
-          book_id: this.chapter.book.id,
-
+        }).then((response) => {
+          console.log(response);
+          this.$message({
+            message: 'The book mark has been added',
+            type: 'success'
+          })
+        }).catch((error) => {
+          console.log(error)
         })
+      },
+      goToPrevious() {
+        console.log('hi');
+        console.log(this.$props.index);
+        if (this.$props.position === 0) {
+          this.$router.push({name: 'book'})
+        } else {
+          if (this.listOfChapter[this.$props.position - 1]) {
+            this.$router.push({
+              name: 'chapter',
+              params: {
+                book_id: this.listOfChapter[this.$props.position - 1].book_id,
+                id: this.listOfChapter[this.$props.position - 1].id,
+                url: this.listOfChapter[this.$props.position - 1].url,
+                position: this.$props.position - 1
+              }
+            })
+          } else {
+            this.$router.push({name: 'book'})
+          }
+        }
+
+      },
+      goToNext() {
+        console.log('hi');
+        if (this.$props.postition === (this.listOfChapter.length - 1)) {
+          this.$router.push({name: 'book'})
+        } else {
+          if (this.listOfChapter[this.$props.position + 1]) {
+            this.$router.push({
+              name: 'chapter',
+              params: {
+                book_id: this.listOfChapter[this.$props.position + 1].book_id,
+                id: this.listOfChapter[this.$props.position + 1].id,
+                url: this.listOfChapter[this.$props.position + 1].url,
+                position: this.$props.position + 1
+              }
+            })
+          } else {
+            this.$router.push({name: 'book'})
+          }
+        }
       }
     }
   }
@@ -168,9 +231,9 @@
       }
     }
 
-    .default_text{
+    .default_text {
       font-size: 20px;
-      font-family: Calibri Light,sans-serif;
+      font-family: Calibri Light, sans-serif;
       background-color: white;
       color: black;
     }

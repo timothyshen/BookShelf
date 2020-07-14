@@ -35,7 +35,8 @@
           </el-button>
         <el-button>Tip it</el-button>
         <el-button>Vote it</el-button>
-        <el-button>Add to favor</el-button>
+        <el-button v-if="book_info.has_fav">Already added</el-button><!-- add delete favor-->
+        <el-button v-else @click="addToFavor">Add to favor</el-button><!-- add add to favor-->
       </div>
       <el-rate
         v-model="value"
@@ -49,7 +50,9 @@
 </template>
 
 <script>
+  import {addBookToShelve, getBookItemShelves} from "../../../../api/api";
   import axios from 'axios';
+  import cookie from "../../../../static/cookie/cookie";
   export default {
     name: "book_content",
     props:{
@@ -63,6 +66,17 @@
       }
     },
     created() {
+      if (cookie.getCookie('token')){
+        console.log(this.$props.book_info.book_id);
+        getBookItemShelves(this.$props.book_info.book_id).then((response) => {
+          if (Array.isArray(response.data) && response.data.length){
+            this.$props.book_info.has_fav = true;
+          }
+        console.log(response.data)
+      }).catch((error)=>{
+        console.log(error)
+      })
+    }
       this.getBookRate()
     },
     methods:{
@@ -72,6 +86,22 @@
       getBookRate(){
         let book_value = this.$props.book_info;
         this.value = book_value.value;
+      },
+      addToFavor(){
+        addBookToShelve({
+          book_id: this.$props.book_info.book_id,
+          user_id: this.$store.state.userInfo.user_id
+        }).then((response)=>{
+          this.$message({
+            message:'The book has been added to the bookcase',
+            type: 'success'
+          }).catch(error => {
+            this.$message({
+              message: error,
+              type:"error"
+            })
+          })
+        })
       }
     }
   }

@@ -8,7 +8,7 @@
         <h2 class="chapter_title">All chapters</h2>
         <ul class="chapter_list">
           <li class="chapter_item" v-for="(chapter, index) in index_info.chapters" v-bind="chapter">
-            <router-link :to="{name: 'chapter', params:{book_id:index_info.book_id, id:'1', url: chapter.url}}">{{chapter.id}}. {{chapter.chapter_title}}</router-link>
+            <router-link :to="{name: 'chapter', params:{book_id:index_info.book_id, id:chapter.id, url: chapter.url, position:index}}">{{index}}.{{chapter.chapter_title}}</router-link>
           </li>
         </ul>
 

@@ -3,13 +3,11 @@ import Router from 'vue-router'
 import app from "../views/app/app";
 import login from "../views/reader_login/login";
 import reader_register from "../views/reader_login/reader_register/reader_register";
-import headbar from "../views/head/headbar";
 import login_headbar from "../views/head/login_headbar";
 import footerbar from "../views/footer/footer";
 import user_center from "../views/reader_login/user_centre/user_center";
 import home from "../views/app/home";
 import home_page from "../views/home_page/home_page";
-import cookie from "../static/cookie/cookie";
 import book_detail from "../views/book_page/book_detail/book_detail";
 import chapter_detail from "../views/book_page/chapter/chapter_detail";
 import author_login from "../views/author_login/author_login";
@@ -118,7 +116,7 @@ let router = new Router({
             path: 'book/:book_id',
             name: 'book',
             component: book_detail,
-            props:true,
+            props: true,
             meta: {
               title: 'Book detail',
               need_log: false
@@ -128,7 +126,7 @@ let router = new Router({
             path: 'book/item/:book_id/:id',
             name: 'chapter',
             component: chapter_detail,
-            props:true,
+            props: true,
             meta: {
               title: 'Chapter',
               need_log: false
@@ -241,12 +239,12 @@ let router = new Router({
       },
       leaf: true,
       menuShow: false,
-      props:true,
+      props: true,
       meta: {
         title: 'Author Book',
         need_log: true
       }
-    },{
+    }, {
       path: '/author/setting',
       name: 'author_setting',
       components: {
@@ -256,7 +254,7 @@ let router = new Router({
       },
       leaf: true,
       menuShow: false,
-      props:true,
+      props: true,
       meta: {
         title: 'Author setting',
         need_log: true
@@ -273,7 +271,7 @@ let router = new Router({
         leaf: true,
         menuShow: false,
         meta: {
-          title: 'Novel create',
+          title: ' Author Novel create',
           need_log: true
         }
 
@@ -288,9 +286,9 @@ let router = new Router({
         },
         leaf: true,
         menuShow: false,
-        props:true,
+        props: true,
         meta: {
-          title: 'Novel chapter',
+          title: 'Author Novel chapter',
           need_log: true
         }
       },
@@ -305,10 +303,10 @@ let router = new Router({
         leaf: true,
         menuShow: false,
         meta: {
-          title: 'Novel chapter view',
+          title: 'Author chapter view',
           need_log: true
         }
-      },{
+      }, {
         path: '/novel/chapter/create/:book_id',
         name: 'chapter_create',
         components: {
@@ -319,7 +317,7 @@ let router = new Router({
         leaf: true,
         menuShow: false,
         meta: {
-          title: 'Novel chapter create',
+          title: 'Author chapter create',
           need_log: true
         }
       },
@@ -334,7 +332,7 @@ let router = new Router({
         leaf: true,
         menuShow: false,
         meta: {
-          title: 'Novel setting',
+          title: 'Author Novel setting',
           need_log: true
         }
       }]
@@ -347,28 +345,23 @@ let router = new Router({
   }]
 });
 //router authorization
-router.beforeEach((to,from, next)=>{
-  if (to!==undefined){
-    if (to.meta.need_log){
-      console.log(to.meta.need_log);
-      if (!store.state.userInfo.token && to.meta.title.includes('Reader')){
-        next({
-          path:'/login'
-        })
-      }else if (!store.state.userInfo.token && to.meta.title.includes('Author')){
-        next({
-          path:'/author_login'
-        })
-      }else{
-        next()
-      }
+router.beforeEach((to, from, next) => {
+  console.log(to.meta.need_log, to.meta.title);
+  if (to.meta.need_log) {
+    console.log(to.meta.need_log);
+    if (!store.state.userInfo.token) {
+      next({
+        path: '/login'
+      })
+    } else {
+      next();
     }
-  }else{
+  } else {
     if (to.path === '/') {
       next({
-        path: '/app/home/index',
+        path: '/index',
       });
-    }else {
+    } else {
       next();
     }
   }

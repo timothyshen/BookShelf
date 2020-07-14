@@ -22,8 +22,8 @@
             <el-menu-item index="2">
               <router-link to="author_login">Creator</router-link>
             </el-menu-item>
-            <el-menu-item index="3">Completed</el-menu-item>
-            <el-menu-item index="4">Library</el-menu-item>
+<!--            <el-menu-item index="3">Completed</el-menu-item>-->
+<!--            <el-menu-item index="4">Library</el-menu-item>-->
           </el-menu>
         </el-col>
         <el-col :span="6">

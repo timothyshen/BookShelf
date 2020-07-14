@@ -27,13 +27,19 @@ export const login = params => {
 export const getBookShelves = () => {
   return axios.get(`${host}/bookcase/`,)
 };
+export const getBookItemShelves = (bookId) => {
+  return axios.get(`${host}/bookcase/${bookId}`)
+};
+export const addBookToShelve = (params) => {
+  return axios.post(`${host}/bookcase/`, params)
+}
 
 export const deleteBook = (bookId) =>{
-  return axios.delete(`${host}/bookcase/`+bookId+`/`)
+  return axios.delete(`${host}/bookcase/${bookId}/`)
 };
 export const addBookMark = (params) => {
   return axios.post(`${host}/bookmark/`,params)
-}
+};
 
 
 //book related api
