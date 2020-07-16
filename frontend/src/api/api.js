@@ -5,9 +5,11 @@ let host = 'http://127.0.0.1:8000';
 
 //user related api
 export const register = (params) => {
-    return axios.post(`${host}/user`, params, {headers:{
-    'Content-type':'multipart/form-data',
-  }})
+  return axios.post(`${host}/user`, params, {
+    headers: {
+      'Content-type': 'multipart/form-data',
+    }
+  })
 };
 
 export const getUserDetail = (id) => {
@@ -19,7 +21,7 @@ export const updateUserDetail = (id, params) => {
 
 
 export const login = params => {
-    return axios.post(`${host}/api/token/`, params)
+  return axios.post(`${host}/api/token/`, params)
 };
 
 
@@ -34,11 +36,11 @@ export const addBookToShelve = (params) => {
   return axios.post(`${host}/bookcase/`, params)
 }
 
-export const deleteBook = (bookId) =>{
+export const deleteBook = (bookId) => {
   return axios.delete(`${host}/bookcase/${bookId}/`)
 };
 export const addBookMark = (params) => {
-  return axios.post(`${host}/bookmark/`,params)
+  return axios.post(`${host}/bookmark/`, params)
 };
 
 
@@ -59,7 +61,7 @@ export const deleteAuthorBookItem = (id) => {
   return axios.delete(`${host}/create/${id}/`)
 };
 
-export const getBookCategory = () =>{
+export const getBookCategory = () => {
   return axios.get(`${host}/book/all-category`)
 };
 
@@ -70,11 +72,11 @@ export const listChapterForBook = (id) => {
 export const createChapterForBook = (id, params) => {
   return axios.post(`${host}/create/${id}/chapter/`, params)
 };
-export const getChapterItemForBook = (book_id,id) => {
+export const getChapterItemForBook = (book_id, id) => {
   return axios.get(`${host}/create/${book_id}/chapter/${id}/`)
 };
 
-export const updateChapterItemForBook = (id, chapter_id,params) => {
+export const updateChapterItemForBook = (id, chapter_id, params) => {
   return axios.patch(`${host}/create/${id}/chapter/${chapter_id}/`, params)
 };
 export const deleteChapterItemForBook = (id, chapter_id) => {
@@ -83,10 +85,13 @@ export const deleteChapterItemForBook = (id, chapter_id) => {
 
 //Home page render
 
-export const rankingBoardBooks = (variableName) =>{
+export const rankingBoardBooks = (variableName) => {
   return axios.get(`${host}/book/${variableName}`)
 };
-export const indexLinkRender = () =>{
+export const CateRankingBoardBooks = (variableName, variableTwo) => {
+  return axios.get(`${host}/book/${variableName}/${variableTwo}`)
+};
+export const indexLinkRender = () => {
   return axios.get(`${host}/index_link`)
 };
 export const indexImageRender = () => {

@@ -101,3 +101,12 @@ class TopBookValueViewSet(ListAPIView):
     def get_queryset(self):
         requestItem = self.kwargs.get('request_item', None)
         return Book.objects.annotate(Count(requestItem)).order_by('-' + requestItem)[:10]
+
+
+class TopBookByCategory(ListAPIView):
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+        requestItem = self.kwargs.get('request_item', None)
+        requestCategory = self.kwargs.get('requestCategory', None)
+        return Book.objects.filter(book_type__category_name=requestCategory).annotate(Count(requestItem)).order_by('-' + requestItem)[:10]

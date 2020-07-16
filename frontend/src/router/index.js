@@ -33,6 +33,8 @@ import book_list_head from "../views/author_login/author_center/Book/novel/compo
 import author_setting from "../views/author_login/author_center/author_info/author_setting";
 import author_setting_header from "../views/author_login/author_center/author_info/author_setting_header";
 import store from "../store/store";
+import category_page from "../views/home_page/category_page";
+import ranking_page from "../views/home_page/ranking_page";
 
 Vue.use(Router);
 
@@ -109,6 +111,22 @@ let router = new Router({
           component: home_page,
           meta: {
             title: 'Home',
+            need_log: false
+          }
+        }, {
+          path: 'category/:categoryname',
+          name: 'category page',
+          component: category_page,
+          meta: {
+            title: 'page',
+            need_log: false
+          }
+        }, {
+          path: 'ranking',
+          name: 'ranking',
+          component: ranking_page,
+          meta: {
+            title: 'Ranking',
             need_log: false
           }
         },

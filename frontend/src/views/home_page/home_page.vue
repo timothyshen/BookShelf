@@ -16,6 +16,7 @@
       </el-col>
     </el-row>
     <el-row :gutter="20" style="margin-top: 20px">
+      <h1>General Ranking</h1>
       <el-col :span="6">
         <Rankingboard v-bind:rank_info="click_board"></Rankingboard>
       </el-col>
