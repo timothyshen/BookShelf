@@ -3,26 +3,10 @@
     <div class="genre_title">
       <h2>All genre</h2>
     </div>
-    <!--    <div v-for="(element, index) in category_type">-->
-    <!--      <i class="el-icon-edit">{{element.category_name}}</i>-->
-    <!--      <p>Total:{{element.total_number}}</p>-->
-    <!--    </div>-->
-    <div class="tab_box">
-      <p class="genre_name"><i class="el-icon-edit"/>History</p>
-      <p class="genre_number">10000</p>
-    </div>
-    <div class="tab_box">
-      <p class="genre_name"><i class="el-icon-edit"/>History</p>
-      <p class="genre_number">10000</p>
-    </div>
-    <div class="tab_box">
-      <p class="genre_name"><i class="el-icon-edit"/>History</p>
-      <p class="genre_number">10000</p>
-    </div>
-    <div class="tab_box">
-      <p class="genre_name"><i class="el-icon-edit"/>History</p>
-      <p class="genre_number">10000</p>
-    </div>
+        <div class="tab_box" v-for="(element, index) in category_type" @click="toCategoryPage(element.category_name)">
+          <p class="genre_name" ><i class="el-icon-edit">{{element.category_name}}</i></p>
+          <p class="genre_number">Total:{{element.total_number}}</p>
+        </div>
   </div>
 </template>
 
@@ -46,6 +30,9 @@
           console.log(response.data)
         })
       },
+      toCategoryPage(item){
+        this.$router.push({name:'category_page', params:{categoryname:item}});
+      }
     }
   }
 </script>

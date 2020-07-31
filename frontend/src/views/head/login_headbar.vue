@@ -83,6 +83,33 @@
               </el-menu>
             </el-col>
           </el-row>
+          <el-row type="flex" class="row-bg" justify="end" v-else-if="userInfo.role === 'Admin'">
+            <el-col :span="2">
+              <el-avatar class="block" :src="circleUrl"/>
+            </el-col>
+            <el-col :span="4" class="username_wrap">
+              <p class="username">{{userInfo.name}}</p>
+            </el-col>
+            <el-col :span="10">
+              <el-menu
+                class="navBar"
+                mode="horizontal"
+                background-color="#545454"
+                text-color="#fff"
+                active-text-color="#ffd04b"><!--Save for later -->
+                <!--logo and nav-->
+                <el-menu-item index="1">
+                  <a href="/admin">admin</a>
+                </el-menu-item>
+                <el-menu-item index="2">
+                  <a href="/api-auth/login">API</a>
+                </el-menu-item>
+                <el-menu-item index="3">
+                  [<a @click="signOut">Sign out</a>]
+                </el-menu-item>
+              </el-menu>
+            </el-col>
+          </el-row>
           <el-row type="flex" class="row-bg" justify="end" v-else>
             <el-menu
               class="navBar"

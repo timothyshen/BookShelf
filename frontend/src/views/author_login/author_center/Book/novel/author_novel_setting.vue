@@ -39,10 +39,11 @@
           :http-request="uploadImage"
           :on-preview="handlePictureCardPreview"
           :on-exceed="handleExceed"
+          :before-upload="beforeCoverUpload"
           :limit="1">
           <i class="el-icon-plus avatar-uploader-icon"/>
         </el-upload>
-        <p v-if="alertVisible">You can only upload one image for your icon</p>
+        <p v-if="alertVisible">You can only upload one image for your book cover</p>
         <el-dialog :visible.sync="dialogVisible">
           <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
@@ -126,6 +127,17 @@
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
+      beforeCoverUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isJPG) {
+          this.$message.error('The picture should be a JPEG file');
+        }
+        if (!isLt2M) {
+          this.$message.error('The picture size should be less than 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
       handleExceed(file, fileList){
         this.alertVisible = true
       },
@@ -147,7 +159,13 @@
         });
       },
       deleteAuthorBook(){
-        deleteAuthorBookItem(this.bookId)
+        deleteAuthorBookItem(this.bookId).then((response) => {
+          this.$message({
+            message: 'Book deleted',
+            type: 'success'
+          });
+          this.$router.to({name:'/novel/list'})
+        });
       }
     }
   }

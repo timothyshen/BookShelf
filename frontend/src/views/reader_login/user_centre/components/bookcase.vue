@@ -5,6 +5,7 @@
         width="50"/>
       <el-table-column prop="book_name" label="Book Name"/>
       <el-table-column prop="book_author" label="Book author"/>
+      <el-table-column prop="bookmark[0].chapter_title" label="Bookmark"/>
       <el-table-column prop="last_update" label="Last updated"/>
       <el-table-column prop="book_name" label="Book Name"/>
       <el-table-column label="Removal">

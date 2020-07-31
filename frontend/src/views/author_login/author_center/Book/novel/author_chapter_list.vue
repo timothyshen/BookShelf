@@ -8,8 +8,9 @@
               <h3 class="chapter_title" @click="toChapterItem(item.id)">{{item.chapter_title}}</h3>
               <div class="delete_button">
                 <el-button type="danger" class="delete_link" @click="updateChapterStatus(index, item.id, published_list, 'Trash')">delete</el-button>
+                <el-button type="primary" @click="updateChapterStatus(index, item.id, published_list, 'Draft')">Draft</el-button>
               </div>
-              <span class="last_edit"> date</span>
+              <span class="last_edit">{{item.last_update}}</span>
             </li>
           </ul>
         </el-col>
@@ -20,9 +21,10 @@
             <li>
               <h3 class="chapter_title" @click="toChapterItem(item.id)">{{item.chapter_title}}</h3>
               <div class="delete_button">
+                <el-button type="primary" class="delete_link" @click="updateChapterStatus(index, item.id, draft_list, 'Published')">Publish</el-button>
                 <el-button type="danger" class="delete_link" @click="updateChapterStatus(index, item.id, draft_list, 'Trash')">delete</el-button>
               </div>
-              <span class="last_edit"> date</span>
+              <span class="last_edit"> {{item.last_update}}</span>
             </li>
           </ul>
         </el-col>
@@ -34,9 +36,9 @@
               <h3 class="chapter_title">{{item.chapter_title}}</h3>
               <div class="delete_button">
                 <el-button type="primary" @click="updateChapterStatus(index, item.id, trashed_list, 'Draft')">Recover</el-button>
-                <el-button type="danger" @click="">delete</el-button>
+                <el-button type="danger" @click="deleteChapterItem(item.id)">delete</el-button>
               </div>
-              <span class="last_edit"> date</span>
+              <span class="last_edit"> {{item.last_update}}</span>
             </li>
           </ul>
         </el-col>
@@ -85,7 +87,10 @@
       },
       updateChapterStatus(index, id, list, BookStatus){
         console.log(index, id,  list,  BookStatus);
-        alert('do you want to trash this chapter');
+        if(BookStatus === 'Trash'){
+          alert('do you want to trash this chapter');
+        }
+
         updateChapterItemForBook(this.$route.params.book_id, id, {
           'publish_status': BookStatus
         }).then((response) => {
@@ -99,7 +104,14 @@
           console.log(error);
         });
       },
-      deleteChapterItem(){},
+      deleteChapterItem(id){
+        alert('do you want to delete this chapter');
+        deleteChapterItemForBook(this.$route.params.book_id, id).then((response) => {
+          //   this.$message{
+          //
+          // }
+        });
+      },
       toChapterItem(id){
         this.$router.push({name:'chapter_retrieve', params:{chapter_id:id}})
       }

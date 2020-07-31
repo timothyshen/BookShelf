@@ -1,9 +1,10 @@
-from django.shortcuts import render
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
-from .serializers import *
-from .models import *
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.generics import ListAPIView
+from rest_framework.viewsets import ModelViewSet
+
+from .models import *
+from .serializers import *
+
 
 
 # Create your views here.
@@ -19,3 +20,16 @@ class IndexPageView(ModelViewSet):
 class IndexImageView(ModelViewSet):
     serializer_class = IndexImageSerializer
     queryset = IndexImage.objects.all()
+
+
+class CategoryPageView(ListAPIView):
+    serializer_class = CategoryPageSerializer
+
+    def get_queryset(self):
+        return CategoryPage.objects.filter(type__type_name=self.kwargs.get('type', None), activation='Active')
+
+class CategoryImageView(ListAPIView):
+    serializer_class = CategoryImageSerializer
+
+    def get_queryset(self):
+        return CategoryImagePage.objects.filter(type__type_name=self.kwargs.get('type', None), activation='Active')

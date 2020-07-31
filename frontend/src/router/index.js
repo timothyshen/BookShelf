@@ -113,24 +113,32 @@ let router = new Router({
             title: 'Home',
             need_log: false
           }
-        }, {
-          path: 'category/:categoryname',
-          name: 'category page',
-          component: category_page,
-          meta: {
-            title: 'page',
-            need_log: false
-          }
-        }, {
-          path: 'ranking',
-          name: 'ranking',
-          component: ranking_page,
-          meta: {
-            title: 'Ranking',
-            need_log: false
-          }
         },
           {
+            path: 'category/:categoryname',
+            name: 'category_page',
+            component: category_page,
+            meta: {
+              title: 'page',
+              need_log: false
+            }
+          }, {
+            path: 'ranking',
+            name: 'ranking_page',
+            component: ranking_page,
+            meta: {
+              title: 'page',
+              need_log: false
+            }
+          }, {
+            path: 'ranking',
+            name: 'ranking',
+            component: ranking_page,
+            meta: {
+              title: 'Ranking',
+              need_log: false
+            }
+          }, {
             path: 'book/:book_id',
             name: 'book',
             component: book_detail,
@@ -139,12 +147,12 @@ let router = new Router({
               title: 'Book detail',
               need_log: false
             }
-          },
-          {
+          }, {
             path: 'book/item/:book_id/:id',
             name: 'chapter',
             component: chapter_detail,
             props: true,
+            params: true,
             meta: {
               title: 'Chapter',
               need_log: false

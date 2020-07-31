@@ -4,7 +4,9 @@
       <el-form-item label="Username" prop="username">
         <el-input
           v-model="user_info.username"
-          type="text">username
+          type="text"
+          :disabled="true">username
+
         </el-input>
       </el-form-item>
       <el-form-item label="Gender:">
@@ -21,7 +23,8 @@
         <el-date-picker
           v-model="user_info.profile.birthday"
           type="date"
-          placeholder="pick a date">
+          placeholder="pick a date"
+          value-format="yyyy-MM-dd">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="Avatar">
@@ -33,6 +36,7 @@
           :http-request="uploadImage"
           :on-preview="handlePictureCardPreview"
           :on-exceed="handleExceed"
+          :before-upload="beforeAvatarUpload"
           :limit="1">
           <i class="el-icon-plus avatar-uploader-icon"/>
         </el-upload>
@@ -65,7 +69,8 @@
         dialogVisible: false,
         disabled: false,
         alertVisible: false,
-        noticeVisible: false
+        noticeVisible: false,
+        error:false
       }
     },
     created() {
@@ -91,9 +96,11 @@
             'Content-type':'multipart/form-data'
             }}),
           updateUserDetail(this.getUserId, {
-            'username': this.user_info.username,
-            'profile.birthday': this.user_info.profile.birthday,
-            'profile.gender': this.user_info.profile.gender
+            "email": this.user_info.email,
+            "profile": {
+              "gender": this.user_info.profile.gender,
+              "birthday": this.user_info.profile.birthday
+            }
         })]).then((response) => {
           console.log(response);
           this.$message({
@@ -102,7 +109,13 @@
           })
 
         }).catch(err=>{
-          console.log(err)
+          console.log(err);
+          if ('email' in err){
+            this.error = err.email[0]
+          }
+          if ('birthday' in err){
+            this.error = err.birthday[0]
+          }
         })
       },
       handleRemove(file, fileList) {
@@ -111,6 +124,17 @@
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isJPG) {
+          this.$message.error('The picture should be a JPEG file');
+        }
+        if (!isLt2M) {
+          this.$message.error('The picture size should be less than 2MB!');
+        }
+        return isJPG && isLt2M;
       },
       handleExceed(){
         this.alertVisible = true

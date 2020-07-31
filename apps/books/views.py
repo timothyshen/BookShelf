@@ -23,9 +23,11 @@ class BookList(ListAPIView):
     serializer_class = BookSerializer
 
 
-class ChapterCreate(ListCreateAPIView):
-    queryset = Chapter.objects.all()
+class ChapterCreate(ListAPIView):
     serializer_class = ChapterSerializer
+
+    def get_queryset(self):
+        return Chapter.objects.filter(book_id=self.kwargs.get('book_id', None))
 
 
 class BookCategoryDetailView(ListCreateAPIView, RetrieveModelMixin):

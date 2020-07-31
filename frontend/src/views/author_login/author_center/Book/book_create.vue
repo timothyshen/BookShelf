@@ -16,23 +16,6 @@
             :value="element.id"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="Book cover">
-        <el-upload
-          class="avatar-uploader"
-          action="cdn"
-          :file-list="fileList"
-          list-type="picture-card"
-          :http-request="uploadImage"
-          :on-preview="handlePictureCardPreview"
-          :on-exceed="handleExceed"
-          :limit="1">
-          <i class="el-icon-plus avatar-uploader-icon"/>
-        </el-upload>
-        <p v-if="alertVisible">You can only upload one image for your icon</p>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
-      </el-form-item>
       <el-form-item label="Short description">
         <el-input type="textarea"
                   v-model="book_info.book_short"
@@ -46,6 +29,23 @@
                   placeholder="Please insert your text"
                   maxlength="200"
                   show-word-limit/>
+      </el-form-item>
+      <el-form-item label="Book cover" required>
+        <el-upload
+          class="avatar-uploader"
+          action="cdn"
+          :file-list="fileList"
+          list-type="picture-card"
+          :http-request="uploadImage"
+          :on-preview="handlePictureCardPreview"
+          :on-exceed="handleExceed"
+          :before-upload="beforeCoverUpload"
+          :limit="1">
+          <i class="el-icon-plus avatar-uploader-icon"/>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
       </el-form-item>
       <el-button @click="createBook">Create</el-button>
     </el-form>
@@ -85,6 +85,10 @@
         console.log(item.file);
         this.formData = new FormData();
         this.formData.append('book_image', item.file);
+        this.formData.append('book_name', this.book_info.book_name);
+        this.formData.append('book_type', this.book_info.book_type);
+        this.formData.append('book_short_description', this.book_info.book_short);
+        this.formData.append('book_description', this.book_info.book_long);
         console.log(...this.formData);
       },
       handleRemove(file, fileList) {
@@ -94,14 +98,21 @@
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
+      beforeCoverUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isJPG) {
+          this.$message.error('The picture should be a JPEG file');
+        }
+        if (!isLt2M) {
+          this.$message.error('The picture size should be less than 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
       handleExceed(file, fileList) {
-        this.alertVisible = true
+        this.$message.error('You can only upload one image for your icon');
       },
       createBook() {
-        this.formData.append('book_name', this.book_info.book_name);
-        this.formData.append('book_type', this.book_info.book_type);
-        this.formData.append('book_short_description', this.book_info.book_short);
-        this.formData.append('book_description', this.book_info.book_long);
         registerAuthorBook(this.formData, {headers:{
             'Content-type':'multipart/form-data',
           }}).then((response) => {

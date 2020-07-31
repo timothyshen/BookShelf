@@ -5,8 +5,8 @@
         <div class="breadcrumb_set">
           <el-breadcrumb separator="/" v-bind="chapter">
             <el-breadcrumb-item><span>Main</span></el-breadcrumb-item>
-            <el-breadcrumb-item><span>{{chapter.type}}</span></el-breadcrumb-item>
-            <el-breadcrumb-item><span>{{chapter.name}}</span></el-breadcrumb-item>
+            <el-breadcrumb-item><span>{{this.chapter.type}}</span></el-breadcrumb-item>
+            <el-breadcrumb-item><span>{{this.chapter.name}}</span></el-breadcrumb-item>
             <el-breadcrumb-item><span>Chapter</span></el-breadcrumb-item>
           </el-breadcrumb>
         </div>
@@ -51,7 +51,7 @@
             <el-button>
               <router-link :to="{name:'book'}">Index</router-link>
             </el-button>
-            <el-button>Next</el-button>
+            <!--            <el-button>Next</el-button>-->
             <el-button>Book Mark</el-button>
           </el-button-group>
         </div>
@@ -80,7 +80,7 @@
 
 <script>
   import axios from 'axios';
-  import {addBookMark, listChapterForBook} from "../../../api/api";
+  import {addBookMark, getChapterItem, getChapterList} from "../../../api/api";
 
   export default {
     name: "chapter_detail",
@@ -96,8 +96,13 @@
         listOfChapter: []
       }
     },
+    beforeRouteUpdate(to, from, next) {
+      console.log(to, from, next);
+      next();
+      this.getChapter();
+
+    },
     props: {
-      url: String,
       book_id: Number,
       id: Number,
       position: Number
@@ -107,13 +112,13 @@
     },
     methods: {
       getChapter() {
-        axios.get(this.$props.url).then((response) => {
-          console.log(response.data);
+        getChapterItem(this.$route.params.book_id, this.$route.params.id).then((response) => {
+          // console.log(response.data);
           this.chapter = response.data;
         }).catch((error) => {
           console.log(error)
         });
-        listChapterForBook(this.$props.book_id).then((response) => {
+        getChapterList(this.$route.params.book_id).then((response) => {
           console.log(response.data);
           this.listOfChapter = response.data
         }).catch((error) => {
@@ -142,45 +147,39 @@
         })
       },
       goToPrevious() {
-        console.log('hi');
-        console.log(this.$props.index);
-        if (this.$props.position === 0) {
+        // console.log(this.listOfChapter[this.$route.query.position]);
+        if (this.$route.query.position === 0) {
           this.$router.push({name: 'book'})
         } else {
-          if (this.listOfChapter[this.$props.position - 1]) {
-            this.$router.push({
-              name: 'chapter',
-              params: {
-                book_id: this.listOfChapter[this.$props.position - 1].book_id,
-                id: this.listOfChapter[this.$props.position - 1].id,
-                url: this.listOfChapter[this.$props.position - 1].url,
-                position: this.$props.position - 1
-              }
-            })
-          } else {
-            this.$router.push({name: 'book'})
-          }
+          this.$router.push({
+            name: 'chapter',
+            params: {
+              book_id: this.listOfChapter[this.$route.query.position - 1].book,
+              id: this.listOfChapter[this.$route.query.position - 1].id,
+            },
+            query: {
+              position: this.$route.query.position - 1
+            }
+          })
+
         }
 
       },
       goToNext() {
-        console.log('hi');
-        if (this.$props.postition === (this.listOfChapter.length - 1)) {
+        console.log(this.listOfChapter[this.$route.query.position + 1]);
+        if (this.$route.query.position === (this.listOfChapter.length - 1)) {
           this.$router.push({name: 'book'})
         } else {
-          if (this.listOfChapter[this.$props.position + 1]) {
-            this.$router.push({
-              name: 'chapter',
-              params: {
-                book_id: this.listOfChapter[this.$props.position + 1].book_id,
-                id: this.listOfChapter[this.$props.position + 1].id,
-                url: this.listOfChapter[this.$props.position + 1].url,
-                position: this.$props.position + 1
-              }
-            })
-          } else {
-            this.$router.push({name: 'book'})
-          }
+          this.$router.push({
+            name: 'chapter',
+            params: {
+              book_id: this.listOfChapter[this.$route.query.position + 1].book,
+              id: this.listOfChapter[this.$route.query.position + 1].id,
+            },
+            query: {
+              position: this.$route.query.position + 1
+            }
+          })
         }
       }
     }

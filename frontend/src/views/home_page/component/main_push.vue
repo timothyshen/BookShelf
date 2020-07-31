@@ -1,105 +1,19 @@
 <template>
   <div class="body">
     <el-row>
-      <el-col :span="8" class="block_level">
+      <el-col :span="8" class="block_level" v-for="(item,index) in main_push_book" v-bind:key="item.id">
         <div class="block_image">
-          <el-image src="'../../static/image/TD%20Global%2019-20.PNG'"></el-image>
+          <el-image :src="item.book.book_image"/>
         </div>
         <dl class="block_info">
           <dt class="block_info_head">
             <a>
-              Test one
+              <router-link :to="{name:'book', params:{book_id:item.book.id}}">{{item.book.book_name}}</router-link>
             </a>
-            <span>woainia</span>
+
           </dt>
           <dd class="block_info_description">
-             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget nibh vitae lacus placerat consequat.
-            Fusce vitae semper felis, at volutpat velit. Vivamus ornare dolor sit amet dui vulputate
-          </dd>
-        </dl>
-      </el-col>
-      <el-col :span="8" class="block_level">
-        <div class="block_image">
-          <el-image></el-image>
-        </div>
-        <dl class="block_info">
-          <dt class="block_info_head">
-            <h3>
-              <router-link>Test one</router-link>
-            </h3>
-            <span>woainia</span>
-          </dt>
-          <dd class="block_info_description">
-             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget nibh vitae lacus placerat consequat.
-            Fusce vitae semper felis, at volutpat velit. Vivamus ornare dolor sit amet dui vulputate
-          </dd>
-        </dl>
-      </el-col>
-      <el-col :span="8" class="block_level">
-        <div class="block_image">
-          <el-image></el-image>
-        </div>
-        <dl class="block_info">
-          <dt class="block_info_head">
-            <h3>
-              <router-link>Test one</router-link>
-            </h3>
-            <span>woainia</span>
-          </dt>
-          <dd class="block_info_description">
-             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget nibh vitae lacus placerat consequat.
-            Fusce vitae semper felis, at volutpat velit. Vivamus ornare dolor sit amet dui vulputate
-          </dd>
-        </dl>
-      </el-col>
-      <el-col :span="8" class="block_level">
-        <div class="block_image">
-          <el-image></el-image>
-        </div>
-        <dl class="block_info">
-          <dt class="block_info_head">
-            <h3>
-              <router-link>Test one</router-link>
-            </h3>
-            <span>woainia</span>
-          </dt>
-          <dd class="block_info_description">
-             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget nibh vitae lacus placerat consequat.
-            Fusce vitae semper felis, at volutpat velit. Vivamus ornare dolor sit amet dui vulputate
-          </dd>
-        </dl>
-      </el-col>
-      <el-col :span="8" class="block_level">
-        <div class="block_image">
-          <el-image></el-image>
-        </div>
-        <dl class="block_info">
-          <dt class="block_info_head">
-            <h3>
-              <router-link>Test one</router-link>
-            </h3>
-            <span>woainia</span>
-          </dt>
-          <dd class="block_info_description">
-             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget nibh vitae lacus placerat consequat.
-            Fusce vitae semper felis, at volutpat velit. Vivamus ornare dolor sit amet dui vulputate
-          </dd>
-        </dl>
-      </el-col>
-      <el-col :span="8" class="block_level">
-        <div class="block_image">
-          <el-image></el-image>
-        </div>
-        <dl class="block_info">
-          <dt class="block_info_head">
-            <h3>
-              <router-link>Test one</router-link>
-            </h3>
-            <span>woainia</span>
-          </dt>
-          <dd class="block_info_description">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget nibh vitae lacus placerat consequat.
-            Fusce vitae semper felis, at volutpat velit. Vivamus ornare dolor sit amet dui vulputate
+            Lorem ipsum dolor sit amet, eos modo hinc cetero ne, ad vim sumo cetero, in eum fabellas percipitur. Summo congue molestie mel ex. Pri no wisi oportere,
           </dd>
         </dl>
       </el-col>
@@ -108,10 +22,32 @@
 </template>
 
 <script>
+  import {categoryBookRender} from "../../../api/api";
+
   export default {
     name: "main_push",
     data() {
-      return {}
+      return {
+        main_push_book:[]
+      }
+    },
+    props:{
+      rank_info:{
+        type: Object
+      }
+    },
+    created() {
+      this.getMainPush();
+    },
+    methods:{
+      getMainPush(){
+        categoryBookRender(this.rank_info.cate_param).then((response)=>{
+          console.log(response.data);
+          this.main_push_book = response.data;
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
     }
   }
 </script>
@@ -130,8 +66,9 @@
 
       .block_info {
         display: inline-block;
-        width: 60%;
+        width: 50%;
         padding-right: 5px;
+        height: 150px;
 
         .block_info_head {
           height: 25px;
@@ -146,7 +83,7 @@
         }
 
         .block_info_description {
-
+          text-align: justify;
         }
       }
     }

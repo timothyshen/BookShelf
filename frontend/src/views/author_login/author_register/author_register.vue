@@ -9,7 +9,8 @@
       <h2>Author registration</h2>
     </div>
     <div class="register_form" v-if="active === 0">
-      <el-form :model="registerForm" ref="registerForm" :rules="rules" label-width="100px" :label-position="labelPosition">
+      <el-form :model="registerForm" ref="registerForm" :rules="rules" label-width="100px"
+               :label-position="labelPosition">
         <el-form-item label="Username" prop="username">
           <el-input type="text" v-model="registerForm.username">username</el-input>
         </el-form-item>
@@ -28,25 +29,22 @@
       </el-form>
     </div>
     <div class="register_form" v-if="active === 1">
-      <el-form :model="registerForm" ref="registerForm" :rules="rules" label-width="100px" :label-position="labelPosition">
-        <el-form-item label="Gender:" prop="gender" >
+      <el-form :model="registerForm" ref="registerForm" :rules="rules" label-width="100px"
+               :label-position="labelPosition">
+        <el-form-item label="Gender:" prop="gender">
           <el-radio-group v-model="registerForm.profile.gender">
             <el-radio label="male">Male</el-radio>
             <el-radio label="female">Female</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="Email:" prop="email">
-          <el-input  type="email" v-model="registerForm.email" />
+          <el-input type="email" v-model="registerForm.email"/>
         </el-form-item>
       </el-form>
     </div>
     <div class="register_form" v-if="active === 2">
-      <el-form :model="registerForm" ref="registerForm" :rules="rules" label-width="100px" :label-position="labelPosition">
-        <el-form-item label="Mobile number:" prop="mobile">
-          <el-input
-            type="text"
-            show-password/>
-        </el-form-item>
+      <el-form :model="registerForm" ref="registerForm" :rules="rules" label-width="100px"
+               :label-position="labelPosition">
         <el-form-item label="Date of Birth" prop="birthday">
           <el-date-picker
             value-format="yyyy-MM-dd"
@@ -55,26 +53,25 @@
             placeholder="pick a date">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="Avatar" prop="avatar">
-          <el-form-item label="Avatar">
-            <el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :http-request="uploadImage"
-              :on-success="handleAvatarSuccess"
-              :show-file-list="false"
-              :before-upload="beforeAvatarUpload">
-              <img v-if="this.imageUrl" :src="imageUrl" class="avatar" alt="user profile image">
-              <i v-else class="el-icon-plus avatar-uploader-icon"/>
-            </el-upload>
-          </el-form-item>
+        <el-form-item label="Avatar" prop="avatar" required>
+          <el-upload
+            class="avatar-uploader"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :http-request="uploadImage"
+            :on-success="handleAvatarSuccess"
+            :show-file-list="false"
+            :before-upload="beforeAvatarUpload"
+            :on-exceed="handleExceed">
+            <img v-if="this.imageUrl" :src="imageUrl" class="avatar" alt="user profile image">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          </el-upload>
         </el-form-item>
         <el-button type="primary" @click="isRegister">Register</el-button>
         <el-button @click="resetForm('registerForm')">Reset</el-button>
       </el-form>
     </div>
     <div>
-      <el-button>Prev</el-button>
+      <el-button @click="previous">Prev</el-button>
       <el-button @click="next">Next</el-button>
       <el-button>Submit</el-button>
     </div>
@@ -104,6 +101,32 @@
           callback();
         }
       };
+      let emailValidator = (rule, value, callback) => {
+        const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        if (!value) {
+          return callback(new Error('Email can not be empty'))
+        }
+        setTimeout(() => {
+          if (mailReg.test(value)) {
+            callback()
+          } else {
+            callback(new Error('Please insert correct email format'))
+          }
+        }, 100)
+      };
+      let usernameValidator = (rule, value, callback) => {
+        const usernameReg = /(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+        if (!value) {
+          return callback(new Error('Username can not be empty'))
+        }
+        setTimeout(() => {
+          if (usernameReg.test(value)) {
+            callback()
+          } else {
+            callback(new Error('Please insert correct username format'))
+          }
+        }, 100)
+      };
       return {
         active: 0,
         labelPosition: 'top',
@@ -116,14 +139,14 @@
           profile: {
             gender: '',
             birthday: '',
-
             avatar: '',
             role: 'Author'
           }
         },
         error: {
           password: '',
-          username: ''
+          username: '',
+          email: '',
         },
         rules: {
           password: [{
@@ -131,6 +154,12 @@
           }],
           checkPass: [{
             validator: validatePass2, trigger: 'blur'
+          }],
+          email: [{
+            validator: emailValidator, trigger: 'blur'
+          }],
+          username: [{
+            validator: usernameValidator, trigger: 'blur'
           }]
         }
       };
@@ -139,6 +168,9 @@
     methods: {
       next() {
         if (this.active++ > 2) this.active = 0;
+      },
+      previous() {
+        if (this.active-- > 0) this.active = 0;
       },
       resetForm(formName) {
         this.$nextTick(() => {
@@ -159,20 +191,23 @@
         }
         return isJPG && isLt2M;
       },
-      uploadImage(item){
+      handleExceed() {
+        this.$message.error('You can only upload one image for your icon');
+      },
+      uploadImage(item) {
         console.log(item.file);
         this.formData = new FormData();
         this.formData.append('profile.icon', item.file);
-        console.log(...this.formData);
-      },
-      isRegister() {
-        let that = this;
         this.formData.append('profile.birthday', this.registerForm.profile.birthday);
         this.formData.append('profile.gender', this.registerForm.profile.gender);
         this.formData.append('profile.role', this.registerForm.profile.role);
         this.formData.append('username', this.registerForm.username);
         this.formData.append('password', this.registerForm.password);
         this.formData.append('email', this.registerForm.email);
+        console.log(...this.formData);
+      },
+      isRegister() {
+        let that = this;
         register(
           this.formData
         ).then((response) => {
@@ -194,14 +229,16 @@
 </script>
 
 <style lang="less" scoped>
-  .register_container{
+  .register_container {
     margin: 50px auto;
     width: 900px;
-    h2{
+
+    h2 {
       margin-top: 20px;
       text-align: center;
     }
-    .register_form{
+
+    .register_form {
       margin: 50px auto;
       width: 70%;
     }

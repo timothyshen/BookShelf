@@ -12,12 +12,14 @@
               Username
             </div>
             <el-input type="text" v-model="loginForm.username">username</el-input>
+            <p class="error-text" v-show="userNameError">{{userNameError}}</p>
           </el-form-item>
           <el-form-item>
             <div class="login_text">
               password
             </div>
             <el-input type="password" v-model="loginForm.password">password</el-input>
+            <p class="error-text" v-show="parseWordError">{{parseWordError}}</p>
           </el-form-item>
           <el-form-item>
             <div>
@@ -25,6 +27,7 @@
             </div>
           </el-form-item>
           <el-form-item>
+            <p class="error-text" v-show="error">{{error}}</p>
             <el-button type="primary" @click="isLogin">Login</el-button>
             <router-link :to="'/register'" target = _blank><el-button type="primary">register</el-button></router-link>
           </el-form-item>

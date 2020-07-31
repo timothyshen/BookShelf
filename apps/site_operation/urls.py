@@ -11,7 +11,10 @@ router = DefaultRouter()
 router.register(r'index_link', IndexPageView, base_name='indexLink')
 router.register(r'index_image', IndexImageView, base_name='indexImage')
 
+
 urlpatterns = [
+    path('category_page/<type>', CategoryPageView.as_view(), name='category-page-detail'),
+    path('category_image/<type>', CategoryImageView.as_view(), name='category-image-detail'),
 
 ]
 urlpatterns += router.urls

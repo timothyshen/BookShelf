@@ -6,3 +6,6 @@ from django import forms
 
 admin.site.register(IndexImage)
 admin.site.register(IndexPage)
+admin.site.register(CategoryImagePage)
+admin.site.register(CategoryPage)
+admin.site.register(ContentType)

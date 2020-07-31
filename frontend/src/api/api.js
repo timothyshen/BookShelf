@@ -98,8 +98,21 @@ export const indexImageRender = () => {
   return axios.get(`${host}/index_image`)
 };
 
-//book detail page
+export const categoryBookRender = (typeName) =>{
+  return axios.get(`${host}/category_page/${typeName}`)
+};
 
+export const categoryImageRender = (typeName) => {
+  return axios.get(`${host}/category_image/${typeName}`)
+};
+
+//book detail page
+export const getChapterList = (book_id) =>{
+  return axios.get(`${host}/book/chapter/${book_id}`)
+}
+export const getChapterItem = (book_id, chapter_id) =>{
+  return axios.get(`${host}/book/chapter/${book_id}/${chapter_id}`)
+}
 export const getBookItemView = (book_id) => {
   return axios.get(`${host}/book/detail/${book_id}`)
 };

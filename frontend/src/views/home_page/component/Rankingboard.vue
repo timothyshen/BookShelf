@@ -8,8 +8,8 @@
         <li class="ranking_one" v-model="rank_one">
           <img :src="rank_one.book_image">
           <div class="rank_one_description">
-            <h3 class="rank_table_bookname"><router-link :to="{name:'book', params:{book_id:rank_one.id}}">1. {{rank_one.book_name}}</router-link></h3>
-            <span class="rank_table_author">{{rank_one.book_author}}</span>
+            <p class="rank_table_bookname">1. <router-link :to="{name:'book', params:{book_id:rank_one.id}}">{{rank_one.book_name}}</router-link></p>
+            <p class="rank_table_author">{{rank_one.book_author}}</p>
           </div>
           <div class="rank_table_description">
             <p>{{rank_one.book_short_description}}</p>
@@ -17,7 +17,7 @@
 
         </li>
         <li class="ranking_board_item" v-for="(item,index) in ranking_board.slice(1)">
-          <h3 class="rank_table_bookname">{{index + 2}}.{{item.book_name}}</h3>
+          <h3 class="rank_table_bookname">{{index + 2}}.<router-link :to="{name:'book', params:{book_id:item.id}}">{{item.book_name}}</router-link></h3>
           <span class="rank_table_author">[{{item.book_author}}]</span>
         </li>
       </ul>
@@ -78,26 +78,40 @@
 
       img {
         float: left;
-        height: inherit;
-        width: 30%;
+        height: 150px;
+        width: 35%;
       }
 
       .rank_one_description {
-        display: flex;
+        float: left;
         align-items: baseline;
         list-style-type: decimal;
         list-style-position: inside;
-        text-decoration: underline black;
+        color: black;
         height: 40%;
-        line-height: 50px;
-        padding: 10px;
+        width: 65%;
+        padding: 5px;
+        p{
+          height: 50%;
+          width: 100%;
+          margin-left: 10px;
+        }
 
-        h3{
-          padding-right: 10px;
+        p:first-child{
+          font-size: 16pt;
+          a{
+            text-decoration: underline black;
+
+          }
+        }
+
+        p:nth-child(2){
+
+          margin-left: 50px;
         }
       }
       .rank_table_description{
-        display: flex;
+        float: left;
         padding: 10px;
       }
     }
@@ -114,6 +128,7 @@
       h3 {
         margin-right: 10px;
         font-size: 20px;
+        color: black;
       }
 
       .rank_table_author {

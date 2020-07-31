@@ -5,6 +5,7 @@
                :label-position="labelPosition">
         <el-form-item label="Username" prop="username">
           <el-input type="text" v-model="registerForm.username">username</el-input>
+          <p class="error-text" v-show="error.username">{{error.username}}</p>
         </el-form-item>
         <el-form-item label="Password:" prop="password">
           <el-input
@@ -12,6 +13,7 @@
             v-model="registerForm.password"
             show-password>password
           </el-input>
+          <p class="error-text" v-show="error.password">{{error.password}}</p>
         </el-form-item>
         <el-form-item label="Confirm password:" prop="checkPass">
           <el-input
@@ -27,7 +29,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="Email:" prop="email">
-          <el-input type="email" v-model="registerForm.email"/>
+          <el-input type="email" v-model="registerForm.email" :rules="email"/>
+          <p class="error-text" v-show="error.email">{{error.email}}</p>
         </el-form-item>
         <el-form-item label="Date of Birth" prop="birthday">
           <el-date-picker
@@ -37,14 +40,15 @@
             placeholder="pick a date">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="Avatar">
+        <el-form-item label="Avatar" required>
           <el-upload
             class="avatar-uploader"
             action="https://jsonplaceholder.typicode.com/posts/"
             :http-request="uploadImage"
             :on-success="handleAvatarSuccess"
             :show-file-list="false"
-            :before-upload="beforeAvatarUpload">
+            :before-upload="beforeAvatarUpload"
+            :on-exceed="handleExceed">
             <img v-if="this.imageUrl" :src="this.imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
@@ -79,10 +83,36 @@
           callback();
         }
       };
+      let emailValidator = (rule, value, callback) => {
+        const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        if (!value) {
+          return callback(new Error('Email can not be empty'))
+        }
+        setTimeout(() => {
+          if (mailReg.test(value)) {
+            callback()
+          } else {
+            callback(new Error('Please insert correct email format'))
+          }
+        }, 100)
+      };
+      let usernameValidator = (rule, value, callback) => {
+        const usernameReg = /(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+        if(!value){
+          return callback(new Error('Username can not be empty'))
+        }
+        setTimeout(() => {
+          if (usernameReg.test(value)) {
+            callback()
+          } else {
+            callback(new Error('Please insert correct username format'))
+          }
+        }, 100)
+      };
       return {
         labelPosition: 'left',
         imageUrl: '',
-        formData:'',
+        formData: '',
         registerForm: {
           username: '',
           password: '',
@@ -91,13 +121,14 @@
           profile: {
             gender: '',
             birthday: '',
-            avatar:{},
+            avatar: {},
             role: 'Reader'
-          }
+          },
         },
         error: {
           password: '',
-          username: ''
+          username: '',
+          email: '',
         },
         rules: {
           password: [{
@@ -105,25 +136,31 @@
           }],
           checkPass: [{
             validator: validatePass2, trigger: 'blur'
+          }],
+          email: [{
+            validator: emailValidator, trigger: 'blur'
+          }],
+          username:[{
+            validator: usernameValidator, trigger:'blur'
           }]
         }
       }
     },
     methods: {
-      uploadImage(item){
+      uploadImage(item) {
         console.log(item.file);
         this.formData = new FormData();
         this.formData.append('profile.icon', item.file);
-        console.log(...this.formData);
-      },
-      isRegister() {
-        let that = this;
         this.formData.append('profile.birthday', this.registerForm.profile.birthday);
         this.formData.append('profile.gender', this.registerForm.profile.gender);
         this.formData.append('profile.role', this.registerForm.profile.role);
         this.formData.append('username', this.registerForm.username);
         this.formData.append('password', this.registerForm.password);
         this.formData.append('email', this.registerForm.email);
+        console.log(...this.formData);
+      },
+      isRegister() {
+        let that = this;
         register(
           this.formData
         ).then((response) => {
@@ -135,8 +172,9 @@
           that.$router.push({name: 'login'});
           console.log('success')
         }).catch(function (error) {
-          console.log(error.response);
-          that.error.mobile = error.username ? error.username[0] : '';
+          console.log(error);
+          console.log(error.username[0]);
+          that.error.username = error.username ? error.username[0] : '';
           that.error.password = error.password ? error.password[0] : '';
         });
       },
@@ -159,7 +197,9 @@
         }
         return isJPG && isLt2M;
       },
-
+      handleExceed(){
+        this.$message.error('You can only upload one image for your icon');
+      },
     }
   }
 </script>

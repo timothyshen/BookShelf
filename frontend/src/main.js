@@ -15,6 +15,7 @@ import store from "./store/store";
 import '@/assets/css/style.css'
 import './axios/';
 import axios from 'axios';
+import Component from 'vue-class-component';
 
 Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
@@ -27,6 +28,11 @@ Vue.component('font-awesome-layers-text', FontAwesomeLayersText);
 library.add(faTwitterSquare, faFacebook, faInstagram);
 library.add(faSpinner);
 
+Component.registerHooks([
+  'beforeRouteEnter',
+  'beforeRouteLeave',
+  'beforeRouteUpdate'
+]);
 /* eslint-disable no-new */
 
 

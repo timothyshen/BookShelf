@@ -18,9 +18,6 @@
       <p class="short_des">
         {{book_info.book_short_description}}
       </p>
-      <p class="short_des">
-        {{book_info.book_description}}
-      </p>
       <div class="number_detail">
         <ul class="number_list">
           <li>Total word: {{book_info.total_words}}</li>
@@ -53,6 +50,7 @@
   import {addBookToShelve, getBookItemShelves} from "../../../../api/api";
   import axios from 'axios';
   import cookie from "../../../../static/cookie/cookie";
+  import store from "../../../../store/store";
   export default {
     name: "book_content",
     props:{
@@ -81,27 +79,34 @@
     },
     methods:{
       toChapter(){
-        this.$router.push({name: 'chapter', params:{book_id: this.$props.book_info.book_id, id: '1'}})
+        this.$router.push({name: 'chapter', params:{book_id: this.$props.book_info.book_id, id:this.$props.book_info.chapter.id, url: this.$props.book_info.chapter.url}})
       },
       getBookRate(){
         let book_value = this.$props.book_info;
         this.value = book_value.value;
       },
       addToFavor(){
-        addBookToShelve({
-          book_id: this.$props.book_info.book_id,
-          user_id: this.$store.state.userInfo.user_id
-        }).then((response)=>{
-          this.$message({
-            message:'The book has been added to the bookcase',
-            type: 'success'
-          }).catch(error => {
+        console.log(this.$props.book_info.book_id.toString());
+        if (!store.state.userInfo.token) {
+          this.$router.push({
+            path: '/login'
+          })
+        }else {
+          addBookToShelve({
+            book: this.$props.book_info.book_id,
+          }).then((response)=>{
             this.$message({
-              message: error,
-              type:"error"
+              message:'The book has been added to the bookcase',
+              type: 'success'
+            }).catch(error => {
+              this.$message({
+                message: error,
+                type:"error"
+              })
             })
           })
-        })
+        }
+
       }
     }
   }
@@ -110,10 +115,6 @@
 <style lang="less" scoped>
   .container {
     padding-top: 200px;
-  }
-
-  .image {
-    background-color: blue;
   }
 
   .detail {

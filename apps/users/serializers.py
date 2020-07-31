@@ -21,16 +21,17 @@ class UserDetailSerializer(serializers.ModelSerializer):
         depth = 1
 
     def update(self, instance, validated_data):
+        print(validated_data)
         profile_data = validated_data.pop('profile')
-        profile = instance.profile
         instance.username = validated_data.get('username', instance.username)
         instance.email = validated_data.get('email', instance.email)
         instance.save()
-        profile.gender = profile_data.get('gender', profile.gender)
-        profile.birthday = profile_data.get('birthday', profile.birthday)
-        profile.icon = profile_data.get('icon', profile.icon)
-        profile.role = profile_data.get('role', profile.role)
-        profile.save()
+        if profile_data:
+            profile = instance.profile
+            profile.gender = profile_data.get('gender', profile.gender)
+            profile.birthday = profile_data.get('birthday', profile.birthday)
+            profile.icon = profile_data.get('icon', profile.icon)
+            profile.save()
         return instance
 
 

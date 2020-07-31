@@ -35,7 +35,8 @@
             total_click: '',
             fav_num: '',
             value: 3.7,
-            has_fav:false
+            has_fav:false,
+            chapter: ''
           },
           index_info:{
             book_id:'',
@@ -69,6 +70,7 @@
             this.index_info.description = response.data.book_description;
             let chapter_item = response.data.chapter;
             this.index_info.chapters = Object.values(chapter_item);
+            this.book_info.chapter = response.data.chapter[0]
           });
         }
       }
