@@ -9,7 +9,6 @@
       <div class="topbar-title">
         <el-row v-show="$store.state.topNavState === 'author'">
           <el-col :span="4">
-
             <h2 style="color: white; text-align: center;">Author</h2>
           </el-col>
           <el-col :span="20">

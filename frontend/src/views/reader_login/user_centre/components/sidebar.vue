@@ -10,11 +10,11 @@
       <i class="el-icon-setting"/>
       <span slot="title">Home</span>
     </el-menu-item>
-    <el-menu-item index="2" route="bookcase">
+    <el-menu-item index="/user/bookcase">
       <i class="el-icon-setting"/>
       <span slot="title">Bookcase</span>
     </el-menu-item>
-    <el-menu-item index="3">
+    <el-menu-item index="/user/comment">
       <i class="el-icon-setting"/>
       <span slot="title">My comment</span>
     </el-menu-item>
@@ -22,11 +22,7 @@
       <i class="el-icon-setting"/>
       <span slot="title">VIP</span>
     </el-menu-item>
-    <el-menu-item index="security">
-      <i class="el-icon-setting"/>
-      <span slot="title">Security</span>
-    </el-menu-item>
-    <el-menu-item index="setting">
+    <el-menu-item index="/user/setting">
       <i class="el-icon-setting"/>
       <span slot="title">Profile</span>
     </el-menu-item>

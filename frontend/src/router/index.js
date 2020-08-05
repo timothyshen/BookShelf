@@ -35,6 +35,9 @@ import author_setting_header from "../views/author_login/author_center/author_in
 import store from "../store/store";
 import category_page from "../views/home_page/category_page";
 import ranking_page from "../views/home_page/ranking_page";
+import user_comment from "../views/reader_login/user_centre/components/user_comment";
+import book_comment from "../views/author_login/author_center/Book/novel/book_comment";
+import comment_head from "../views/author_login/author_center/Book/novel/component/comment_head";
 
 Vue.use(Router);
 
@@ -193,16 +196,27 @@ let router = new Router({
               title: 'User bookcase',
               need_log: true
             }
+          },{
+            path: '/user/comment',
+            name: 'user_comment',
+            components: {
+              aside: sidebar,
+              default: user_comment
+            },
+            meta: {
+              title: 'User Comment',
+              need_log: true
+            }
           },
           {
             path: '/user/setting',
-            name: 'user setting',
+            name: 'user_setting',
             components: {
               aside: sidebar,
               default: user_setting
             },
             meta: {
-              title: 'User setting',
+              title: 'User Setting',
               need_log: true
             }
           }
@@ -268,6 +282,22 @@ let router = new Router({
       props: true,
       meta: {
         title: 'Author Book',
+        need_log: true
+      }
+    },{
+      path: '/novel/comment',
+      name: 'Novel comment',
+      components: {
+        content: book_comment,
+        top: comment_head,
+        aside: left_nav
+      },
+      leaf: true,
+      menuShow: false,
+      iconCls: 'el-icon-user-solid',
+      props: true,
+      meta: {
+        title: 'Book Comment',
         need_log: true
       }
     }, {

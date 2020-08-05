@@ -12,10 +12,15 @@
             <span class="head_content">Story</span>
           </template>
         </el-page-header>
+
       </div>
+      <div>
+        <el-link class="comment_link" ><router-link style="color: white" :to="{name:'Novel comment', params:{book_id:this.$route.params.book_id}}">Comment</router-link></el-link>
+      </div>
+
       <div class="button">
         <router-link :to="{name:'book_setting', params:{book_id:this.$route.params.book_id}}">
-          <el-button icon="el-icon-setting"></el-button>
+          <el-button icon="el-icon-setting"/>
         </router-link>
         <el-button icon="el-icon-plus" @click="toCreate">New Chapter</el-button>
       </div>
@@ -26,13 +31,16 @@
 <script>
   export default {
     name: "book_list_head",
-    methods:{
-      goBack(){
+    methods: {
+      handleSelect(index) {
+        this.defaultActiveIndex = index;
+      },
+      goBack() {
         window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
       },
-      toCreate(){
+      toCreate() {
         console.log(this.$route.params.book_id);
-        this.$router.push({name:'chapter_create', params:{book_id:this.$route.params.book_id}})
+        this.$router.push({name: 'chapter_create', params: {book_id: this.$route.params.book_id}})
       }
     }
   }

@@ -23,10 +23,10 @@
             type="textarea"
             :rows="2"
             placeholder="Please insert your comment"
-            v-model="userComment"></el-input>
+            v-model="userComment"/>
           <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">Cancel</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            <el-button type="primary" @click="postComment">Confirm</el-button>
           </span>
         </el-dialog>
         <el-row class="index_wrap user_comment_body" v-for="(item, index) in user_comment" :key="index">
@@ -59,6 +59,7 @@
 
 <script>
   import axios from "axios";
+  import {postUserCommentForBook} from "../../../../api/api";
 
   export default {
     name: "book_index",
@@ -77,7 +78,19 @@
       };
     },
 
-    methods: {}
+    methods: {
+      postComment(){
+        this.dialogVisible = false;
+        postUserCommentForBook(this.$props.index_info.book_id, {
+          "message": this.userComment,
+          "book": this.$props.index_info.book_id
+        }).then((response)=>{
+          console.log(response.data)
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
+    }
   }
 </script>
 

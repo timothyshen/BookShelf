@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from .models import *
 from users.models import Profile, User
-
+from books.serializers import Book
 __author__ = 'Tim'
 __date__ = '03/08/2020 21:26'
 
@@ -20,6 +20,11 @@ class UserInfo(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'profile')
 
+class BookInfo(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ('id', 'book_name')
+
 
 class UserMessageTwo(serializers.ModelSerializer):
     class Meta:
@@ -31,11 +36,19 @@ class UserMessage(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
+    book = BookInfo()
 
     class Meta:
         model = UserComment
         fields = "__all__"
 
+class UserMessageForAuthor(serializers.ModelSerializer):
+    user = UserInfo(read_only=True)
+    book = BookInfo()
+
+    class Meta:
+        model = UserComment
+        fields = "__all__"
 
 class UserMessageList(serializers.ModelSerializer):
     user = UserInfo(read_only=True)

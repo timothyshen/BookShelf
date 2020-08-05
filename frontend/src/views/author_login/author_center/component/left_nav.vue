@@ -1,33 +1,33 @@
 <template>
   <aside :class="{showSidebar:!collapsed}" class="container-aside">
     <div class="menu-toggle" @click.prevent="collapse">
-      <i class="icon el-icon-s-fold" v-show="!collapsed" title="Collapse"></i>
-      <i class="icon el-icon-s-unfold" v-show="collapsed" title="Expand"></i>
+      <i class="icon el-icon-s-fold" v-show="!collapsed" title="Collapse"/>
+      <i class="icon el-icon-s-unfold" v-show="collapsed" title="Expand"/>
     </div>
     <el-menu router :default-active="$route.path" :collapse="collapsed" ref="leftNavigation">
       <template v-for="(issue, index) in $router.options.routes">
         <template v-if="issue.name === $store.state.leftNavState">
           <template v-for="(item, index) in issue.children">
             <el-submenu v-if="!item.leaf" :index="index+''" v-show="item.menuShow">
-              <template slot="title"><i :class="item.iconCls"></i><span slot="title">{{item.name}}</span></template>
+              <template slot="title"><i :class="item.iconCls"/><span slot="title">{{item.name}}</span></template>
               <el-menu-item v-for="link in item.children" :key="link.path" :index="link.path" v-if="link.menuShow"
                             :class="$route.path===link.path?'is-active':''">
-                <i :class="item.iconCls"></i><span slot="title">{{item.name}}</span>
+                <i :class="item.iconCls"/><span slot="title">{{item.name}}</span>
               </el-menu-item>
             </el-submenu>
             <el-menu-item v-else-if="item.leaf" :index="item.path"
                           :class="$route.path===item.path?'is-active':''" v-show="item.menuShow">
-              <i :class="item.iconCls"></i><span slot="title">{{item.name}}</span>
+              <i :class="item.iconCls"/><span slot="title">{{item.name}}</span>
             </el-menu-item>
           </template>
         </template>
       </template>
     </el-menu>
     <el-button class="help_button">
-      <i class="el-icon-info"></i><span v-show="!collapsed">Help assistant</span>
+      <i class="el-icon-info"/><span v-show="!collapsed">Help assistant</span>
     </el-button>
     <el-button class="help_button" @click="toHome">
-      <i class="el-icon-info"></i><span v-show="!collapsed">Home page</span>
+      <i class="el-icon-info"/><span v-show="!collapsed">Home page</span>
     </el-button>
   </aside>
 </template>

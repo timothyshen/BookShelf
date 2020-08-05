@@ -123,12 +123,12 @@ export const getUserCommentForBook = (book_id) =>{
   return axios.get(`${host}/comment/${book_id}`)
 };
 
-export const postUserCommentForBook = (book_id) =>{
-  return axios.post(`${host}/comment/${book_id}/`)
+export const postUserCommentForBook = (book_id, params) =>{
+  return axios.post(`${host}/comment/${book_id}`, params)
 };
 
 export const getUserCommentForUser = () =>{
-  return axios.get(`${host}/comment/user`)
+  return axios.get(`${host}/comment/user/`)
 };
 
 export const updateUserCommentForBook = (comment_id) =>{

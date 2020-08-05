@@ -1,4 +1,5 @@
 from django.db.models import Count
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
@@ -30,9 +31,12 @@ class UserMessageForBook(ListCreateAPIView):
         elif self.request.method == 'GET':
             return UserMessageList
 
+
+
     def get_authenticators(self):
         if self.request.method == 'POST':
             return [JSONWebTokenAuthentication(), SessionAuthentication()]
+
     # def list(self, request, *args, **kwargs):
     #
     #     serializer = self.get_serializer(instance)
@@ -63,7 +67,7 @@ class UserMessageEditForUser(RetrieveUpdateDestroyAPIView):
 
 class BookCommentList(ListAPIView):
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
-    serializer_class = UserMessage
+    serializer_class = UserMessageForAuthor
 
     def get_queryset(self):
         return UserComment.objects.filter(book_id=self.kwargs.get('book_id', None))
