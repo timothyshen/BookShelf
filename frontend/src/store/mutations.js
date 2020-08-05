@@ -28,10 +28,13 @@ export default {
   [types.SET_BOOKCASE](state){
     if (cookie.getCookie('token') != null){
       getBookShelves().then((response)=>{
-        state.book_list = response.data
+        // console.log(response.data);
+        state.bookcase.book_list = response.data;
+        // console.log(state.bookcase.book_list)
       }).catch((error)=>{
         console.log(error);
       })
+      console.log(state.bookcase.book_list)
     }
   }
 }

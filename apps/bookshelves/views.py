@@ -41,6 +41,5 @@ class BookMarkViewSet(ModelViewSet):
             return BookMarkSerializer
 
 
-
     def perform_create(self, serializer):
         return serializer.save()

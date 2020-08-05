@@ -80,6 +80,7 @@
 
           // update store info
           that.$store.dispatch('setInfo');
+          this.$store.dispatch('setBookcase');
           // add token to refresh
           that.$store.commit('updateToken', response.data.token);
           console.log('success');

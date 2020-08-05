@@ -3,17 +3,26 @@
       <el-table-column
         type="index"
         width="50"/>
-      <el-table-column prop="book_name" label="Book Name"/>
-      <el-table-column prop="book_author" label="Book author"/>
-      <el-table-column prop="bookmark[0].chapter_title" label="Bookmark"/>
-      <el-table-column prop="last_update" label="Last updated"/>
-      <el-table-column prop="book_name" label="Book Name"/>
+      <el-table-column label="Book Name">
+        <template slot-scope="scope">
+          <router-link :to="{name:'book', params:{book_id:scope.row.id}}">{{scope.row.book.book_name}}</router-link>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="book.book_author" label="Book author"/>
+      <el-table-column  label="Bookmark">
+        <template slot-scope="scope">
+          <router-link :to="{name:'chapter', params:{book_id:scope.row.book.id, id:scope.row.bookmark.chapter.id}}">{{scope.row.bookmark.chapter.chapter_title}}</router-link>
+        </template>
+      </el-table-column>
+      <el-table-column prop="book.last_update" label="Last updated"/>
+      <el-table-column prop="book.book_name" label="Book Name"/>
       <el-table-column label="Removal">
         <template slot-scope="scope">
           <el-button
             size="mini"
             type="danger"
-            @click="delFavFromShelves(scope.$index, scope.row.id)"
+            @click="delFavFromShelves(scope.$index, scope.row.book.id)"
           >Remove</el-button>
         </template>
       </el-table-column>
@@ -27,7 +36,8 @@
      name: "bookcase",
      data(){
           return{
-            books:[]
+            books:[],
+            bookmarks:[]
           }
      },
      created() {
@@ -35,8 +45,9 @@
          console.log(response.data);
          let book = response.data;
          book.forEach(element =>{
-           this.books.push(element.book)
-         })
+           this.books.push(element);
+
+       })
        }).catch((error)=>{
          console.log(error);
        })

@@ -3,14 +3,14 @@
     <el-backtop :bottom="60" />
     <book_content
       v-bind:book_info="book_info"/>
-    <book_index v-bind:index_info="index_info"/>
+    <book_index v-bind:index_info="index_info" v-bind:user_comment="user_comment"/>
   </div>
 </template>
 
 <script>
   import book_content from "./component/book_content";
   import book_index from "./component/book_index";
-  import {getBookItemView, getBookItemShelves} from "../../../api/api";
+  import {getBookItemView, getUserCommentForBook} from "../../../api/api";
   import cookie from "../../../static/cookie/cookie";
 
   export default {
@@ -43,16 +43,17 @@
             description:'',
             chapters:''
           },
+          user_comment:[]
         }
       },
       created() {
-
         this.getChapter();
+        this.getComment();
       },
       methods:{
         getChapter(){
           getBookItemView(this.$route.params.book_id).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             this.book_info.book_id = response.data.id;
             this.book_info.book_name = response.data.book_name;
             this.book_info.author = response.data.book_author;
@@ -72,6 +73,12 @@
             this.index_info.chapters = Object.values(chapter_item);
             this.book_info.chapter = response.data.chapter[0]
           });
+        },
+        getComment(){
+          getUserCommentForBook(this.$route.params.book_id).then((response)=>{
+            console.log(response.data);
+            this.user_comment = response.data
+          })
         }
       }
     }

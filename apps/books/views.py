@@ -66,7 +66,7 @@ class AuthorBookViewSet(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        return Response({"status": True}, status=status.HTTP_201_CREATED)
+        return Response({"status": True, 'data': serializer.data}, status=status.HTTP_201_CREATED)
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -74,7 +74,7 @@ class AuthorBookViewSet(ModelViewSet):
         serializer = self.get_serializer(instance=instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        return Response({"status": True}, status=status.HTTP_201_CREATED)
+        return Response({"status": True, 'data': serializer.data}, status=status.HTTP_201_CREATED)
 
     def perform_create(self, serializer):
         return serializer.save(book_author=self.request.user)

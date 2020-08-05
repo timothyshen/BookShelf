@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import "element-theme-chalk";
 import locale from 'element-ui/lib/locale/lang/en';
 import Vuex from 'vuex'
 import {library} from '@fortawesome/fontawesome-svg-core'

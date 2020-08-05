@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_jwt',
     'bookshelves',
-    'site_operation'
+    'site_operation',
+    'user_operation'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

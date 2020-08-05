@@ -25,6 +25,7 @@
     "asset-config-webpack-plugin": "^1.4.0",
     "axios": "^0.19.2",
     "css-loader": "^3.5.3",
+    "element-theme-chalk": "^2.13.2",
     "element-ui": "^2.13.2",
     "iview": "^3.5.4",
     "js-config-webpack-plugin": "^1.4.0",

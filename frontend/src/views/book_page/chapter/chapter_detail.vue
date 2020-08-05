@@ -2,14 +2,6 @@
   <div class="chapter_container">
     <header class="chapter_header">
       <div class="header_top">
-        <div class="breadcrumb_set">
-          <el-breadcrumb separator="/" v-bind="chapter">
-            <el-breadcrumb-item><span>Main</span></el-breadcrumb-item>
-            <el-breadcrumb-item><span>{{this.chapter.type}}</span></el-breadcrumb-item>
-            <el-breadcrumb-item><span>{{this.chapter.name}}</span></el-breadcrumb-item>
-            <el-breadcrumb-item><span>Chapter</span></el-breadcrumb-item>
-          </el-breadcrumb>
-        </div>
         <div class="text_setting">
           <el-select v-model="choices.font_size" style="width: 100px" placeholder="Size">
             <el-option label="16pt" value="16"/>
@@ -51,8 +43,8 @@
             <el-button>
               <router-link :to="{name:'book'}">Index</router-link>
             </el-button>
-            <!--            <el-button>Next</el-button>-->
-            <el-button>Book Mark</el-button>
+            <el-button @click="goToNext">Next</el-button>
+            <el-button>Bookmark</el-button>
           </el-button-group>
         </div>
       </div>
@@ -71,7 +63,7 @@
             <router-link :to="{name:'book'}">Index</router-link>
           </el-button>
           <el-button @click="goToNext">Next</el-button>
-          <el-button @click="addBookMarkFunction">Book Mark</el-button>
+          <el-button @click="addBookMarkFunction">Bookmark</el-button>
         </el-button-group>
       </div>
     </div>

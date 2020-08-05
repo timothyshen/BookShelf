@@ -18,17 +18,24 @@ class BookMarkSerializer(serializers.ModelSerializer):
         print('hi')
         chapter_id_val = validated_data.pop('chapter')
         user_id_val = validated_data.pop('user')
-        exist_book = Bookcase.objects.filter(book_id=chapter_id_val.book_id, user_id=user_id_val.id)
-        print(exist_book.values('bookmark_id'))
+        exist_book = Bookcase.objects.get(book__pk=chapter_id_val.book_id, user__pk=user_id_val.id)
+        print(exist_book.bookmark.id)
         if exist_book:
-            exist_bookmark = exist_book.values('bookmark_id')
+            exist_bookmark = exist_book.bookmark.id
+
             if exist_bookmark:
-                bookmark = BookMark.objects.filter(user_id=user_id_val.id).update(chapter_id=chapter_id_val.id,
-                                                                                  **validated_data)
+                print(exist_bookmark)
+                print(user_id_val.id)
+                bookmark = BookMark.objects.filter(id=exist_bookmark).update(chapter_id=chapter_id_val.id,
+                                                                          **validated_data)
+                print('exist_bookmark update')
+                print(bookmark)
             else:
                 bookmark = BookMark.objects.create(user_id=user_id_val.id, chapter_id=chapter_id_val.id,
                                                    **validated_data)
                 Bookcase.objects.filter(book__chapter=chapter_id_val.id, user_id=user_id_val.id).update(bookmark_id=bookmark.id)
+                print('bookmark create')
+                print(bookmark)
         else:
             bookmark = BookMark.objects.create(user_id=user_id_val.id, chapter_id=chapter_id_val.id, **validated_data)
             print(bookmark)

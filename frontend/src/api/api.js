@@ -116,3 +116,26 @@ export const getChapterItem = (book_id, chapter_id) =>{
 export const getBookItemView = (book_id) => {
   return axios.get(`${host}/book/detail/${book_id}`)
 };
+
+//user comment related
+
+export const getUserCommentForBook = (book_id) =>{
+  return axios.get(`${host}/comment/${book_id}`)
+};
+
+export const postUserCommentForBook = (book_id) =>{
+  return axios.post(`${host}/comment/${book_id}/`)
+};
+
+export const getUserCommentForUser = () =>{
+  return axios.get(`${host}/comment/user`)
+};
+
+export const updateUserCommentForBook = (comment_id) =>{
+  return axios.put(`${host}/comment/user/${comment_id}/`)
+};
+
+export const getUserCommentForAuthor = (book_id) =>{
+  return axios.get(`${host}/comment/book/${book_id}`)
+};
+

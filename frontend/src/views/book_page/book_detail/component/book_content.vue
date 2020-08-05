@@ -67,10 +67,14 @@
       if (cookie.getCookie('token')){
         console.log(this.$props.book_info.book_id);
         getBookItemShelves(this.$props.book_info.book_id).then((response) => {
-          if (Array.isArray(response.data) && response.data.length){
-            this.$props.book_info.has_fav = true;
-          }
-        console.log(response.data)
+          console.log(response.data);
+          response.data.forEach(element =>{
+            if (this.$props.book_info.book_id === element.book.id){
+              this.$props.book_info.has_fav = true;
+            } else {
+              console.log('book not in the case')
+            }
+          });
       }).catch((error)=>{
         console.log(error)
       })
