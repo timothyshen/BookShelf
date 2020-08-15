@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-
+from trade.models import UserStatus
 
 class UserProfileSerializer(serializers.ModelSerializer):
 
@@ -49,4 +49,5 @@ class UserSerializer(serializers.ModelSerializer):
         profile['user'] = user
         if profile is not None:
             Profile.objects.create(**profile)
+            UserStatus.objects.create(user=user)
         return user

@@ -17,7 +17,7 @@
           title="User Comment"
           :visible.sync="dialogVisible"
           width="30%"
-          >
+        >
           <p style="margin-bottom: 20px">Message box</p>
           <el-input
             type="textarea"
@@ -29,7 +29,7 @@
             <el-button type="primary" @click="postComment">Confirm</el-button>
           </span>
         </el-dialog>
-        <el-row class="index_wrap user_comment_body" v-for="(item, index) in user_comment" :key="index">
+        <el-row class="index_wrap user_comment_body" v-for="(item, index) in user_comment.slice((currentPage-1)*pagesize,currentPage*pagesize)" :key="index">
           <div class="information_body">
             <div>
               <el-avatar class="block" :src="item.user.profile.icon"/>
@@ -38,6 +38,14 @@
             <div>{{item.message}}</div>
           </div>
         </el-row>
+        <div style="text-align: center;margin-top: 30px;">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="index_info.total"
+            >
+          </el-pagination>
+        </div>
       </el-tab-pane>
       <el-tab-pane label="Chapters">
         <h2 class="chapter_title">All chapters</h2>
@@ -60,6 +68,7 @@
 <script>
   import axios from "axios";
   import {postUserCommentForBook} from "../../../../api/api";
+  import store from "../../../../store/store";
 
   export default {
     name: "book_index",
@@ -74,21 +83,32 @@
     data() {
       return {
         dialogVisible: false,
-        userComment:''
+        userComment: '',
+        pagesize:10,
+        currentPage:1
       };
     },
 
     methods: {
-      postComment(){
-        this.dialogVisible = false;
-        postUserCommentForBook(this.$props.index_info.book_id, {
-          "message": this.userComment,
-          "book": this.$props.index_info.book_id
-        }).then((response)=>{
-          console.log(response.data)
-        }).catch((err)=>{
-          console.log(err)
-        })
+      current_change(currentPage){
+        this.currentPage = currentPage;
+      },
+      postComment() {
+        if (!store.state.userInfo.token) {
+          this.$router.push({
+            path: '/login'
+          })
+        } else {
+          this.dialogVisible = false;
+          postUserCommentForBook(this.$props.index_info.book_id, {
+            "message": this.userComment,
+            "book": this.$props.index_info.book_id
+          }).then((response) => {
+            console.log(response.data)
+          }).catch((err) => {
+            console.log(err)
+          })
+        }
       }
     }
   }

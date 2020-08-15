@@ -51,7 +51,9 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
     'bookshelves',
     'site_operation',
-    'user_operation'
+    'trade',
+    'user_operation',
+    'paypal.standard.ipn'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -176,3 +178,7 @@ STATICFILES_DIRS = (
 )
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+PAYPAL_RECEIVER_EMAIL = 'timothyshen1@hotmail.com'
+
+PAYPAL_TEST = True

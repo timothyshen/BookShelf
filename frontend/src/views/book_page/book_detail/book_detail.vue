@@ -36,12 +36,14 @@
             fav_num: '',
             value: 3.7,
             has_fav:false,
-            chapter: ''
+            chapter: '',
+
           },
           index_info:{
             book_id:'',
             description:'',
-            chapters:''
+            chapters:'',
+            total: 0
           },
           user_comment:[]
         }
@@ -77,7 +79,8 @@
         getComment(){
           getUserCommentForBook(this.$route.params.book_id).then((response)=>{
             console.log(response.data);
-            this.user_comment = response.data
+            this.user_comment = response.data;
+            this.index_info.total = response.data.length;
           })
         }
       }

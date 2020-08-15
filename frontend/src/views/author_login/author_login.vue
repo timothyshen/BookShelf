@@ -57,15 +57,13 @@
           username: that.loginForm.username
         }).then((response) => {
           console.log(response.data);
-          //本地存储用户信息
+
           cookie.setCookie('user_id', response.data.user_id, 7);
           cookie.setCookie('name', response.data.name, 7);
           cookie.setCookie('token', response.data.token, 7);
           cookie.setCookie('role', response.data.role, 7);
-          //存储在store
-          // 更新store数据
+
           that.$store.dispatch('setInfo');
-          //跳转到首页页面
           this.$router.push({name: 'author'})
         }).catch(function (error) {
           if ("non_field_errors" in error) {

@@ -2,25 +2,23 @@ from django.conf import settings
 from django.db import models
 
 
-
 # from tinymce.models import HTMLField
 # Create your models here.
-
+# CATEGORY_TYPE = (
+#     (1, "Primary type"),
+#     (2, "Secondary genre"),
+# )
+# category_type = models.IntegerField(default='', verbose_name='Category Type')
+#     # parent_category = models.ForeignKey("self", null=True, blank=True, verbose_name="Parent category",
+#     #                                     help_text="Parent list",
+#     #                                     related_name="sub_cat", on_delete=models.CASCADE)
 
 class BookCategory(models.Model):
-    # CATEGORY_TYPE = (
-    #     (1, "Primary type"),
-    #     (2, "Secondary genre"),
-    # )
     category_name = models.CharField(default="", max_length=30, verbose_name='Category name')
     category_code = models.CharField(default="", max_length=30, verbose_name='Category code')
     is_tab = models.BooleanField(default=False, verbose_name='is Navigate')
     add_time = models.DateTimeField(auto_now_add=True, verbose_name='Added time')
 
-    # category_type = models.IntegerField(default='', verbose_name='Category Type')
-    # parent_category = models.ForeignKey("self", null=True, blank=True, verbose_name="Parent category",
-    #                                     help_text="Parent list",
-    #                                     related_name="sub_cat", on_delete=models.CASCADE)
     class Meta:
         verbose_name = 'Type Category'
         verbose_name_plural = 'Type categories'
@@ -40,7 +38,8 @@ class Book(models.Model):
         ('Completed', u'Completed')
     )
     book_name = models.CharField(default="", max_length=30, verbose_name='Book name', unique=True)
-    book_image = models.ImageField(default=u"media/image/default.png", max_length=1000, verbose_name='Book image', upload_to=image_upload_path,)
+    book_image = models.ImageField(default=u"media/image/default.png", max_length=1000, verbose_name='Book image',
+                                   upload_to=image_upload_path, )
     book_status = models.CharField(choices=BOOK_STATUS, default='Ongoing', verbose_name='Book Status', max_length=150,
                                    null=True)
     # contract_status = models.BooleanField()

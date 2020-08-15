@@ -46,6 +46,7 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('books.urls')),
     path('', include('site_operation.urls')),
-    path('', include('user_operation.urls'))
+    path('', include('user_operation.urls')),
+    path('paypal/', include('paypal.standard.ipn.urls'))
 
 ]
