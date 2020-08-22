@@ -18,7 +18,7 @@ itypes==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
 phonenumbers==8.10.17
-Pillow==6.2.0
+Pillow==6.2.2
 PyJWT==1.7.1
 pytz==2019.2
 requests==2.22.0
