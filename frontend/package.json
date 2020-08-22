@@ -32,7 +32,7 @@
     "jwt-decode": "^2.2.0",
     "pbkdf2": "^3.0.17",
     "style-loader": "^1.2.1",
-    "view-design": "^4.2.0",
+    "view-design": "^4.3.2",
     "vue": "^2.6.11",
     "vue-google-charts": "^0.3.2",
     "vue-router": "^3.2.0",
