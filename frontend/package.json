@@ -30,7 +30,7 @@
     "iview": "^3.5.4",
     "js-config-webpack-plugin": "^1.4.0",
     "jwt-decode": "^2.2.0",
-    "pbkdf2": "^3.0.17",
+    "pbkdf2": "^3.1.1",
     "style-loader": "^1.2.1",
     "view-design": "^4.2.0",
     "vue": "^2.6.11",
