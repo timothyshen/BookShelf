@@ -3,7 +3,7 @@ certifi==2019.6.16
 chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
-Django==2.2.16
+Django==2.2.18
 django-coreapi==2.3.0
 django-cors-headers==3.2.1
 django-filter==2.3.0
@@ -15,7 +15,7 @@ djangorestframework==3.10.2
 djangorestframework-jwt==1.11.0
 idna==2.8
 itypes==1.1.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 phonenumbers==8.10.17
 Pillow==7.1.0
