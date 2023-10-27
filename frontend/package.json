@@ -23,7 +23,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "asset-config-webpack-plugin": "^1.4.0",
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
     "css-loader": "^3.5.3",
     "element-theme-chalk": "^2.13.2",
     "element-ui": "^2.13.2",
